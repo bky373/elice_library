@@ -2,6 +2,8 @@ from flask import Blueprint, request, abort, jsonify, g, session
 from elice_library import db
 from elice_library.models import User
 import json
+
+
 auth_bp = Blueprint('auth', __name__)
 
 
