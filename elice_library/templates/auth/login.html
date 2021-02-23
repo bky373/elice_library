@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type=text/javascript>
+    function login() {
+        $.ajax({
+            method     : "POST",
+            url        : "{{ url_for('auth.login') }}",
+            contentType: "application/json",
+            data       : JSON.stringify({
+                email     : $('#email').val(),
+                password  : $('#password').val(),
+            })
+        }).done(function (res) {
+            alert('로그인하였습니다 :)')
+            location.href = "{{ url_for('main.index') }}"
+        }).fail(function (res) {
+            alert('로그인에 실패하였습니다')
+        });
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center">
+    <div class="col-sm-12 my-2">
+        <h1 class="text-center">로그인</h1>
+    </div>
+    <form class="form col-sm-4" method="POST">
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" placeholder="abc123@elice.com" name="email">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-info w-100" onclick="login();">로그인</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
