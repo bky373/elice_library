@@ -11,5 +11,6 @@ DB_URL = 'mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?charset=utf8'.format(
     db=os.getenv('DB_NAME')
 )
 
+SECRET_KEY = 'wlqdlsepwlqrkrhtlvek' # TODO 추후 변경
 SQLALCHEMY_DATABASE_URI = DB_URL
 SQLALCHEMY_TRACK_MODIFICATIONS = False
