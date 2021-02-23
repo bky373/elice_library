@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
+@font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a {
+    color: #474747;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #10b9b0;
+}
+
+input,
+input::placeholder {
+    font-size: 14px;
+}
+
+.navbar-custom {
+    height: 65px;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: #3b3b3b;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #474747;
+}
+
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #afa998;
+}
