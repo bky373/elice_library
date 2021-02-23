@@ -21,21 +21,35 @@ input::placeholder {
     font-size: 14px;
 }
 
-.navbar-custom {
+.navbar {
     height: 65px;
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
 }
 
-.navbar-custom .navbar-brand,
-.navbar-custom .navbar-text {
+.navbar-brand,
+.navbar-text {
     color: #3b3b3b;
 }
 
-.navbar-custom .navbar-nav .nav-link {
+.navbar-nav .nav-link {
     color: #474747;
 }
 
-.navbar-custom .navbar-brand:hover,
-.navbar-custom .nav-item.active .nav-link,
-.navbar-custom .nav-item:hover .nav-link {
+.navbar-brand:hover,
+.nav-item.active .nav-link,
+.nav-item:hover .nav-link {
     color: #afa998;
+}
+
+.container {
+    margin-top: 100px;
+    color: #2f2f2f;
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    word-break: keep-all;
+}
+
+.container h1 {
+    font-size: 25px;
 }

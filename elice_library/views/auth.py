@@ -1,7 +1,6 @@
-from flask import Blueprint, request, abort, jsonify, g, session
+from flask import Blueprint, request, abort, jsonify, g, session, render_template
 from elice_library import db
 from elice_library.models import User
-import json
 
 
 auth_bp = Blueprint('auth', __name__)
@@ -11,21 +10,25 @@ auth_bp = Blueprint('auth', __name__)
 def signup():
     if request.method == 'POST':
         data = request.get_json()
+        
         _username = data['username']
         _email = data['email']
         _password = data['password']
-
+        repassword = data['repassword']
+        
         if not _username or not _email or not _password:
             abort(400, message='입력값이 비어 있을 수 없습니다.')
+        if _password != repassword:
+            abort(400, message='입력한 비밀번호가 서로 다릅니다.')
         if User.query.filter_by(email=_email).first():
             abort(400, message='이미 등록된 이메일입니다.')
-        print(_password)
+
         user = User(username=_username, email=_email)
         user.set_password(_password)
         db.session.add(user)
         db.session.commit()
         return jsonify(result=user.serialized), 201
-    return jsonify(message="Signup Get Method Called")
+    return render_template('auth/signup.html')
 
 
 @auth_bp.route('/login', methods=('GET', 'POST'))

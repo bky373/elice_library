@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type=text/javascript>
+    function signup() {
+        $.ajax({
+            method     : "POST",
+            url        : "{{ url_for('auth.signup') }}",
+            contentType: "application/json",
+            data       : JSON.stringify({
+                username  : $('#username').val(),
+                email     : $('#email').val(),
+                password  : $('#password').val(),
+                repassword: $('#repassword').val()
+            })
+        }).done(function (res) {
+            alert('반갑습니다! 회원가입에 성공하였습니다 :)')
+            location.href = "{{ url_for('auth.login') }}"
+        }).fail(function (res) {
+            alert('회원가입을 다시 시도해주세요')
+        });
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-md-center">
+    <div class="col-sm-12 my-2">
+        <h1 class="text-center">회원가입</h1>
+    </div>
+    <form class="form col-sm-4" method="POST">
+        <div class="form-group">
+            <label for="username">이름</label>
+            <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username">
+        </div>
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" placeholder="mark111@elice.com" name="email">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+        </div>
+        <div class="form-group">
+            <label>비밀번호 확인</label>
+            <input type="password" class="form-control" id="repassword" placeholder="비밀번호 확인" name="repassword">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-info w-100" onclick="signup();">등록</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
