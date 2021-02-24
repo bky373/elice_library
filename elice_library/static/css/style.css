@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
+@font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a {
+    color: #474747;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #10b9b0;
+}
+
+input,
+input::placeholder {
+    font-size: 14px;
+}
+
+.navbar {
+    height: 65px;
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
+}
+
+.navbar-brand,
+.navbar-text {
+    color: #3b3b3b;
+}
+
+.navbar-nav .nav-link {
+    color: #474747;
+}
+
+.navbar-brand:hover,
+.nav-item.active .nav-link,
+.nav-item:hover .nav-link {
+    color: #afa998;
+}
+
+.container {
+    margin-top: 100px;
+    color: #2f2f2f;
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    word-break: keep-all;
+}
+
+.container h1 {
+    font-size: 25px;
+}

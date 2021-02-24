@@ -1,4 +1,5 @@
 .env
+.vscode
 venv
 migrations
 __pycache__

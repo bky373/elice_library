@@ -1,0 +1,29 @@
+<!--TODO 햄버거 버튼 색상 변경-->
+<nav class="navbar navbar-custom navbar-expand-sm shadow-sm bg-white fixed-top">
+    <a class="navbar-brand ml-4" href="{{ url_for('main.index') }}">Elice Library</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.index') }}">대여정보</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ml-auto mr-5">
+            {% if g.user %}
+            <li class="nav-item mr-2">
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }}님 로그아웃</a>
+            </li>
+            {% else %}
+            <li class="nav-item mr-2">
+                <a class="nav-link" href="{{ url_for('auth.signup') }}">회원가입</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
+            </li>
+            {% endif %}
+        </div>
+    </div>
+</nav>
