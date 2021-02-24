@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type=text/javascript>
+    $(document).ready(function() {
+        $("#book-list").html("");
+        showBookList();
+    })
+
+    function showBookList() {
+        $.ajax({
+            method : "GET",
+            url    : "{{ url_for('books.book_list') }}"
+        }).done(function(response) {
+            let books = response.books;
+            books.forEach(book => makeBookCard(book));
+        }).fail(function() {
+            alert('전체 도서 목록을 가져오는 데 실패하였습니다')
+        });
+    }
+
+    const makeBookCard = book => {
+        const { id, book_name, stock_num, rating } = book
+        console.log(id, book_name, stock_num, rating)
+        $('#book-list').append(
+            `<article id="book${id}" class="card col-md-3 mx-3 my-3 p-3">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="https://mdbootstrap.com/img/logo/mdb192x192.jpg" class="img" alt="" />
+                    </div>
+                    <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="/books/${id}">${book_name}</a></h2>
+                </div>
+                <div class="text-center">
+                    <div class="text-center my-1">평점: ${rating}</div>
+                    <div class="text-center my-1">${stock_num}권 남음</div>
+                    <button type="button" class="btn btn-info w-75 my-2" onclick="login();">대여하기</button>
+                </div>
+            </article>
+            `
+        );
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div>
+    <div class="row">
+        <h1 class="mb-3">전체 도서 목록</h1>
+    </div>
+</div>
+<div id="book-list" class="row"></div>
+{% endblock %}

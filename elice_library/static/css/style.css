@@ -51,5 +51,19 @@ input::placeholder {
 }
 
 .container h1 {
-    font-size: 25px;
+    font-size: 20px;
+}
+
+.img {
+    max-width: 100px;
+    height: 100px;
+}
+
+article h2 {
+    font-size: 14px;
+}
+
+.card-body {
+    margin-bottom: 0;
+    padding-bottom: 1px;
 }

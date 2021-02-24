@@ -18,6 +18,26 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
 
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_name = db.Column(db.String(128), nullable=False)
+    publisher = db.Column(db.String(128), nullable=False)
+    author = db.Column(db.String(128), nullable=False)
+    pulication_date = db.Column(db.DateTime, nullable=False)
+    pages = db.Column(db.Integer, nullable=False)
+    isbn = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    link = db.Column(db.Text, nullable=False)
+    stock_num = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer, nullable=False, default=0)
+
+
+class BookSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "book_name", "publisher", "author", "publication_date",
+                  "pages", "isbn", "description", "link", "stock_num", "rating")
+
+
 def must_not_be_blank(data):
     if not data:
         raise ValidationError('Data not provided')
