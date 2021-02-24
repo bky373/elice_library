@@ -7,12 +7,12 @@
         showBookList();
     })
 
-    function showBookList() {
+    const showBookList = () => {
         $.ajax({
             method : "GET",
-            url    : "{{ url_for('books.book_list') }}"
+            url    : "{{ url_for('books.get_books') }}"
         }).done(function(response) {
-            let books = response.books;
+            const books = response.books;
             books.forEach(book => makeBookCard(book));
         }).fail(function() {
             alert('전체 도서 목록을 가져오는 데 실패하였습니다')
@@ -21,7 +21,6 @@
 
     const makeBookCard = book => {
         const { id, book_name, stock_num, rating } = book
-        console.log(id, book_name, stock_num, rating)
         $('#book-list').append(
             `<article id="book${id}" class="card col-md-3 mx-3 my-3 p-3">
                 <div class="card-body">
@@ -47,5 +46,5 @@
         <h1 class="mb-3">전체 도서 목록</h1>
     </div>
 </div>
-<div id="book-list" class="row"></div>
+<div id="book-list" class="row justify-content-center"></div>
 {% endblock %}
