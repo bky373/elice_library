@@ -9,7 +9,10 @@ book_schema = BookSchema()
 
 @books_bp.route('/')
 def get_books():
+    return {'books': book_schema.dump(Book.query.all(), many=True)}
 
+
+def init_books():
     with open('library_data.csv', newline='', encoding='UTF8') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
@@ -28,4 +31,3 @@ def get_books():
                 )
                 db.session.add(book)
                 db.session.commit()
-    return {'books': book_schema.dump(Book.query.all(), many=True)}
