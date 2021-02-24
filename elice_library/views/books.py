@@ -12,6 +12,12 @@ def get_books():
     return {'books': book_schema.dump(Book.query.all(), many=True)}
 
 
+@books_bp.route('/<int:book_id>')
+def get_book(book_id):
+    book = Book.query.filter_by(id=book_id).first()
+    return render_template('books/book_detail.html', book=book_schema.dump(book))
+
+
 def init_books():
     with open('library_data.csv', newline='', encoding='UTF8') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
