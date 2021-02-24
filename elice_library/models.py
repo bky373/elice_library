@@ -25,7 +25,7 @@ class Book(db.Model):
     author = db.Column(db.String(128), nullable=False)
     pulication_date = db.Column(db.DateTime, nullable=False)
     pages = db.Column(db.Integer, nullable=False)
-    isbn = db.Column(db.Integer, nullable=False)
+    isbn = db.Column(db.String(128), nullable=False)
     description = db.Column(db.Text, nullable=False)
     link = db.Column(db.Text, nullable=False)
     stock_num = db.Column(db.Integer, nullable=False)
