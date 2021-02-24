@@ -1,45 +1,57 @@
 from flask import Blueprint, request, abort, jsonify, g, session, redirect, render_template, url_for
 from elice_library import db
-from elice_library.models import User
-
+from elice_library.models import User, UserCreateSchema, UserLoginSchema
+from marshmallow import ValidationError
 
 auth_bp = Blueprint('auth', __name__)
+user_create_schema = UserCreateSchema()
+user_login_schema = UserLoginSchema()
 
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
 def signup():
     if request.method == 'POST':
-        data = request.get_json()
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}
+        try:
+            data = user_create_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
 
         _username = data['username']
         _email = data['email']
         _password = data['password']
-        repassword = data['repassword']
+        re_password = data['repassword']
 
-        if not _username or not _email or not _password:
-            abort(400, message='입력값이 비어 있을 수 없습니다.')
-        if _password != repassword:
-            abort(400, message='입력한 비밀번호가 서로 다릅니다.')
+        if _password != re_password:
+            return {'message': 'Passwords do not match'}
         if User.query.filter_by(email=_email).first():
-            abort(400, message='이미 등록된 이메일입니다.')
+            return {'message': 'This email is already registered'}, 400
 
         user = User(username=_username, email=_email)
         user.set_password(_password)
+
         db.session.add(user)
         db.session.commit()
-        return jsonify(result=user.serialized), 201
+        result = user_create_schema.dump(user)
+        return {'user': result}, 201
     return render_template('auth/signup.html')
 
 
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        data = request.get_json()
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}
+        try:
+            data = user_login_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+
         _email = data['email']
         _password = data['password']
-
-        if not _email or not _password:
-            abort(400, message='입력값이 비어 있을 수 없습니다.')
 
         user = User.query.filter_by(email=_email).first()
         if not user:
@@ -49,7 +61,9 @@ def login():
 
         session.pop('user_id', None)
         session['user_id'] = user.id
-        return jsonify(result=user.serialized)
+
+        result = user_login_schema.dump(user)
+        return {'user': result}, 201
     return render_template('auth/login.html')
 
 

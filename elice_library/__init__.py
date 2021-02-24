@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 import config
 
 db = SQLAlchemy()
 migrate = Migrate()
-
+ma = Marshmallow()
 
 def register_blueprints(app):
     from .views.main import main_bp
@@ -20,7 +21,8 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-
+    ma.init_app(app)
+    
     from . import models
 
     register_blueprints(app)
