@@ -15,6 +15,7 @@ def get_books():
 @books_bp.route('/<int:book_id>')
 def get_book(book_id):
     book = Book.query.filter_by(id=book_id).first()
+    print(book.publication_date)
     return render_template('books/book_detail.html', book=book_schema.dump(book))
 
 
@@ -27,7 +28,7 @@ def init_books():
                     book_name=row[1],
                     publisher=row[2],
                     author=row[3],
-                    pulication_date=row[4],
+                    publication_date=row[4],
                     pages=int(row[5]),
                     isbn=int(row[6]),
                     description=row[7],

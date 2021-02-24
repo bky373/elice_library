@@ -23,7 +23,7 @@ class Book(db.Model):
     book_name = db.Column(db.String(128), nullable=False)
     publisher = db.Column(db.String(128), nullable=False)
     author = db.Column(db.String(128), nullable=False)
-    pulication_date = db.Column(db.DateTime, nullable=False)
+    publication_date = db.Column(db.DateTime, nullable=False)
     pages = db.Column(db.Integer, nullable=False)
     isbn = db.Column(db.String(128), nullable=False)
     description = db.Column(db.Text, nullable=False)

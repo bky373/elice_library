@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 
-{% block scridivt %}
-<scridivt tydive=text/javascridivt>
-
-</scridivt>
-{% endblock %}
 {% block content %}
-<div>
+<p>
     <div class="row">
         <h1 class="mb-3">책 정보</h1>
     </div>
-</div>
+</p>
 <div id="book-info" class="row">
     <div class="jumbotron w-100">
-        <article class="card col-md-4 mx-auto">
-            <div class="card-body">
-                <h2 class="card-title mb-1 font-weight-bolder">책 이름: {{ book.book_name }}</h2>
-                <div class="card-text">출판사: {{ book.publisher }}</div>
-                <div class="card-text">저자: {{ book.author }}</div>
-                <div class="card-text">출간일: {{ book.publication_date }}</div>
-                <div class="card-text">페이지 수: {{ book.pages }}</div>
-                <div class="card-text mb-3">ISBN 코드: {{ book.isbn }}</div>
+        <article class="row">
+            <div class="col-md-5 my-2 mr-3 text-center">
+                <img src="https://mdbootstrap.com/img/logo/mdb192x192.jpg" alt="" />
             </div>
-        </article> 
+            <div class="card col-md-5 my-2 ml-2 p-3">
+                <div class="card-body">
+                    <h2 class="card-title mb-1 font-weight-bolder">책 이름: {{ book.book_name }}</h2>
+                    <div class="card-text">출판사: {{ book.publisher }}</div>
+                    <div class="card-text">저자: {{ book.author }}</div>
+                    <div class="card-text">출간일: {{ book.publication_date[:-9] }}</div>
+                    <div class="card-text">페이지 수: {{ book.pages }}</div>
+                    <div class="card-text mb-3">ISBN 코드: {{ book.isbn }}</div>
+                </div>
+            </div> 
+        </article>
     </div>
     <div class="jumbotron w-100">
         <div class="col-md-10 mx-auto">
