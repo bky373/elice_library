@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script type="text/javascript">
+    const showRentSuccess = name => alert(`"${name}" 을 빌렸습니다!`);
+</script>
+{% endblock %}
 {% block content %}
 <div>
     <div class="row">
@@ -22,9 +27,9 @@
                 {% if g.user %}
                 <div class="text-center my-1">남은 권수: {{ book.stock_num }}권</div>
                     {% if book.stock_num %}
-                    <button type="submit" class="btn btn-info w-75 my-2">대여하기</button>
+                    <button type="submit" class="btn btn-info w-75 my-2" onclick="showRentSuccess(`{{ book.book_name }}`);">대여하기</button>
                     {% else %}
-                    <button onclick="return false;" class="btn btn-secondary w-75 my-2 disabled shadow-none" style="cursor:default" aria-disabled="true">대여불가</button>
+                    <button class="btn btn-secondary w-75 my-2 disabled shadow-none" style="cursor:default" aria-disabled="true" onclick="return false;" >대여불가</button>
                     {% endif %}
                 {% endif %}
             </div>
