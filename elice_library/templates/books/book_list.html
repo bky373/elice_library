@@ -10,7 +10,6 @@
     {% if books %}
         {% for book in books.items %}
         <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.info') }}">
-            <!-- <input type="hidden" class="d-none" name="user" value="{{ g.user.id }}"> -->
             <input type="hidden" class="d-none" name="book" value="{{ book.id }}">
             <div class="card-body">
                 <div class="book-image text-center">
@@ -20,8 +19,8 @@
             </div>
             <div class="text-center">
                 <div class="text-center my-1">평점: {{ book.rating }}</div>
-                <div class="text-center my-1">{{ book.stock_num }}권 남음</div>
                 {% if g.user %}
+                <div class="text-center my-1">{{ book.stock_num }}권 남음</div>
                 <button type="submit" class="btn btn-info w-75 my-2">대여하기</button>
                 {% endif %}
             </div>
