@@ -7,7 +7,7 @@ rental_bp = Blueprint('rental', __name__)
 
 
 @rental_bp.route('/books-rental', methods=('GET', 'POST'))
-def books_rental():
+def book_rental():
     user_id = session['user_id']
     user = User.query.filter_by(id=user_id).first()
 
@@ -31,7 +31,7 @@ def books_rental():
 
 
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
-def books_return():
+def book_return():
     user_id = session['user_id']
     user = User.query.filter_by(id=user_id).first()
 
@@ -42,6 +42,6 @@ def books_return():
         rental_info = BookRental.query.filter_by(user=user, book=book).first()
         rental_info.returned_at = datetime.now()
         db.session.commit()
-        return redirect(url_for('rental.books_rental'))
+        return redirect(url_for('rental.book_rental'))
     rental_infos = [info for info in user.rental_set if not info.returned_at]
     return render_template('rental/books_return.html', rental_infos=rental_infos)

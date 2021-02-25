@@ -9,7 +9,7 @@
 <div class="jumbotron row justify-content-center">
     {% if rental_infos %}
         {% for info in rental_infos %}
-        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.books_return') }}">
+        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_return') }}">
             <input type="hidden" class="d-none" name="book" value="{{ info.book.id }}">
             <div class="card-body">
                 <div class="book-image text-center">

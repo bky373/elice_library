@@ -9,7 +9,7 @@
 <div id="book-list" class="row justify-content-center">
     {% if books %}
         {% for book in books.items %}
-        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.books_rental') }}">
+        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_rental') }}">
             <input type="hidden" class="d-none" name="book" value="{{ book.id }}">
             <div class="card-body">
                 <div class="book-image text-center">
