@@ -1,4 +1,4 @@
- ,book_name,publisher,author,publication_date,pages,isbn,description,link
+id,book_name,publisher,author,publication_date,pages,isbn,description,link
 1,주니어를 위한 최선의 코딩 학습 똑똑한 파이썬,코딩스쿨(인포앤북),황재호/황예린,2019-07-01,240,9791196440916,"주니어의 코딩 학습을 위한 최상의 파이썬 학습서
 초등학교에서 스크래치, 엔트리 등의 블록코딩으로 알고리즘의 기초를 배우고 난 후 글자로 된 텍스트 코딩 단계에 들어가면 아이들이 어려워하게 된다. 이 책은 동물 일러스트를 활용하고 쉽고 재미있는 예제들을 많이 수록하여 아이들이 혼자서 재미있게 코딩을 공부할 수 있도록 하였다. 또한 이 책은 파이썬 코딩과 알고리즘에 대한 기초 지식이 없는 초등학교 고학년생과 중학생들을 대상으로 한 코딩 및 알고리즘 수업의 교재로 활용하기 적합하게 집필되었다.",http://codingschool.info/book/index.php?book=smart_python
 2,Do it! C언어 입문,이지스퍼블리싱,김성엽,2017-01-10,576,9791187370703,"‘왜’ 쓰는지 모르면 의미 없다! 두 번 삽질하지 않게 도와주는 입문서!
