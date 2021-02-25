@@ -18,10 +18,14 @@
                 <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.get_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
-                <div class="text-center my-1">평점: {{ book.rating }}</div>
+                <div class="text-center my-1">평점: {{ book.rating }}점</div>
                 {% if g.user %}
-                <div class="text-center my-1">{{ book.stock_num }}권 남음</div>
-                <button type="submit" class="btn btn-info w-75 my-2">대여하기</button>
+                <div class="text-center my-1">남은 권수: {{ book.stock_num }}권</div>
+                    {% if book.stock_num %}
+                    <button type="submit" class="btn btn-info w-75 my-2">대여하기</button>
+                    {% else %}
+                    <button onclick="return false;" class="btn btn-secondary w-75 my-2 disabled shadow-none" style="cursor:default" aria-disabled="true">대여불가</button>
+                    {% endif %}
                 {% endif %}
             </div>
         </form>
