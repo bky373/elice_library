@@ -1,12 +1,17 @@
 <!--TODO 햄버거 버튼 색상 변경-->
 <nav class="navbar navbar-custom navbar-expand-sm shadow-sm bg-white fixed-top">
-    <a class="navbar-brand ml-4" href="{{ url_for('main.index') }}">Elice Library</a>
+    <a class="navbar-brand ml-4" href="{{ url_for('main.index') }}">엘리스 도서관</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav ml-auto mr-5">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.index') }}">전체 도서</a>
+                </li>
+            </ul>
             {% if g.user %}
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -15,16 +20,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('rental.book_return') }}">반납하기</a>
                 </li>
-                <li class="nav-item mr-2">
+                <li class="nav-item ml-3 mr-4">
                     <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }}님 로그아웃</a>
                 </li>
             </ul>
             {% else %}
-            <ul class="navbar-nav mr-2">
+            <ul class="navbar-nav ml-3 mr-3">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('auth.signup') }}">회원가입</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item ml-1 mr-4">
                     <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
                 </li>
             </ul>  
