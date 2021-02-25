@@ -2,15 +2,15 @@
 
 {% block content %}
 <p>
-    <div class="row">
-        <h1 class="mb-3">책 정보</h1>
-    </div>
+<div class="row">
+    <h1 class="mb-3">책 정보</h1>
+</div>
 </p>
 <div id="book-info" class="row">
     <div class="jumbotron w-100">
         <article class="row">
-            <div class="col-md-5 my-2 mr-3 text-center">
-                <img src="https://mdbootstrap.com/img/logo/mdb192x192.jpg" alt="" />
+            <div class="col-md-5 my-2 mr-3 text-center ">
+                <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
             </div>
             <div class="card col-md-5 my-2 ml-2 p-3">
                 <div class="card-body">
@@ -21,7 +21,7 @@
                     <div class="card-text">페이지 수: {{ book.pages }}</div>
                     <div class="card-text mb-3">ISBN 코드: {{ book.isbn }}</div>
                 </div>
-            </div> 
+            </div>
         </article>
     </div>
     <div class="jumbotron w-100">
