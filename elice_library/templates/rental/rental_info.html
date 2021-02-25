@@ -8,23 +8,29 @@
 </p>
 <div class="jumbotron row justify-content-center">
     {% if rental_infos %}
-        {% for info in rental_infos %}
-        <div class="card col-md-3 mx-3 my-3 p-3">
-            <div class="card-body">
-                <div class="book-image text-center">
-                    <img src="{{ info.book.image_path }}" class="img" alt="책 이미지" />
-                </div>
-                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.get_book', book_id=info.book.id) }}">{{ info.book.book_name }}</a></h2>
+    {% for info in rental_infos %}
+    <div class="card col-md-3 mx-3 my-3 p-3">
+        <div class="card-body">
+            <div class="book-image text-center">
+                <img src="{{ info.book.image_path }}" class="img" alt="책 이미지" />
             </div>
-            <div class="text-center">
-                <div class="text-center my-1">{{ info.rented_at }}</div>
-            </div>
+            <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a
+                    href="{{ url_for('books.get_book', book_id=info.book.id) }}">{{ info.book.book_name }}</a></h2>
         </div>
-        {% endfor %}
+        <div class="text-center">
+            <div class="text-center my-1"><b>대출일자:</b> {{ info.rented_at }}</div>
+            {% if info.returned_at %}
+            <div class="text-center my-1"><b>반납일자:</b>: {{ info.returned_at }}</div>
+            {% else %}
+            <div class="text-center my-1 text-white"><b>반납일자:</b>: {{ info.returned_at }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
     {% else %}
     <article class="card col-md-3 mx-3 my-3 p-3">
         <div class="card-body">
-            <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder">대출한 도서가 없습니다.</h2>
+            <h2 class="card-title p-2 text-center font-weight-bolder">대출한 도서가 없습니다.</h2>
         </div>
     </article>
     {% endif %}
