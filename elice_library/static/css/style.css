@@ -16,9 +16,8 @@ a:hover {
     color: #10b9b0;
 }
 
-input,
-input::placeholder {
-    font-size: 14px;
+li {
+    list-style: none;
 }
 
 .navbar {
