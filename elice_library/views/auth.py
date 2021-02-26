@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, request, abort, jsonify, g, session, redirect, render_template, url_for
 from elice_library import db
 from elice_library.database.models.user import User, UserCreateSchema, UserLoginSchema
@@ -13,29 +14,26 @@ def signup():
     if request.method == 'POST':
         json_data = request.get_json()
         if not json_data:
-            return {"message": "No input data provided"}
+            return {"message": "No input data provided"}, 400
         try:
-            data = user_create_schema.load(json_data)
+            data = user_create_schema.load(json_data)            
+            username = data['username']
+            email = data['email']
+            password = data['password']
+            re_password = data['repassword']
+
         except ValidationError as err:
+            logging.warning(err.messages)
             return err.messages, 422
 
-        _username = data['username']
-        _email = data['email']
-        _password = data['password']
-        re_password = data['repassword']
+        if password != re_password:
+            return {'message': 'Passwords do not match'}, 400
 
-        if _password != re_password:
-            return {'message': 'Passwords do not match'}
-        if User.query.filter_by(email=_email).first():
+        user = User.create(username=username, email=email, password=password)
+        # 이미 등록된 유저가 있을 때
+        if not user:
             return {'message': 'This email is already registered'}, 400
-
-        user = User(username=_username, email=_email)
-        user.set_password(_password)
-
-        db.session.add(user)
-        db.session.commit()
-        result = user_create_schema.dump(user)
-        return {'user': result}, 201
+        return {'user': user_create_schema.dump(user)}, 201
     return render_template('auth/signup.html')
 
 
@@ -47,23 +45,23 @@ def login():
             return {"message": "No input data provided"}
         try:
             data = user_login_schema.load(json_data)
+            email = data['email']
+            password = data['password']
+            
         except ValidationError as err:
+            logging.warning(err.messages)
             return err.messages, 422
 
-        _email = data['email']
-        _password = data['password']
-
-        user = User.query.filter_by(email=_email).first()
+        user = User.query.filter_by(email=email).first()
         if not user:
-            abort(400, message="등록되지 않은 계정입니다.")
-        elif not user.check_password(_password):
-            abort(400, message="비밀번호가 올바르지 않습니다")
+            return {'message': 'This email does not exist'}, 400
+        elif not user.check_password(password):
+            return {'message': 'Passwords do not match'}, 400
 
         session.pop('user_id', None)
         session['user_id'] = user.id
 
-        result = user_login_schema.dump(user)
-        return {'user': result}, 201
+        return {'user': user_login_schema.dump(user)}, 201
     return render_template('auth/login.html')
 
 

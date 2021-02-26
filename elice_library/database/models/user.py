@@ -1,9 +1,9 @@
-
+import logging
 from elice_library.database.config import db, ma
 from marshmallow import Schema, INCLUDE, fields, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime
-from pytz import timezone
 
 
 class User(db.Model):
@@ -11,14 +11,35 @@ class User(db.Model):
     username = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-    joined_at = db.Column(db.DateTime, nullable=False,
-                          default=datetime.now(timezone('Asia/Seoul')))
+    joined_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    def set_password(self, password):
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
         self.password = generate_password_hash(password)
+
+    @staticmethod
+    def create(username, email, password):
+        try:
+            user = User(username=username, email=email, password=password)
+            db.session.add(user)
+            db.session.commit()
+            return user
+        # 이미 등록된 유저가 있을 때
+        except IntegrityError as e:
+            logging.warning(e)
+            return None
+        except Exception as e:
+            logging.warning(e)
+            return None
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def __repr__(self):
+        return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
+            self.id, self.username, self.email, self.password, self.joined_at
+        )
 
 
 def must_not_be_blank(data):
