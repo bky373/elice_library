@@ -1,4 +1,4 @@
-from elice_library import db, ma
+from elice_library.database.config import db, ma
 from marshmallow import Schema, INCLUDE, fields, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
