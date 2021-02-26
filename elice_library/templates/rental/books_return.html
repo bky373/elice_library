@@ -18,7 +18,7 @@
                 <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.book_detail', book_id=rental.book.id) }}">{{ rental.book.book_name }}</a></h2>
             </div>
             <div class="text-center">
-                <div class="text-center my-1">{{ rental.rented_at }}</div>
+                <div class="text-center my-1">대출일자: {{ rental.rented_at.strftime('%Y년 %m월 %d일') }}</div>
                 <button type="submit" class="btn btn-info w-75 my-2">반납하기</button>
             </div>
         </form>

@@ -18,9 +18,9 @@
                     href="{{ url_for('books.book_detail', book_id=rental.book.id) }}">{{ rental.book.book_name }}</a></h2>
         </div>
         <div class="text-center">
-            <div class="text-center my-1"><b>대출일자:</b> {{ rental.rented_at }}</div>
+            <div class="text-center my-1"><b>대출일자:</b> {{ rental.rented_at.strftime('%Y년 %m월 %d일') }}</div>
             {% if rental.returned_at %}
-            <div class="text-center my-1"><b>반납일자:</b>: {{ rental.returned_at }}</div>
+            <div class="text-center my-1"><b>반납일자:</b>: {{ rental.returned_at.strftime('%Y년 %m월 %d일') }}</div>
             {% else %}
             <div class="text-center my-1 text-white"><b>반납일자:</b>: {{ rental.returned_at }}</div>
             {% endif %}
