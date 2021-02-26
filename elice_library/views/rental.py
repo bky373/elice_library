@@ -11,7 +11,7 @@ rental_bp = Blueprint('rental', __name__)
 @rental_bp.route('/books-rental', methods=('GET', 'POST'))
 def book_rental():
     user_id = session['user_id']
-    user = User.query.filter_by(id=user_id).first()
+    user = User.find_by_id(user_id)
 
     if request.method == 'POST':
         book_id = request.form.get('book')
@@ -26,7 +26,7 @@ def book_rental():
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
 def book_return():
     user_id = session['user_id']
-    user = User.query.filter_by(id=user_id).first()
+    user = User.find_by_id(user_id)
 
     if request.method == 'POST':
         book_id = request.form.get('book')

@@ -14,7 +14,7 @@ def comment_detail():
         user_id = session['user_id']
         book_id = request.form.get('book')
 
-        user = User.query.filter_by(id=user_id).first()
+        user = User.find_by_id(user_id)
         book = Book.filter_by_id(book_id)
         content = request.form.get('content')
         rating = request.form.get('rating')

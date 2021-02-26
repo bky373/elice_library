@@ -13,10 +13,21 @@ class User(db.Model):
     password = db.Column(db.String(256), nullable=False)
     joined_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+    def add_rental_info(self, rental):
+        self.rental_set.append(rental)
+        return self.rental_set
+
 
     @staticmethod
     def create(username, email, password):
@@ -33,8 +44,16 @@ class User(db.Model):
             logging.warning(e)
             return None
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
+
+    @staticmethod    
+    def find_by_id(id):
+        return User.query.filter_by(id=id).first()
+
+
+    @staticmethod    
+    def find_by_email(email):
+        return User.query.filter_by(email=email).first()
+
 
     def __repr__(self):
         return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (

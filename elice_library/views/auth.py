@@ -52,7 +52,7 @@ def login():
             logging.warning(err.messages)
             return err.messages, 422
 
-        user = User.query.filter_by(email=email).first()
+        user = User.find_by_email(email=email)
         if not user:
             return {'message': 'This email does not exist'}, 400
         elif not user.check_password(password):
@@ -68,7 +68,7 @@ def login():
 @auth_bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-    g.user = None if not user_id else User.query.filter_by(id=user_id).first()
+    g.user = User.find_by_id(user_id) if user_id else None 
 
 
 @auth_bp.route('/logout')
