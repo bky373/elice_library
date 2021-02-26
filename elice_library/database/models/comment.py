@@ -13,12 +13,19 @@ class Comment(db.Model):
     posted_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     rating = db.Column(db.Integer, nullable=False, default=0)
 
+
     def __init__(self, user, book, content, rating):
         self.user = user
         self.book = book
         self.content = content
         self.rating = rating
 
+
+    def __repr__(self):
+        return "<Comment(id='%s', user_id='%s', book_id='%s', content='%s', posted_at='%s')>" % (
+            self.id, self.user_id, self.book_id, self.content, self.posted_at)
+
+    
     @staticmethod
     def create(user, book, content, rating):
         try:
@@ -29,8 +36,3 @@ class Comment(db.Model):
         except Exception as e:
             logging.warning(e)
             return None
-
-    def __repr__(self):
-        return "<Comment(id='%s', user_id='%s', book_id='%s', content='%s', posted_at='%s')>" % (
-            self.id, self.user_id, self.book_id, self.content, self.posted_at
-        )

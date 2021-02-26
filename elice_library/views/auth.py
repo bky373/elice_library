@@ -17,8 +17,8 @@ def signup():
             return {"message": "No input data provided"}, 400
         try:
             data = user_create_schema.load(json_data)
-            username, email, password, re_password = data['username'], data[
-                'email'], data['password'], data['repassword']
+            username, email, password, re_password = data[
+                'username'], data['email'], data['password'], data['repassword']
 
         except ValidationError as err:
             logging.warning(err.messages)
