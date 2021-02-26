@@ -18,4 +18,4 @@ def book_list():
 @books_bp.route('/<int:book_id>')
 def book_detail(book_id):
     book = Book.query.filter_by(id=book_id).first()
-    return render_template('books/book_detail.html', book=book_schema.dump(book))
+    return render_template('books/book_detail.html', book=book)
