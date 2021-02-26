@@ -5,12 +5,10 @@ from datetime import datetime
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'user.id', ondelete='CASCADE'), nullable=False)
-    user = db.relationship('User', backref=db.backref('comment_set'))
-    book_id = db.Column(db.Integer, db.ForeignKey(
-        'book.id', ondelete='CASCADE'), nullable=False)
-    book = db.relationship('Book', backref=db.backref('comment_set'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('comments'))
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'), nullable=False)
+    book = db.relationship('Book', backref=db.backref('comments'))
     content = db.Column(db.Text, nullable=False)
     posted_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     rating = db.Column(db.Integer, nullable=False, default=0)

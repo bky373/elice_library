@@ -33,7 +33,7 @@
     <p>
     <h1 class="mb-3 row">댓글</h1>
     </p>
-    {% with comments=book.comment_set|reverse %}
+    {% with comments=book.comments|reverse %}
     {% for comment in comments %}
     <form action="" method="POST">
         <input type="hidden" name="book" value="{{ book.id }}">
