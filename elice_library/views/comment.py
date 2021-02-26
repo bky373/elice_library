@@ -23,6 +23,6 @@ def comment_detail():
             return {'message': 'No rating value is provided'}
         comment = Comment.create(user, book, content, rating)
         # 댓글이 문제없이 생성되고, 책 평균 평점이 정상적으로 갱신되면
-        if comment and book.update_average_rating():
+        if comment and book.update_rating_average():
             return redirect(url_for('books.book_detail', book_id=book.id))
     return redirect(url_for('main.index'))

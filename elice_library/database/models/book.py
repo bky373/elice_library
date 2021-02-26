@@ -16,7 +16,7 @@ class Book(db.Model):
     stock_num = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
 
-    def update_average_rating(self):
+    def update_rating_average(self):
         try:
             self.rating = round(sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
             db.session.commit()
