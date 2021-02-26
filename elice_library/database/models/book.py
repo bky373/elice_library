@@ -1,4 +1,4 @@
-
+import logging
 from elice_library.database.config import db, ma
 
 
@@ -15,6 +15,18 @@ class Book(db.Model):
     image_path = db.Column(db.Text)
     stock_num = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
+
+    def update_average_rating(self):
+        try:
+            self.rating = round(sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
+            db.session.commit()
+        except ArithmeticError as e:
+            logging.warning(e)
+            return None
+        except Exception as e:
+            logging.warning(e)
+            return None
+        return self.rating
 
 
 class BookSchema(ma.Schema):

@@ -31,27 +31,42 @@
 </div>
 <div class="comment-list ml-4">
     <p>
-        <h1 class="mb-3 row">댓글</h1>
+    <h1 class="mb-3 row">댓글</h1>
     </p>
-    {% with comments=book.comment_set %}
-        {% for comment in comments %}
-        <form action="" method="POST">
-            <input type="hidden" name="book" value="{{ book.id }}">
-            <div>
-                <div class="card col-md-11 p-3 border-0">
-                    <div class="ml-4 p-1 font-weight-bolder" style="white-space: pre-line;">{{ comment.user.username }}&nbsp;&nbsp;<small>{{ comment.posted_at }}</small></div>
-                    <div class="ml-4 p-1" style="white-space: pre-line;">{{ comment.content }}</div>
-                </div>
+    {% with comments=book.comment_set|reverse %}
+    {% for comment in comments %}
+    <form action="" method="POST">
+        <input type="hidden" name="book" value="{{ book.id }}">
+        <div>
+            <div class="card col-md-11 p-3 border-0">
+                <div class="ml-4 p-1 font-weight-bolder" style="white-space: pre-line;">{{ comment.user.username
+                    }}&nbsp;&nbsp;<small>{{ comment.posted_at }}</small></div>
+                <div class="ml-4 p-1" style="white-space: pre-line;">{{ comment.content }}</div>
             </div>
-            <div class="comment-border"></div>
-        </form>
-        {% endfor %}
+        </div>
+        <div class="comment-border"></div>
+    </form>
+    {% endfor %}
     {% endwith %}
     <form class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
         <input type="hidden" name="book" value="{{ book.id }}">
         <div class="col-md-12">
             <textarea class="form-control mt-2" name="content" id="content" rows="3"></textarea>
             {% if g.user %}
+            <div class="star-rating float-left">
+                <div class="star-icon">
+                    <input type="radio" name="rating" id="rating1" value="1">
+                    <label for="rating1" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating2" value="2">
+                    <label for="rating2" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating3" value="3">
+                    <label for="rating3" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating4" value="4">
+                    <label for="rating4" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating5" value="5">
+                    <label for="rating5" class="fa fa-star"></label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-info float-right my-3">작성하기</button>
             {% else %}
             <button type="button" class="btn btn-secondary float-right my-3 disabled shadow-none" style="cursor:default"

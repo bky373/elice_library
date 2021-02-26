@@ -85,3 +85,33 @@ li {
     margin: 0 35px 0 8px;
     border-bottom: 1px solid #c0c0c0;
 }
+
+.star-rating {
+    padding: 10px;
+}
+
+.star-rating div {
+    color: #5bc0de;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating input+label {
+    font-size: 25px;
+    text-shadow: 1px 1px 0 #d8d4d4;
+    cursor: pointer;
+}
+
+.star-rating input:checked+label~label {
+    color: #d8d4d4;
+}
+
+.star-rating label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
+}
