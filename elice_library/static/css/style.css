@@ -16,9 +16,8 @@ a:hover {
     color: #10b9b0;
 }
 
-input,
-input::placeholder {
-    font-size: 14px;
+li {
+    list-style: none;
 }
 
 .navbar {
@@ -51,5 +50,68 @@ input::placeholder {
 }
 
 .container h1 {
+    font-size: 20px;
+}
+
+.img {
+    max-width: 100px;
+    height: 100px;
+}
+
+.card h2 {
+    font-size: 14px;
+}
+
+.card-body {
+    margin-bottom: 0;
+    padding-bottom: 1px;
+}
+
+.jumbotron .title {
+    margin-left: -30px;
+}
+
+.jumbotron .description {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.page-item a {
+    color: black;
+    padding: 8px 16px;
+}
+
+.comment-border {
+    margin: 0 35px 0 8px;
+    border-bottom: 1px solid #c0c0c0;
+}
+
+.star-rating {
+    padding: 10px;
+}
+
+.star-rating div {
+    color: #5bc0de;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating input+label {
     font-size: 25px;
+    text-shadow: 1px 1px 0 #d8d4d4;
+    cursor: pointer;
+}
+
+.star-rating input:checked+label~label {
+    color: #d8d4d4;
+}
+
+.star-rating label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
 }

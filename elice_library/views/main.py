@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, url_for
+from elice_library.database.models.book import Book, BookSchema
 
 main_bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -6,4 +7,4 @@ main_bp = Blueprint('main', __name__, url_prefix='/')
 @main_bp.route('/')
 @main_bp.route('/index')
 def index():
-    return render_template('base.html')
+    return redirect(url_for('books.book_list'))

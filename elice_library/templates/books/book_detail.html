@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+<h1 class="mb-3 row">책 정보</h1>
+</p>
+<div id="book-detail" class="row">
+    <div class="jumbotron w-100">
+        <article class="row">
+            <div class="col-md-5 my-2 mr-3 text-center ">
+                <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
+            </div>
+            <div class="card col-md-5 my-2 ml-2 p-3">
+                <div class="card-body">
+                    <h2 class="card-title mb-1 font-weight-bolder">책 이름: {{ book.book_name }}</h2>
+                    <div class="card-text">출판사: {{ book.publisher }}</div>
+                    <div class="card-text">저자: {{ book.author }}</div>
+                    <div class="card-text">출간일: {{ book.published_at.strftime('%Y년 %m월 %d일') }}</div>
+                    <div class="card-text">페이지 수: {{ book.pages }}</div>
+                    <div class="card-text mb-3">ISBN 코드: {{ book.isbn }}</div>
+                </div>
+            </div>
+        </article>
+    </div>
+    <div class="jumbotron w-100">
+        <div class="col-md-10 mx-auto">
+            <h4 class="card-title title mb-4 font-weight-bolder">책 소개</h4>
+            <p class="card-text description my-3 p-3">{{ book.description }}</p>
+        </div>
+    </div>
+</div>
+<div class="comment-list ml-4">
+    <p>
+    <h1 class="mb-3 row">댓글</h1>
+    </p>
+    {% with comments=book.comment_set|reverse %}
+    {% for comment in comments %}
+    <form action="" method="POST">
+        <input type="hidden" name="book" value="{{ book.id }}">
+        <div>
+            <div class="card col-md-11 p-3 border-0">
+                <div class="ml-4 p-1 font-weight-bolder" style="white-space: pre-line;">{{ comment.user.username
+                    }}&nbsp;&nbsp;<small>{{ comment.posted_at }}</small></div>
+                <div class="ml-4 p-1" style="white-space: pre-line;">{{ comment.content }}</div>
+            </div>
+        </div>
+        <div class="comment-border"></div>
+    </form>
+    {% endfor %}
+    {% endwith %}
+    <form class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
+        <input type="hidden" name="book" value="{{ book.id }}">
+        <div class="col-md-12">
+            <textarea class="form-control mt-2" name="content" id="content" rows="3"></textarea>
+            {% if g.user %}
+            <div class="star-rating float-left">
+                <div class="star-icon">
+                    <input type="radio" name="rating" id="rating1" value="1">
+                    <label for="rating1" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating2" value="2">
+                    <label for="rating2" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating3" value="3">
+                    <label for="rating3" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating4" value="4">
+                    <label for="rating4" class="fa fa-star"></label>
+                    <input type="radio" name="rating" id="rating5" value="5">
+                    <label for="rating5" class="fa fa-star"></label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info float-right my-3">작성하기</button>
+            {% else %}
+            <button type="button" class="btn btn-secondary float-right my-3 disabled shadow-none" style="cursor:default"
+                aria-disabled="true" onclick="return false;">로그인 후 작성하기</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
