@@ -2,6 +2,7 @@ from elice_library import db, ma
 from marshmallow import Schema, INCLUDE, fields, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from pytz import timezone
 
 
 class User(db.Model):
@@ -9,7 +10,8 @@ class User(db.Model):
     username = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-    joined_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    joined_at = db.Column(db.DateTime, nullable=False,
+                          default=datetime.now(timezone('Asia/Seoul')))
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -35,11 +37,14 @@ class Book(db.Model):
 
 class BookRental(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'))
+    book_id = db.Column(db.Integer, db.ForeignKey(
+        'book.id', ondelete='CASCADE'))
     book = db.relationship('Book', backref=db.backref('rental_set'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'user.id', ondelete='CASCADE'))
     user = db.relationship('User', backref=db.backref("rental_set"))
-    rented_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    rented_at = db.Column(db.DateTime, nullable=False,
+                          default=datetime.now(timezone('Asia/Seoul')))
     returned_at = db.Column(db.DateTime, nullable=True)
 
 
