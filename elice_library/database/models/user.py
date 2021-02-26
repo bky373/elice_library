@@ -1,3 +1,4 @@
+
 from elice_library.database.config import db, ma
 from marshmallow import Schema, INCLUDE, fields, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -18,40 +19,6 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
-
-class Book(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    book_name = db.Column(db.String(128), nullable=False)
-    publisher = db.Column(db.String(128), nullable=False)
-    author = db.Column(db.String(128), nullable=False)
-    published_at = db.Column(db.DateTime, nullable=False)
-    pages = db.Column(db.Integer, nullable=False)
-    isbn = db.Column(db.String(128), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    link = db.Column(db.Text, nullable=False)
-    image_path = db.Column(db.Text)
-    stock_num = db.Column(db.Integer, nullable=False)
-    rating = db.Column(db.Integer, nullable=False, default=0)
-
-
-class BookRental(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey(
-        'book.id', ondelete='CASCADE'))
-    book = db.relationship('Book', backref=db.backref('rental_set'))
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'user.id', ondelete='CASCADE'))
-    user = db.relationship('User', backref=db.backref("rental_set"))
-    rented_at = db.Column(db.DateTime, nullable=False,
-                          default=datetime.now(timezone('Asia/Seoul')))
-    returned_at = db.Column(db.DateTime, nullable=True)
-
-
-class BookSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "book_name", "publisher", "author", "published_at",
-                  "pages", "isbn", "description", "link", "image_path", "stock_num", "rating")
 
 
 def must_not_be_blank(data):

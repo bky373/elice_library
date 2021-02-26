@@ -1,5 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
-from elice_library.models import User, Book, BookRental
+from elice_library.database.models.user import User
+from elice_library.database.models.book import Book
+from elice_library.database.models.book_rental import BookRental
 from elice_library import db
 from datetime import datetime
 
@@ -17,12 +19,12 @@ def book_rental():
         book = Book.query.filter_by(id=book_id).first()
 
         stock = book.stock_num
-        if stock >= 1:
+
+        if stock >= 1 and not BookRental.query.filter_by(user_id=user_id, book_id=book_id).first():
             book.stock_num -= 1
-            rental_info = BookRental(user=user, book=book)
+            rental_info = BookRental(user_id=user_id, book_id=book_id)
             book.rental_set.append(rental_info)
             user.rental_set.append(rental_info)
-
             db.session.add(rental_info)
             db.session.commit()
             return redirect(url_for('main.index'))

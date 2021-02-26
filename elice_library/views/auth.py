@@ -1,6 +1,6 @@
 from flask import Blueprint, request, abort, jsonify, g, session, redirect, render_template, url_for
 from elice_library import db
-from elice_library.models import User, UserCreateSchema, UserLoginSchema
+from elice_library.database.models.user import User, UserCreateSchema, UserLoginSchema
 from marshmallow import ValidationError
 
 auth_bp = Blueprint('auth', __name__)

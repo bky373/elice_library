@@ -22,7 +22,7 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    from . import models
+    from .database import models
 
     register_blueprints(app)
 
