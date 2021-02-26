@@ -25,8 +25,8 @@ class User(db.Model):
 
 
     def add_rental_info(self, rental):
-        self.rental_set.append(rental)
-        return self.rental_set
+        self.rental_list.append(rental)
+        return self.rental_list
 
 
     @staticmethod
@@ -45,6 +45,11 @@ class User(db.Model):
             return None
 
 
+    def __repr__(self):
+        return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
+            self.id, self.username, self.email, self.password, self.joined_at)
+
+
     @staticmethod    
     def find_by_id(id):
         return User.query.filter_by(id=id).first()
@@ -53,12 +58,6 @@ class User(db.Model):
     @staticmethod    
     def find_by_email(email):
         return User.query.filter_by(email=email).first()
-
-
-    def __repr__(self):
-        return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
-            self.id, self.username, self.email, self.password, self.joined_at
-        )
 
 
 def must_not_be_blank(data):

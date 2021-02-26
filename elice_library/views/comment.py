@@ -15,12 +15,14 @@ def comment_detail():
         book_id = request.form.get('book')
 
         user = User.find_by_id(user_id)
-        book = Book.filter_by_id(book_id)
+        book = Book.find_by_id(book_id)
+
         content = request.form.get('content')
         rating = request.form.get('rating')
+        
         # 평점이 0 점이면,
-        if not rating:
-            return {'message': 'No rating value is provided'}
+        if not rating: return {'message': 'No rating value is provided'}
+        
         comment = Comment.create(user, book, content, rating)
         # 댓글이 문제없이 생성되고, 책 평균 평점이 정상적으로 갱신되면
         if comment and book.update_rating_average():

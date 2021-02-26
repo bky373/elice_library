@@ -8,22 +8,32 @@ class BookRental(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'))
-    user = db.relationship('User', backref=db.backref("rental_set"))
-    book = db.relationship('Book', backref=db.backref('rental_set'))
-    rented_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone('Asia/Seoul')))
+    user = db.relationship('User', backref=db.backref("rental_list"))
+    book = db.relationship('Book', backref=db.backref('rental_list'))
+    rented_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     returned_at = db.Column(db.DateTime, nullable=True)
 
     
     def __init__(self, user, book):
         self.user = user
         self.book = book
+
+
+    @property
+    def has_return_date(self):
+        return self.returned_at is not None
+
     
+    def save_return_date(self):
+        self.returned_at = datetime.utcnow()
+        return self.returned_at
+
 
     @staticmethod
     def create(user, book):
         try:            
             rental = BookRental(user=user, book=book)
-            user.rental_set.append(rental)
+            user.add_rental_info(rental)
             book.add_rental_info(rental)
             book.reduce_stock()
 
@@ -35,13 +45,9 @@ class BookRental(db.Model):
             return None
 
 
-    @property
-    def is_returned(self):
-        return self.returned_at is not None
-
-    
-    def set_return_date(self):
-        self.returned_at = datetime.utcnow()
+    @staticmethod    
+    def find_by_ids(user_id, book_id):
+        return BookRental.query.filter_by(user_id=user_id, book_id=book_id).first()
 
 
     def __repr__(self):

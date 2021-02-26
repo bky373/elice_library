@@ -16,11 +16,9 @@ def signup():
         if not json_data:
             return {"message": "No input data provided"}, 400
         try:
-            data = user_create_schema.load(json_data)            
-            username = data['username']
-            email = data['email']
-            password = data['password']
-            re_password = data['repassword']
+            data = user_create_schema.load(json_data)
+            username, email, password, re_password = data['username'], data[
+                'email'], data['password'], data['repassword']
 
         except ValidationError as err:
             logging.warning(err.messages)
@@ -30,6 +28,7 @@ def signup():
             return {'message': 'Passwords do not match'}, 400
 
         user = User.create(username=username, email=email, password=password)
+
         # 이미 등록된 유저가 있을 때
         if not user:
             return {'message': 'This email is already registered'}, 400
@@ -45,9 +44,8 @@ def login():
             return {"message": "No input data provided"}
         try:
             data = user_login_schema.load(json_data)
-            email = data['email']
-            password = data['password']
-            
+            email, password = data['email'], data['password']
+
         except ValidationError as err:
             logging.warning(err.messages)
             return err.messages, 422
@@ -68,7 +66,7 @@ def login():
 @auth_bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-    g.user = User.find_by_id(user_id) if user_id else None 
+    g.user = User.find_by_id(user_id) if user_id else None
 
 
 @auth_bp.route('/logout')

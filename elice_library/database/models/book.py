@@ -23,22 +23,24 @@ class Book(db.Model):
     
 
     def add_stock(self):
-        return self.stock_num + 1
+        self.stock_num += 1
+        return self.stock_num
 
 
     def reduce_stock(self):
-        return self.stock_num - 1
+        self.stock_num -= 1
+        return self.stock_num
 
 
     def add_rental_info(self, rental):
-        self.rental_set.append(rental)
-        return self.rental_set
+        self.rental_list.append(rental)
+        return self.rental_list
 
 
     def update_rating_average(self):
         try:
             self.rating = round(
-                sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
+                sum([comment.rating for comment in self.comments])/len(self.comments))
             db.session.commit()
         except ArithmeticError as e:
             logging.warning(e)
@@ -49,16 +51,14 @@ class Book(db.Model):
         return self.rating
 
 
-    @staticmethod    
-    def filter_by_id(id):
-        return Book.query.filter_by(id=id).first()
-
-
-
     def __repr__(self):
         return "<Book(id='%s', name='%s', publisher='%s', author='%s', published_at='%s')>" % (
-            self.id, self.book_name, self.publisher, self.author, self.published_at
-        )
+            self.id, self.book_name, self.publisher, self.author, self.published_at)
+
+
+    @staticmethod    
+    def find_by_id(id):
+        return Book.query.filter_by(id=id).first()
 
 
 class BookSchema(ma.Schema):
