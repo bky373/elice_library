@@ -18,7 +18,8 @@ class Book(db.Model):
 
     def update_rating_average(self):
         try:
-            self.rating = round(sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
+            self.rating = round(
+                sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
             db.session.commit()
         except ArithmeticError as e:
             logging.warning(e)
@@ -27,6 +28,11 @@ class Book(db.Model):
             logging.warning(e)
             return None
         return self.rating
+
+    def __repr__(self):
+        return "<Book(id='%s', name='%s', publisher='%s', author='%s', published_at='%s')>" % (
+            self.id, self.book_name, self.publisher, self.author, self.published_at
+        )
 
 
 class BookSchema(ma.Schema):
