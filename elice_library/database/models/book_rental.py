@@ -24,8 +24,8 @@ class BookRental(db.Model):
         try:            
             rental = BookRental(user=user, book=book)
             user.rental_set.append(rental)
-            book.rental_set.append(rental)
-            book.stock_num -= 1
+            book.add_rental_info(rental)
+            book.reduce_stock()
 
             db.session.add(rental)
             db.session.commit()

@@ -15,9 +15,9 @@ def book_rental():
 
     if request.method == 'POST':
         book_id = request.form.get('book')
-        book = Book.query.filter_by(id=book_id).first()
+        book = Book.filter_by_id(book_id)
 
-        if book.stock_num >= 1 and not BookRental.query.filter_by(user_id=user_id, book_id=book_id).first():
+        if book.has_stock and not BookRental.query.filter_by(user_id=user_id, book_id=book_id).first():
             BookRental.create(user, book)
             return redirect(url_for('main.index'))
     return render_template('rental/books_rental.html', rental_infos=user.rental_set)
@@ -30,11 +30,13 @@ def book_return():
 
     if request.method == 'POST':
         book_id = request.form.get('book')
-        book = Book.query.filter_by(id=book_id).first()
+        book = Book.filter_by_id(book_id)
 
-        book.stock_num += 1
+        book.add_stock()
+
         rental = BookRental.query.filter_by(user=user, book=book).first()
         rental.set_return_date()
+
         db.session.commit()
         return redirect(url_for('rental.book_rental'))
     rental_infos = [rental for rental in user.rental_set if not rental.is_returned]

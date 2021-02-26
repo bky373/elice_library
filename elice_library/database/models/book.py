@@ -16,6 +16,25 @@ class Book(db.Model):
     stock_num = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
 
+
+    @property
+    def has_stock(self):
+        return self.stock_num >= 1 
+    
+
+    def add_stock(self):
+        return self.stock_num + 1
+
+
+    def reduce_stock(self):
+        return self.stock_num - 1
+
+
+    def add_rental_info(self, rental):
+        self.rental_set.append(rental)
+        return self.rental_set
+
+
     def update_rating_average(self):
         try:
             self.rating = round(
@@ -28,6 +47,13 @@ class Book(db.Model):
             logging.warning(e)
             return None
         return self.rating
+
+
+    @staticmethod    
+    def filter_by_id(id):
+        return Book.query.filter_by(id=id).first()
+
+
 
     def __repr__(self):
         return "<Book(id='%s', name='%s', publisher='%s', author='%s', published_at='%s')>" % (

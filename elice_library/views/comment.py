@@ -15,7 +15,7 @@ def comment_detail():
         book_id = request.form.get('book')
 
         user = User.query.filter_by(id=user_id).first()
-        book = Book.query.filter_by(id=book_id).first()
+        book = Book.filter_by_id(book_id)
         content = request.form.get('content')
         rating = request.form.get('rating')
         # 평점이 0 점이면,
