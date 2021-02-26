@@ -7,4 +7,4 @@ main_bp = Blueprint('main', __name__, url_prefix='/')
 @main_bp.route('/')
 @main_bp.route('/index')
 def index():
-    return redirect(url_for('books.get_books'))
+    return redirect(url_for('books.book_list'))
