@@ -58,8 +58,7 @@ def login():
 
         session.pop('user_id', None)
         session['user_id'] = user.id
-
-        return {'user': user_login_schema.dump(user)}, 201
+        return {'username': user.username}, 201
     return render_template('auth/login.html')
 
 
