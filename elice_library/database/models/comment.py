@@ -12,7 +12,7 @@ class Comment(db.Model):
     book = db.relationship('Book', backref=db.backref('comments'))
     content = db.Column(db.Text, nullable=False)
     posted_at = db.Column(db.DateTime, nullable=False)
-    rating = db.Column(db.Integer, nullable=False, default=0)
+    rating = db.Column(db.Integer, nullable=False)
 
 
     def __init__(self, user, book, content, rating):
