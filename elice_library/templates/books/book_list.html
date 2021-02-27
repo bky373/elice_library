@@ -23,7 +23,19 @@
                 <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
-                <div class="text-center my-1">평점: {{ book.rating }}점</div>
+                <div class="star-rating">
+                    <div class="text-dark pb-2">평점 </div>
+                    <div class="star-icon">
+                    {% for i in range(1, book.rating + 1) %}
+                    <input type="radio" name="rating" id="rating{{i}}" value="5">
+                    <label for="rating{{i}}" class="fa fa-star active disabled" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                    {% endfor %}
+                    {% for i in range(book.rating + 1, 6) %}
+                    <input type="radio" name="rating" id="rating{{i}}" value="5">
+                    <label for="rating{{i}}" class="fa fa-star disabled" style="color: #d8d4d4;" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                    {% endfor %}
+                    </div>
+                </div>
                 {% if g.user %}
                 <div class="text-center my-1">남은 권수: {{ book.stock_num }}권</div>
                     {% if book.stock_num %}

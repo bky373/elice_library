@@ -16,17 +16,48 @@ class Book(db.Model):
     stock_num = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
 
-    def update_average_rating(self):
-        try:
-            self.rating = round(sum([comment.rating for comment in self.comment_set])/len(self.comment_set))
-            db.session.commit()
-        except ArithmeticError as e:
-            logging.warning(e)
-            return None
-        except Exception as e:
-            logging.warning(e)
-            return None
+
+    @property
+    def has_stock(self):
+        return self.stock_num >= 1 
+    
+
+    def add_stock(self):
+        self.stock_num += 1
+        db.session.commit()
+        return self.stock_num
+
+
+    def reduce_stock(self):
+        self.stock_num -= 1
+        db.session.commit()
+        return self.stock_num
+
+
+    def add_rental_info(self, rental):
+        self.rental_list.append(rental)
+        return self.rental_list
+
+
+    def add_comment(self, comment):
+        self.comments.append(comment)
+        return self.comments
+
+
+    def update_rating(self):
+        self.rating = round(sum([comment.rating for comment in self.comments])/len(self.comments))
+        db.session.commit()
         return self.rating
+
+
+    def __repr__(self):
+        return "<Book(id='%s', name='%s', publisher='%s', author='%s', published_at='%s')>" % (
+            self.id, self.book_name, self.publisher, self.author, self.published_at)
+
+
+    @staticmethod    
+    def find_by_id(id):
+        return Book.query.filter_by(id=id).first()
 
 
 class BookSchema(ma.Schema):

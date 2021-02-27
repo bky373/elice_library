@@ -1,4 +1,4 @@
-import config
+from .utils import config
 from flask import Flask
 from elice_library.database.config import db, migrate, ma
 

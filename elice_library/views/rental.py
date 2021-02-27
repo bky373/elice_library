@@ -11,39 +11,36 @@ rental_bp = Blueprint('rental', __name__)
 @rental_bp.route('/books-rental', methods=('GET', 'POST'))
 def book_rental():
     user_id = session['user_id']
-    user = User.query.filter_by(id=user_id).first()
+    user = User.find_by_id(user_id)
 
     if request.method == 'POST':
         book_id = request.form.get('book')
+        book = Book.find_by_id(book_id)
 
-        book = Book.query.filter_by(id=book_id).first()
-
-        stock = book.stock_num
-
-        if stock >= 1 and not BookRental.query.filter_by(user_id=user_id, book_id=book_id).first():
-            book.stock_num -= 1
-            rental_info = BookRental(user_id=user_id, book_id=book_id)
-            book.rental_set.append(rental_info)
-            user.rental_set.append(rental_info)
-            db.session.add(rental_info)
-            db.session.commit()
+        if book.has_stock and not BookRental.find_by_ids(user_id, book_id):
+            rental = BookRental.create(user, book)
+            if rental:
+                user.add_rental_info(rental)
+                book.add_rental_info(rental)
+                book.reduce_stock()
             return redirect(url_for('main.index'))
-        return redirect(url_for('main.index'))
-    return render_template('rental/books_rental.html', rental_infos=user.rental_set)
+    return render_template('rental/books_rental.html', rental_list=user.rental_list)
 
 
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
 def book_return():
     user_id = session['user_id']
-    user = User.query.filter_by(id=user_id).first()
+    user = User.find_by_id(user_id)
 
     if request.method == 'POST':
         book_id = request.form.get('book')
-        book = Book.query.filter_by(id=book_id).first()
-        book.stock_num += 1
-        rental_info = BookRental.query.filter_by(user=user, book=book).first()
-        rental_info.returned_at = datetime.now()
-        db.session.commit()
+        book = Book.find_by_id(book_id)
+
+        book.add_stock()
+
+        rental = BookRental.find_by_ids(user_id, book_id)
+        rental.save_return_date()
+
         return redirect(url_for('rental.book_rental'))
-    rental_infos = [info for info in user.rental_set if not info.returned_at]
-    return render_template('rental/books_return.html', rental_infos=rental_infos)
+    unfinished_rentals = [rental for rental in user.rental_list if not rental.has_finished]
+    return render_template('rental/books_return.html', rental_list=unfinished_rentals)

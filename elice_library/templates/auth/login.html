@@ -12,7 +12,7 @@
                 password  : $('#password').val(),
             })
         }).done(function (res) {
-            alert('로그인하였습니다 :)')
+            alert(`${res.username}님이 로그인하였습니다 :)`)
             location.href = "{{ url_for('main.index') }}"
         }).fail(function (res) {
             alert('로그인에 실패하였습니다')
