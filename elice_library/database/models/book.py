@@ -3,7 +3,7 @@ from elice_library.database.config import db, ma
 
 
 class Book(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     book_name = db.Column(db.String(128), nullable=False)
     publisher = db.Column(db.String(128), nullable=False)
     author = db.Column(db.String(128), nullable=False)

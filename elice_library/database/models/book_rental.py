@@ -5,7 +5,7 @@ from pytz import timezone
 
 
 class BookRental(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'))
     user = db.relationship('User', backref=db.backref("rental_list"))
