@@ -20,7 +20,7 @@ class BookRental(db.Model):
 
 
     @property
-    def has_return_date(self):
+    def has_finished(self):
         return self.returned_at is not None
 
     
@@ -33,7 +33,7 @@ class BookRental(db.Model):
     def create(user, book):
         try:            
             rental = BookRental(user=user, book=book)
-            
+
             user.add_rental_info(rental)
             book.add_rental_info(rental)
             book.reduce_stock()

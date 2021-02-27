@@ -7,8 +7,8 @@
 </div>
 </p>
 <div class="jumbotron row justify-content-center">
-    {% if rental_infos %}
-        {% for rental in rental_infos %}
+    {% if rental_list %}
+        {% for rental in rental_list %}
         <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_return') }}">
             <input type="hidden" class="d-none" name="book" value="{{ rental.book.id }}">
             <div class="card-body">

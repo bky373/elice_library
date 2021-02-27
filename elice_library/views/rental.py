@@ -20,7 +20,7 @@ def book_rental():
         if book.has_stock and not BookRental.find_by_ids(user_id, book_id):
             BookRental.create(user, book)
             return redirect(url_for('main.index'))
-    return render_template('rental/books_rental.html', rental_infos=user.rental_list)
+    return render_template('rental/books_rental.html', rental_list=user.rental_list)
 
 
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
@@ -37,7 +37,6 @@ def book_return():
         rental = BookRental.find_by_ids(user_id, book_id)
         rental.save_return_date()
 
-        db.session.commit()
         return redirect(url_for('rental.book_rental'))
-    rental_infos = [rental for rental in user.rental_list if not rental.has_return_date]
-    return render_template('rental/books_return.html', rental_infos=rental_infos)
+    rental_infos = [rental for rental in user.rental_list if not rental.has_finished]
+    return render_template('rental/books_return.html', rental_list=rental_infos)

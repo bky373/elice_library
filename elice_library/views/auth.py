@@ -50,7 +50,7 @@ def login():
             logging.warning(err.messages)
             return err.messages, 422
 
-        user = User.find_by_email(email=email)
+        user = User.find_by_email(email)
         if not user:
             return {'message': 'This email does not exist'}, 400
         elif not user.check_password(password):
