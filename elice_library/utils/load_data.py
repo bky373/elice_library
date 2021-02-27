@@ -2,11 +2,12 @@ import csv
 from datetime import date, datetime
 
 from elice_library import db, create_app
-from elice_library.models import Book
+from elice_library.database.models.book import Book
+
 
 app = create_app()
 with app.app_context():
-    with open('library_data.csv', 'r', encoding='UTF8') as csvfile:
+    with open('utils/library_data.csv', 'r', encoding='UTF8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             published_at = datetime.strptime(
