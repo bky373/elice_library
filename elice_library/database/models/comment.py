@@ -1,6 +1,7 @@
 import logging
 from elice_library.database.config import db
 from datetime import datetime
+from pytz import timezone
 
 
 class Comment(db.Model):
@@ -10,7 +11,7 @@ class Comment(db.Model):
     book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'), nullable=False)
     book = db.relationship('Book', backref=db.backref('comments'))
     content = db.Column(db.Text, nullable=False)
-    posted_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    posted_at = db.Column(db.DateTime, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
 
 
@@ -19,6 +20,7 @@ class Comment(db.Model):
         self.book = book
         self.content = content
         self.rating = rating
+        self.posted_at = datetime.now(timezone('Asia/Seoul'))
 
 
     def __repr__(self):

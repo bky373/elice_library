@@ -4,6 +4,7 @@ from marshmallow import Schema, INCLUDE, fields, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
+from pytz import timezone
 
 
 class User(db.Model):
@@ -11,13 +12,14 @@ class User(db.Model):
     username = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-    joined_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    joined_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
 
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+        self.joined_at = datetime.now(timezone('Asia/Seoul'))
 
 
     def check_password(self, password):
