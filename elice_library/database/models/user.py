@@ -10,7 +10,7 @@ from pytz import timezone
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), nullable=False)
-    email = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), primary_key=True, unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     joined_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
