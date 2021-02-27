@@ -38,5 +38,5 @@ def book_return():
         rental.save_return_date()
 
         return redirect(url_for('rental.book_rental'))
-    rental_infos = [rental for rental in user.rental_list if not rental.has_finished]
-    return render_template('rental/books_return.html', rental_list=rental_infos)
+    unfinished_rentals = [rental for rental in user.rental_list if not rental.has_finished]
+    return render_template('rental/books_return.html', rental_list=unfinished_rentals)
