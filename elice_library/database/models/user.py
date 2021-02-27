@@ -31,6 +31,11 @@ class User(db.Model):
         return self.rental_list
 
 
+    def add_comment(self, comment):
+        self.comments.append(comment)
+        return self.comments
+
+
     def __repr__(self):
         return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
             self.id, self.username, self.email, self.password, self.joined_at)

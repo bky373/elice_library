@@ -32,6 +32,7 @@ class Comment(db.Model):
     def create(user, book, content, rating):
         try:
             comment = Comment(user=user, book=book, content=content, rating=rating)
+          
             db.session.add(comment)
             db.session.commit()
             return comment

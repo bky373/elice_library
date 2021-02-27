@@ -21,10 +21,13 @@ def comment_detail():
         rating = request.form.get('rating')
         
         # 평점이 0 점이면,
-        if not rating: return {'message': 'No rating value is provided'}
+        if not rating: return {'message': 'No rating value provided'}
         
-        # 댓글이 문제없이 생성되고, 책 평균 평점이 정상적으로 갱신되면
+        # comment가 정상적으로 생성되면
         comment = Comment.create(user, book, content, rating)
-        if comment and book.update_rating_average():
-            return redirect(url_for('books.book_detail', book_id=book.id))
+        if comment:             
+            user.add_comment(comment)
+            book.add_comment(comment)
+            book.update_rating()
+        return redirect(url_for('books.book_detail', book_id=book.id))
     return redirect(url_for('main.index'))

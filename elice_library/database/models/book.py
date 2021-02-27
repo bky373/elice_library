@@ -37,17 +37,14 @@ class Book(db.Model):
         return self.rental_list
 
 
-    def update_rating_average(self):
-        try:
-            self.rating = round(
-                sum([comment.rating for comment in self.comments])/len(self.comments))
-            db.session.commit()
-        except ArithmeticError as e:
-            logging.warning(e)
-            return None
-        except Exception as e:
-            logging.warning(e)
-            return None
+    def add_comment(self, comment):
+        self.comments.append(comment)
+        return self.comments
+
+
+    def update_rating(self):
+        self.rating = round(sum([comment.rating for comment in self.comments])/len(self.comments))
+        db.session.commit()
         return self.rating
 
 
