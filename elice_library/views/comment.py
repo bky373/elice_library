@@ -29,5 +29,5 @@ def comment_detail():
             user.add_comment(comment)
             book.add_comment(comment)
             book.update_rating()
-        return redirect(url_for('books.book_detail', book_id=book.id))
+        return redirect('{}#comments'.format(url_for('books.book_detail', book_id=book.id)))
     return redirect(url_for('main.index'))
