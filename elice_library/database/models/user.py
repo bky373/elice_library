@@ -31,6 +31,11 @@ class User(db.Model):
         return self.rental_list
 
 
+    def __repr__(self):
+        return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
+            self.id, self.username, self.email, self.password, self.joined_at)
+
+
     @staticmethod
     def create(username, email, password):
         try:
@@ -45,11 +50,6 @@ class User(db.Model):
         except Exception as e:
             logging.warning(e)
             return None
-
-
-    def __repr__(self):
-        return "<User(id='%s', name='%s', email='%s', password='%s', joined_at='%s')>" % (
-            self.id, self.username, self.email, self.password, self.joined_at)
 
 
     @staticmethod    
