@@ -18,7 +18,11 @@ def book_rental():
         book = Book.find_by_id(book_id)
 
         if book.has_stock and not BookRental.find_by_ids(user_id, book_id):
-            BookRental.create(user, book)
+            rental = BookRental.create(user, book)
+            if rental:
+                user.add_rental_info(rental)
+                book.add_rental_info(rental)
+                book.reduce_stock()
             return redirect(url_for('main.index'))
     return render_template('rental/books_rental.html', rental_list=user.rental_list)
 

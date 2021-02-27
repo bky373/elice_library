@@ -27,6 +27,7 @@ class BookRental(db.Model):
     
     def save_return_date(self):
         self.returned_at = datetime.now(timezone('Asia/Seoul'))
+        db.session.commit()
         return self.returned_at
 
 
@@ -39,10 +40,6 @@ class BookRental(db.Model):
     def create(user, book):
         try:            
             rental = BookRental(user=user, book=book)
-
-            user.add_rental_info(rental)
-            book.add_rental_info(rental)
-            book.reduce_stock()
 
             db.session.add(rental)
             db.session.commit()

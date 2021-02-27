@@ -24,11 +24,13 @@ class Book(db.Model):
 
     def add_stock(self):
         self.stock_num += 1
+        db.session.commit()
         return self.stock_num
 
 
     def reduce_stock(self):
         self.stock_num -= 1
+        db.session.commit()
         return self.stock_num
 
 
