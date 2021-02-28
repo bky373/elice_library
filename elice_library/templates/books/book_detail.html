@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script type=text/javascript>
+    function create_comment() {
+        const bookId = $("input[name='book_id']").val();
+        const ratings = ['#rating0', '#rating1', '#rating2', '#rating3', '#rating4', '#rating5'];
+        rating_id = ratings.filter(rating => $(rating).is(':checked'))[0];
+        rating = rating_id.charAt(rating_id.length-1);
+        
+        $.ajax({
+            method     : "POST",
+            url        : "{{ url_for('comment.comment_detail') }}",
+            contentType: "application/json",
+            data       : JSON.stringify({
+                book_id : bookId,
+                content : $('#content').val(),
+                rating  : Number(rating),
+            })
+        }).done(function(res) {
+            window.location.reload();
+            location.href = `/books/${bookId}#comments`;
+        }).fail(function (res) {
+            alert(res.responseJSON.message)
+        });
+    }
+</script>
+{% endblock %}
 {% block content %}
 <p>
 <h1 class="mb-3 row">책 정보</h1>
@@ -29,14 +55,14 @@
         </div>
     </div>
 </div>
-<a name="comments"></a>
+<a class="d-block" style="height: 80px;" name="comments"></a>
 <div class="comment-list ml-4">
     <p>
-        <h1 class="mb-3 row">댓글 {{ book.comments|length }}개</h1>
+    <h1 class="mb-3 row border-bottom pb-2">댓글 {{ book.comments|length }}개</h1>
     </p>
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}
-    <form action="" method="POST">
+    <div>
         <input type="hidden" name="book" value="{{ book.id }}">
         <div>
             <div class="card col-md-11 p-3 border-0">
@@ -46,16 +72,21 @@
             </div>
         </div>
         <div class="comment-border"></div>
-    </form>
+    </div>
     {% endfor %}
     {% endwith %}
     <form class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
-        <input type="hidden" name="book" value="{{ book.id }}">
+        <input type="hidden" name="book_id" value="{{ book.id }}">
         <div class="col-md-12">
-            <textarea class="form-control mt-2" name="content" id="content" rows="3"></textarea>
+            <a name="comment-post-btn" class="d-block" style="height:20px;"></a>
+            <textarea class="form-control mt-2" name="content" id="content" rows="3"
+                placeholder="댓글을 작성해주세요."></textarea>
             {% if g.user %}
-            <div class="star-rating float-left">
+            <button type="button" class="btn btn-info float-right mt-3" onclick="create_comment();">작성하기</button>
+            <div class="star-rating mt-2 mb-1 mr-3 float-right">
                 <div class="star-icon">
+                    <input type="radio" name="rating" id="rating0" value="0" checked>
+                    <label for="rating0" class="fa fa-star d-none"></label>
                     <input type="radio" name="rating" id="rating1" value="1">
                     <label for="rating1" class="fa fa-star"></label>
                     <input type="radio" name="rating" id="rating2" value="2">
@@ -68,7 +99,7 @@
                     <label for="rating5" class="fa fa-star"></label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-info float-right my-3">작성하기</button>
+            <div class="my-3" style="height: 40px;"></div>
             {% else %}
             <button type="button" class="btn btn-secondary float-right my-3 disabled shadow-none" style="cursor:default"
                 aria-disabled="true" onclick="return false;">로그인 후 작성하기</button>
