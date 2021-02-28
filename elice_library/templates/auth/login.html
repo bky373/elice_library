@@ -15,7 +15,32 @@
             alert(`${res.username}님이 로그인하였습니다 :)`)
             location.href = "{{ url_for('main.index') }}"
         }).fail(function (res) {
-            alert('로그인에 실패하였습니다')
+            if (res.responseJSON !== undefined) {
+                const json_data = res.responseJSON;
+                if (json_data.hasOwnProperty('email')) {
+                    $('#validate-email').empty();
+                    if (json_data.email.length === 2){
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">${json_data.email[1]}</div>`);
+                    } else if (json_data.email[0] === "Not a valid email address.") {
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">올바른 이메일 형식이 아닙니다.</div>`);
+                    } else {
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">${json_data.email[0]}</div>`);
+                    }
+                } else {
+                    $('#email-caption').addClass('d-none');
+                } 
+
+                if (json_data.hasOwnProperty('password')) {
+                    $('#validate-password').empty();
+                    $('#validate-password').append(`<div id="password-caption" class="figure-caption m-1 text-danger">${json_data.password[0]}</div>`);
+                } else {
+                    $('#password-caption').addClass('d-none');
+                }
+
+                if (json_data.hasOwnProperty('message')) {
+                    alert('로그인에 실패했습니다. 올바른 비밀번호를 입력해주세요.')
+                } 
+            }
         });
     }
 </script>
@@ -28,11 +53,13 @@
     <form class="form col-sm-4" method="POST">
         <div class="form-group">
             <label for="email">이메일</label>
-            <input type="email" class="form-control" id="email" placeholder="abc123@elice.com" name="email">
+            <input type="email" class="form-control" id="email" placeholder="bobo@naver.com" name="email">
+            <div id="validate-email"></div>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
             <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+            <div id="validate-password"></div>
         </div>
         <div class="form-group">
             <button type="button" class="btn btn-info w-100" onclick="login();">로그인</button>

@@ -50,10 +50,8 @@ def login():
             return e.messages, 422
 
         user = User.find_by_email(email)
-        if not user:
-            return {'message': 'This email does not exist'}, 400
-        elif not user.check_password(password):
-            return {'message': 'Passwords do not match'}, 400
+        if not user.check_password(password):
+            return {'message': 'Wrong password provided'}, 400
 
         session.pop('user_id', None)
         session['user_id'] = user.id

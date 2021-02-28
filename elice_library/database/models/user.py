@@ -92,4 +92,10 @@ class UserCreateSchema(ma.Schema):
 
 class UserLoginSchema(ma.Schema):
     email = fields.Email(required=True, validate=not_allow_blank)
-    password = fields.Str(load_only=True, required=True, validate=not_allow_blank)
+    password = fields.Str(required=True, validate=not_allow_blank, load_only=True)
+
+    @validates("email")
+    def validate_email(self, email):
+        if not User.find_by_email(email):
+            raise ValidationError(DOESNT_EXIST_ACCOUNT)
+    

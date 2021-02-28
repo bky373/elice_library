@@ -47,7 +47,6 @@
                 }
 
                 if (json_data.hasOwnProperty('message')) {
-                    console.log(json_data.message)
                     $('#validate-repassword').empty();
                     $('#validate-repassword').append(`<div id="repassword-caption" class="figure-caption m-1 text-danger">${json_data.message}</div>`);
                 } else {
