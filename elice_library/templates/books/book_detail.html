@@ -29,9 +29,10 @@
         </div>
     </div>
 </div>
+<a name="comments"></a>
 <div class="comment-list ml-4">
     <p>
-    <h1 class="mb-3 row">댓글</h1>
+        <h1 class="mb-3 row">댓글 {{ book.comments|length }}개</h1>
     </p>
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}
