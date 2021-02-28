@@ -50,5 +50,6 @@ class BookRental(db.Model):
 
 
     @staticmethod    
-    def find_by_ids(user_id, book_id):
-        return BookRental.query.filter_by(user_id=user_id, book_id=book_id).first()
+    def find_last_by_ids(user_id, book_id):
+        rentals = BookRental.query.filter_by(user_id=user_id, book_id=book_id).all()
+        return rentals[-1] if rentals else None

@@ -2,7 +2,23 @@
 
 {% block script %}
 <script type="text/javascript">
-    const showRentSuccess = name => alert(`"${name}" 을(를) 빌렸습니다!`);
+    function createRental(bookId) {
+        $.ajax({
+            method     : "POST",
+            url        : "{{ url_for('rental.book_rental') }}",
+            contentType: "application/json",
+            data       : JSON.stringify({
+                book_id : Number(bookId)
+            })
+        }).done(function(res) {
+            alert(res.message)
+            window.location.reload();
+        }).fail(function (res) {
+            console.log(res)
+            alert(res.responseJSON.message)
+        });
+    }
+
 </script>
 {% endblock %}
 {% block content %}
@@ -15,7 +31,6 @@
     {% if books %}
         {% for book in books.items %}
         <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_rental') }}">
-            <input type="hidden" class="d-none" name="book" value="{{ book.id }}">
             <div class="card-body">
                 <div class="book-image text-center">
                     <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
@@ -26,20 +41,20 @@
                 <div class="star-rating">
                     <div class="text-dark pb-2">평점 </div>
                     <div class="star-icon">
-                    {% for i in range(1, book.rating + 1) %}
-                    <input type="radio" name="rating" id="rating{{i}}" value="5">
-                    <label for="rating{{i}}" class="fa fa-star active disabled" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
-                    {% endfor %}
-                    {% for i in range(book.rating + 1, 6) %}
-                    <input type="radio" name="rating" id="rating{{i}}" value="5">
-                    <label for="rating{{i}}" class="fa fa-star disabled" style="color: #d8d4d4;" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
-                    {% endfor %}
+                        {% for i in range(1, book.rating + 1) %}
+                        <input type="radio" name="rating" id="rating{{i}}" value="5">
+                        <label for="rating{{i}}" class="fa fa-star active disabled" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                        {% endfor %}
+                        {% for i in range(book.rating + 1, 6) %}
+                        <input type="radio" name="rating" id="rating{{i}}" value="5">
+                        <label for="rating{{i}}" class="fa fa-star disabled" style="color: #d8d4d4;" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                        {% endfor %}
                     </div>
                 </div>
                 {% if g.user %}
                 <div class="text-center my-1">남은 권수: {{ book.stock_num }}권</div>
                     {% if book.stock_num %}
-                    <button type="submit" class="btn btn-info w-75 my-2" onclick="showRentSuccess(`{{ book.book_name }}`);">대여하기</button>
+                    <button type="button" class="btn btn-info w-75 my-2" onclick="createRental(`{{ book.id }}`);">대여하기</button>
                     {% else %}
                     <button class="btn btn-secondary w-75 my-2 disabled shadow-none" style="cursor:default" aria-disabled="true" onclick="return false;" >대여불가</button>
                     {% endif %}
@@ -48,7 +63,7 @@
         </form>
         {% endfor %}
     {% else %}
-    <article id="book${id}" class="card col-md-3 mx-3 my-3 p-3">
+    <article class="card col-md-3 mx-3 my-3 p-3">
         <div class="card-body">
             <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder">등록된 도서가 없습니다.</h2>
         </div>
