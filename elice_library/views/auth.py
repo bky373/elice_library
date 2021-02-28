@@ -3,7 +3,7 @@ from flask import Blueprint, request, abort, jsonify, g, session, redirect, rend
 from elice_library import db
 from elice_library.database.models.user import User, UserCreateSchema, UserLoginSchema
 from marshmallow import ValidationError
-from elice_library.utils.errors import REQUIRED_INPUT_DATA, PASSWORDS_DO_NOT_MATCH, ALREADY_EXIST_ACCOUNT
+from elice_library.utils.error_messages import REQUIRED_INPUT_DATA, PASSWORDS_DO_NOT_MATCH, ALREADY_EXIST_ACCOUNT
 
 auth_bp = Blueprint('auth', __name__)
 user_create_schema = UserCreateSchema()
@@ -39,15 +39,15 @@ def signup():
 def login():
     if request.method == 'POST':
         json_data = request.get_json()
-        if not json_data:
-            return {"message": "No input data provided"}
+        if not json_data: return {"message": "No input data provided"}
+
         try:
             data = user_login_schema.load(json_data)
             email, password = data['email'], data['password']
 
-        except ValidationError as err:
-            logging.warning(err.messages)
-            return err.messages, 422
+        except ValidationError as e:
+            logging.warning(e.messages)
+            return e.messages, 422
 
         user = User.find_by_email(email)
         if not user:

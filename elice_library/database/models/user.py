@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 from pytz import timezone
-from elice_library.utils.errors import REQUIRED_INPUT_DATA, INVALID_USERNAME, ALREADY_EXIST_ACCOUNT, INVALID_PASSWORD
+from elice_library.utils.error_messages import REQUIRED_INPUT_DATA, INVALID_USERNAME, ALREADY_EXIST_ACCOUNT, INVALID_PASSWORD, DOESNT_EXIST_ACCOUNT
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
