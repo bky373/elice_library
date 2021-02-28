@@ -1,0 +1,5 @@
+REQUIRED_INPUT_DATA = '필수 입력 항목입니다. 내용을 입력해주세요.'
+INVALID_USERNAME = '이름은 한글 또는 영문으로만 입력해 주세요.'
+INVALID_PASSWORD = '영문, 숫자, 특수문자를 조합하여 최소 8자리 이상의 길이로 구성해주세요.'
+PASSWORDS_DO_NOT_MATCH = '비밀번호가 일치하지 않습니다.'
+ALREADY_EXIST_ACCOUNT = '이미 등록된 계정입니다.'
