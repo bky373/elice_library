@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+<div class="row">
+    <h1 class="ml-2 mb-3"><i class="fas fa-window-restore"></i>&nbsp;&nbsp;댓글 순</h1>
+</div>
+</p>
+<div class="jumbotron row justify-content-center">
+    {% if books %}
+    {% for book in books %}
+    <div class="card col-md-3 mx-3 my-3 p-3">
+        <div class="card-body">
+            <div class="book-image text-center">
+                <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
+            </div>
+            <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a
+                    href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.book_name }}</a></h2>
+        </div>
+        <div class="text-center">
+            <div class="text-center my-1"><b>댓글 개수 :</b>&nbsp;&nbsp;{{ book.comments|length }}</div>
+            <a href="{{ url_for('books.book_detail', book_id=book.id) }}">
+                <button type="submit" class="btn btn-info w-75 my-2">댓글 보러 가기</button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <article class="card col-md-3 mx-3 my-3 p-3">
+        <div class="card-body">
+            <h2 class="card-title p-2 text-center font-weight-bolder">도서 목록을 가져올 수 없습니다.</h2>
+        </div>
+    </article>
+    {% endif %}
+</div>
+{% endblock %}
