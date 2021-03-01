@@ -19,6 +19,9 @@
         </div>
         <div class="text-center">
             <div class="text-center my-1"><b>출간일 :</b>&nbsp;&nbsp;{{ book.published_at.strftime('%Y년 %m월 %d일') }}</div>
+            <a href="{{ url_for('books.book_detail', book_id=book.id) }}">
+                <button type="submit" class="btn btn-info w-75 my-2">책 보러 가기</button>
+            </a>
         </div>
     </div>
     {% endfor %}
