@@ -59,19 +59,19 @@ class Book(db.Model):
     @staticmethod
     def sort_by_rentals_num():
         books = Book.get_all()
-        sorted_books = [book for book in sorted(books, key=lambda x:len(x.comments), reverse=True)]
+        sorted_books = sorted(books, key=lambda x:len(x.rental_list), reverse=True)
         return sorted_books
 
     @staticmethod
     def sort_by_published_date():
         books = Book.get_all()
-        sorted_books = [book for book in sorted(books, key=lambda x:x.published_at, reverse=True)]
+        sorted_books = sorted(books, key=lambda x:x.published_at, reverse=True)
         return sorted_books
 
     @staticmethod
     def sort_by_comments_num():
         books = Book.get_all()
-        sorted_books = [book for book in sorted(books, key=lambda x:len(x.comments), reverse=True)]
+        sorted_books = sorted(books, key=lambda x:len(x.comments), reverse=True)
         return sorted_books
 
 class BookSchema(ma.Schema):
