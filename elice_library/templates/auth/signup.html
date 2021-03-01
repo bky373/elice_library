@@ -14,11 +14,48 @@
                 repassword: $('#repassword').val()
             })
         }).done(function (res) {
-            alert('반갑습니다! 회원가입에 성공하였습니다 :)')
+            alert(`반갑습니다 ${res.username}님!  회원가입에 성공하였습니다 :)`)
             location.href = "{{ url_for('auth.login') }}"
         }).fail(function (res) {
-            alert('회원가입을 다시 시도해주세요')
+            if (res.responseJSON !== undefined) {
+                const json_data = res.responseJSON;
+                if (json_data.hasOwnProperty('username')) {
+                    $('#validate-username').empty();
+                    $('#validate-username').append(`<div id="name-caption" class="figure-caption m-1 text-danger">${json_data.username[0]}</div>`);
+                } else {
+                    $('#name-caption').addClass('d-none');
+                }
+
+                if (json_data.hasOwnProperty('email')) {
+                    $('#validate-email').empty();
+                    if (json_data.email.length === 2){
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">${json_data.email[1]}</div>`);
+                    } else if (json_data.email[0] === "Not a valid email address.") {
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">올바른 이메일 형식이 아닙니다.</div>`);
+                    } else {
+                        $('#validate-email').append(`<div id="email-caption" class="figure-caption m-1 text-danger">${json_data.email[0]}</div>`);
+                    }
+                } else {
+                    $('#email-caption').addClass('d-none');
+                } 
+
+                if (json_data.hasOwnProperty('password')) {
+                    $('#validate-password').empty();
+                    $('#validate-password').append(`<div id="password-caption" class="figure-caption m-1 text-danger">${json_data.password[0]}</div>`);
+                } else {
+                    $('#password-caption').addClass('d-none');
+                }
+
+                if (json_data.hasOwnProperty('message')) {
+                    $('#validate-repassword').empty();
+                    $('#validate-repassword').append(`<div id="repassword-caption" class="figure-caption m-1 text-danger">${json_data.message}</div>`);
+                } else {
+                    $('#repassword-caption').addClass('d-none');
+                } 
+            }
         });
+
+        
     }
 </script>
 {% endblock %}
@@ -31,21 +68,25 @@
         <div class="form-group">
             <label for="username">이름</label>
             <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username">
+            <div id="validate-username"></div>
         </div>
         <div class="form-group">
             <label for="email">이메일</label>
-            <input type="email" class="form-control" id="email" placeholder="mark111@elice.com" name="email">
+            <input type="email" class="form-control" id="email" placeholder="bobo@naver.com" name="email">
+            <div id="validate-email"></div>
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
             <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+            <div id="validate-password"></div>
         </div>
         <div class="form-group">
             <label>비밀번호 확인</label>
             <input type="password" class="form-control" id="repassword" placeholder="비밀번호 확인" name="repassword">
+            <div id="validate-repassword"></div>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-info w-100" onclick="signup();">등록</button>
+            <button type="button" class="btn btn-info w-100" onclick="signup();">등록하기</button>
         </div>
     </form>
 </div>

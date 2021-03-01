@@ -1,42 +1,99 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script type=text/javascript>
+    function create_comment() {
+        const bookId = $("input[name='book_id']").val();
+        const ratings = ['#rating0', '#rating1', '#rating2', '#rating3', '#rating4', '#rating5'];
+        rating_id = ratings.filter(rating => $(rating).is(':checked'))[0];
+        rating = rating_id.charAt(rating_id.length-1);
+        
+        $.ajax({
+            method     "POST",
+            url        "{{ url_for('comment.comment_detail') }}",
+            contentType: "application/json",
+            data       JSON.stringify({
+                book_id bookId,
+                content $('#content').val(),
+                rating  Number(rating),
+            })
+        }).done(function(res) {
+            window.location.reload();
+            location.href = `/books/${bookId}#comments`;
+        }).fail(function (res) {
+            alert(res.responseJSON.message)
+        });
+    }
+</script>
+{% endblock %}
 {% block content %}
 <p>
-<h1 class="mb-3 row">책 정보</h1>
+<h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
 </p>
 <div id="book-detail" class="row">
-    <div class="jumbotron w-100">
-        <article class="row">
-            <div class="col-md-5 my-2 mr-3 text-center ">
-                <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
-            </div>
-            <div class="card col-md-5 my-2 ml-2 p-3">
-                <div class="card-body">
-                    <h2 class="card-title mb-1 font-weight-bolder">책 이름: {{ book.book_name }}</h2>
-                    <div class="card-text">출판사: {{ book.publisher }}</div>
-                    <div class="card-text">저자: {{ book.author }}</div>
-                    <div class="card-text">출간일: {{ book.published_at.strftime('%Y년 %m월 %d일') }}</div>
-                    <div class="card-text">페이지 수: {{ book.pages }}</div>
-                    <div class="card-text mb-3">ISBN 코드: {{ book.isbn }}</div>
+    <div class="row justify-content-center mb-4 p-4">
+        <div class="col-md-5 mb-1 mr-4 text-center">
+            <img src="{{ book.image_path }}" class="img-fluid p-4" style="width:325px; height:370px" alt="책 이미지" />
+        </div>
+        <div class="card col-md-5 mt-3 ml-1 mr-4 p-3" style="width: 800px; height: 320px;">
+            <div class="card-body mt-2">
+                <div class="text-center border-bottom mb-2 pb-4">
+                    <h4><strong>{{ book.book_name }}</strong></h4>
                 </div>
+                <ul class="card-text card-text-custome mt-4 mb-2">
+                    <li class="float-left row mt-1 mb-1" style="width: 610px;" >
+                        <strong class="col-md-2">저자</strong>
+                        <span class="col-md-4" >:&nbsp;&nbsp;{{ book.author }}</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4 mb-2">
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">출판사</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.publisher }}</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4 mb-2">
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">출간일</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.published_at.strftime('%Y년 %m월 %d일') }}</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4 mb-2">
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">페이지 수</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.pages }} 쪽</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4 mb-2">
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">ISBN 코드</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.isbn }}</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4">
+                    <li class="float-left row" style="width: 610px;">
+                        <strong class="col-md-2">독자 평점</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.rating }}점</span>
+                    </li>
+                </ul>
             </div>
-        </article>
+        </div>
     </div>
-    <div class="jumbotron w-100">
+    <div class="jumbotron ml-2 w-100 mt-3">
         <div class="col-md-10 mx-auto">
-            <h4 class="card-title title mb-4 font-weight-bolder">책 소개</h4>
+            <h4 class="card-title title mb-4 font-weight-bolder border-bottom border-secondary p-2">책 소개</h4>
             <p class="card-text description my-3 p-3">{{ book.description }}</p>
         </div>
     </div>
 </div>
-<a name="comments"></a>
+<a class="d-block" style="height: 80px;" name="comments"></a>
 <div class="comment-list ml-4">
     <p>
-        <h1 class="mb-3 row">댓글 {{ book.comments|length }}개</h1>
+    <h1 class="mb-3 row ml-2 pb-2"><strong>댓글 {{ book.comments|length }}개</strong></h1>
     </p>
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}
-    <form action="" method="POST">
+    <div>
         <input type="hidden" name="book" value="{{ book.id }}">
         <div>
             <div class="card col-md-11 p-3 border-0">
@@ -46,16 +103,21 @@
             </div>
         </div>
         <div class="comment-border"></div>
-    </form>
+    </div>
     {% endfor %}
     {% endwith %}
     <form class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
-        <input type="hidden" name="book" value="{{ book.id }}">
-        <div class="col-md-12">
-            <textarea class="form-control mt-2" name="content" id="content" rows="3"></textarea>
+        <input type="hidden" name="book_id" value="{{ book.id }}">
+        <div class="col-md-11">
+            <a name="comment-post-btn" class="d-block" style="height:20px;"></a>
+            <textarea class="form-control mt-2" name="content" id="content" rows="3"
+                placeholder="댓글을 작성해주세요."></textarea>
             {% if g.user %}
-            <div class="star-rating float-left">
+            <button type="button" class="btn btn-info float-right mt-3" onclick="create_comment();">작성하기</button>
+            <div class="star-rating mt-2 mb-1 mr-3 float-right">
                 <div class="star-icon">
+                    <input type="radio" name="rating" id="rating0" value="0" checked>
+                    <label for="rating0" class="fa fa-star d-none"></label>
                     <input type="radio" name="rating" id="rating1" value="1">
                     <label for="rating1" class="fa fa-star"></label>
                     <input type="radio" name="rating" id="rating2" value="2">
@@ -68,7 +130,7 @@
                     <label for="rating5" class="fa fa-star"></label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-info float-right my-3">작성하기</button>
+            <div class="my-3" style="height: 40px;"></div>
             {% else %}
             <button type="button" class="btn btn-secondary float-right my-3 disabled shadow-none" style="cursor:default"
                 aria-disabled="true" onclick="return false;">로그인 후 작성하기</button>

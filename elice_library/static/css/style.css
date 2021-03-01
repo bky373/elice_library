@@ -20,6 +20,14 @@ li {
     list-style: none;
 }
 
+.btn {
+    font-size: 13px;
+}
+
+.btn-info {
+    background-color: #10b9b0;
+}
+
 .navbar {
     height: 65px;
     font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
@@ -30,11 +38,14 @@ li {
     color: #3b3b3b;
 }
 
+.navbar-brand:hover {
+    color: #10b9b0;
+}
+
 .navbar-nav .nav-link {
     color: #474747;
 }
 
-.navbar-brand:hover,
 .nav-item.active .nav-link,
 .nav-item:hover .nav-link {
     color: #afa998;
@@ -50,12 +61,18 @@ li {
 }
 
 .container h1 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .img {
     max-width: 100px;
     height: 100px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 5px 11px 0 rgba(228, 228, 228, 0.18), 
+                0 4px 15px 0 rgba(207, 207, 207, 0.15);
 }
 
 .card h2 {
@@ -67,13 +84,8 @@ li {
     padding-bottom: 1px;
 }
 
-.jumbotron .title {
-    margin-left: -30px;
-}
-
-.jumbotron .description {
-    font-size: 16px;
-    line-height: 1.7;
+.pagination {
+    font-size: 11px;
 }
 
 .page-item a {
@@ -81,9 +93,38 @@ li {
     padding: 8px 16px;
 }
 
+.page-item.active .page-link {
+    background-color: #10b9b0;
+    border-color: #10b9b0;
+}
+
+.page-item.active a {
+    color: #10b9b0;
+}
+
+.jumbotron {
+    background-color: #eaf5f5;
+    border-radius: 20px;
+}
+
+.jumbotron .title {
+    margin-left: -30px;
+}
+
+.jumbotron .description {
+    margin-top: 5px;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.book-detail .card-text ul li {
+    line-height: 1.6;
+    font-size: 20px;
+}
+
 .comment-border {
-    margin: 0 35px 0 8px;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #e9e8e8;
+    border-radius: 10px;
 }
 
 .star-rating {
@@ -91,7 +132,7 @@ li {
 }
 
 .star-rating div {
-    color: #5bc0de;
+    color: #10b9b0;
     font-size: 13px;
     font-weight: 500;
     text-transform: uppercase;

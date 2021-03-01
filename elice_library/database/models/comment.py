@@ -1,14 +1,16 @@
 import logging
-from elice_library.database.config import db
+from elice_library.database.config import db, ma
 from datetime import datetime
 from pytz import timezone
+from marshmallow import fields, INCLUDE, ValidationError, validates
+from elice_library.utils.error_messages import COMMENT_REQUIRED, GIVE_SCORE_TO_BOOK
 
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     user = db.relationship('User', backref=db.backref('comments'))
-    book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id', ondelete='CASCADE'))
     book = db.relationship('Book', backref=db.backref('comments'))
     content = db.Column(db.Text, nullable=False)
     posted_at = db.Column(db.DateTime, nullable=False)
@@ -39,3 +41,22 @@ class Comment(db.Model):
         except Exception as e:
             logging.warning(e)
             return None
+
+
+# TODO 스키마 이용한 validation 진행
+class CommentSchema(ma.Schema):
+    class Meta:
+        unknown = INCLUDE
+
+    content = fields.Str(required=True)
+    rating = fields.Int(required=True)
+
+    @validates("content")
+    def validate_comment(self, comment):
+        if not comment:
+            raise ValidationError(COMMENT_REQUIRED)
+
+    @validates("rating")
+    def validate_rating(self, rating):
+        if not rating:
+            raise ValidationError(GIVE_SCORE_TO_BOOK)
