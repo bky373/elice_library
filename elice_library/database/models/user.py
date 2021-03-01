@@ -77,7 +77,7 @@ class UserCreateSchema(ma.Schema):
 
     @validates("username")
     def validate_username(self, name):
-        if re.search(r'^(?![가-힣|a-z|A-Z]).', name):
+        if re.search(r'[^가-힣a-zA-Z]', name):
             raise ValidationError(INVALID_USERNAME)
     
     @validates("email")
@@ -87,7 +87,7 @@ class UserCreateSchema(ma.Schema):
 
     @validates("password")
     def validate_password(self, password):
-        if not re.fullmatch(r'^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,}$', password):
+        if not re.fullmatch(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!#%*?&]{8,}$', password):
             raise ValidationError(INVALID_PASSWORD)
 
 class UserLoginSchema(ma.Schema):
