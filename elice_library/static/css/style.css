@@ -20,6 +20,15 @@ li {
     list-style: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+    font-size: 13px;
+}
+
+.form-control {
+    font-size: 14px;
+}
+
 .btn {
     font-size: 13px;
 }
@@ -33,6 +42,10 @@ li {
     font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
 }
 
+.navbar-brand {
+    font-size: 18px;
+}
+
 .navbar-brand,
 .navbar-text {
     color: #3b3b3b;
@@ -43,6 +56,7 @@ li {
 }
 
 .navbar-nav .nav-link {
+    font-size: 15px;
     color: #474747;
 }
 
@@ -71,8 +85,8 @@ li {
 
 .card {
     border-radius: 10px;
-    box-shadow: 0 5px 11px 0 rgba(228, 228, 228, 0.18), 
-                0 4px 15px 0 rgba(207, 207, 207, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(228, 228, 228, 0.18),
+        0 4px 15px 0 rgba(207, 207, 207, 0.15);
 }
 
 .card h2 {
@@ -100,6 +114,19 @@ li {
 
 .page-item.active a {
     color: #10b9b0;
+}
+
+.auth-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px 70px;
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
+}
+
+.login-form {
+    margin-top: 150px;
+    padding: 40px 70px;
 }
 
 .jumbotron {
@@ -148,7 +175,7 @@ li {
     cursor: pointer;
 }
 
-.star-rating input:checked + label~label {
+.star-rating input:checked+label~label {
     color: #d8d4d4;
 }
 
