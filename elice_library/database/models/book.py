@@ -62,6 +62,11 @@ class Book(db.Model):
         sorted_books = [book for book in sorted(books, key=lambda x:len(x.comments), reverse=True)]
         return sorted_books
 
+    @staticmethod
+    def sort_by_published_date():
+        books = Book.get_all()
+        sorted_books = [book for book in sorted(books, key=lambda x:x.published_at, reverse=True)]
+        return sorted_books
 
 class BookSchema(ma.Schema):
     class Meta:
