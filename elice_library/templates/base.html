@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>엘리스 도서관</title>
     
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -28,6 +28,11 @@
         {% block content %}
         {% endblock %}
     </div>
+    <div class="footer jumbotron text-center" style="margin-bottom:0 ">
+        <a href="https://github.com/bky373" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://kdt-gitlab.elice.io/bky373" target="_blank"><i class="fab fa-gitlab"></i></i></a>
+        <p>email: bo373@naver.com</p>
+    </div>      
 </body>
 
 </html>

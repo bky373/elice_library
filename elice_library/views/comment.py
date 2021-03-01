@@ -32,3 +32,8 @@ def comment_detail():
         book.add_comment(comment)
         book.update_rating()
     return {'comments' : comment_schema.dump(book.comments)}
+
+
+@comment_bp.route('/comment-best')
+def comment_best():
+    return render_template('comment/comment_best.html', books=Book.sort_by_comments_num())

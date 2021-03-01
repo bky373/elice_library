@@ -60,11 +60,11 @@
 </script>
 {% endblock %}
 {% block content %}
-<div class="row justify-content-md-center">
-    <div class="col-sm-12 my-2">
-        <h1 class="text-center">회원가입</h1>
+<div class="auth-form justify-content-center">
+    <div class="my-2">
+        <h1 class="col-md-12 mb-4 text-center">회원가입</h1>
     </div>
-    <form class="form col-md-4" method="POST">
+    <form class="form" method="POST">
         <div class="form-group">
             <label for="username">이름</label>
             <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username">
@@ -86,7 +86,7 @@
             <div id="validate-repassword"></div>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-info w-100" onclick="signup();">등록하기</button>
+            <button type="button" class="btn btn-info w-100 mt-2" onclick="signup();">등록하기</button>
         </div>
     </form>
 </div>

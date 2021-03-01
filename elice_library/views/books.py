@@ -18,3 +18,8 @@ def book_list():
 @books_bp.route('/<int:book_id>')
 def book_detail(book_id):
     return render_template('books/book_detail.html', book=Book.find_by_id(book_id))
+
+
+@books_bp.route('/new-arrivals')
+def new_arrivals():
+    return render_template('books/new_arrivals.html', books=Book.sort_by_published_date())

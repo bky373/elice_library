@@ -53,3 +53,8 @@ def book_return():
         return redirect(url_for('rental.book_rental'))
     unfinished_rentals = [rental for rental in user.rental_list if not rental.has_finished]
     return render_template('rental/books_return.html', rental_list=unfinished_rentals)
+
+
+@rental_bp.route('/rental-best')
+def rental_best():
+    return render_template('rental/rental_best.html', books=Book.sort_by_rentals_num())

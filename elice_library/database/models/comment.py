@@ -43,7 +43,6 @@ class Comment(db.Model):
             return None
 
 
-# TODO 스키마 이용한 validation 진행
 class CommentSchema(ma.Schema):
     class Meta:
         unknown = INCLUDE
