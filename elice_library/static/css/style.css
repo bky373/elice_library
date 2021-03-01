@@ -24,6 +24,10 @@ li {
     font-size: 13px;
 }
 
+.btn-info {
+    background-color: #10b9b0;
+}
+
 .navbar {
     height: 65px;
     font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
@@ -34,11 +38,14 @@ li {
     color: #3b3b3b;
 }
 
+.navbar-brand:hover {
+    color: #10b9b0;
+}
+
 .navbar-nav .nav-link {
     color: #474747;
 }
 
-.navbar-brand:hover,
 .nav-item.active .nav-link,
 .nav-item:hover .nav-link {
     color: #afa998;
@@ -54,7 +61,7 @@ li {
 }
 
 .container h1 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .img {
@@ -64,6 +71,8 @@ li {
 
 .card {
     border-radius: 10px;
+    box-shadow: 0 5px 11px 0 rgba(228, 228, 228, 0.18), 
+                0 4px 15px 0 rgba(207, 207, 207, 0.15);
 }
 
 .card h2 {
@@ -73,6 +82,24 @@ li {
 .card-body {
     margin-bottom: 0;
     padding-bottom: 1px;
+}
+
+.pagination {
+    font-size: 11px;
+}
+
+.page-item a {
+    color: black;
+    padding: 8px 16px;
+}
+
+.page-item.active .page-link {
+    background-color: #10b9b0;
+    border-color: #10b9b0;
+}
+
+.page-item.active a {
+    color: #10b9b0;
 }
 
 .jumbotron {
@@ -95,14 +122,9 @@ li {
     font-size: 20px;
 }
 
-.page-item a {
-    color: black;
-    padding: 8px 16px;
-}
-
 .comment-border {
-    margin: 0 35px 0 30px;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #e9e8e8;
+    border-radius: 10px;
 }
 
 .star-rating {
@@ -110,7 +132,7 @@ li {
 }
 
 .star-rating div {
-    color: #5bc0de;
+    color: #10b9b0;
     font-size: 13px;
     font-weight: 500;
     text-transform: uppercase;

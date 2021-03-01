@@ -24,22 +24,28 @@
 {% block content %}
 <div>
     <div class="row">
-        <h1 class="mb-3">전체 도서 목록</h1>
+        <h1 class="ml-2 mb-3"><i class="fas fa-book"></i>&nbsp;&nbsp;전체 도서 목록</h1>
     </div>
 </div>
 <div id="book-list" class="row justify-content-center">
     {% if books %}
         {% for book in books.items %}
-        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_rental') }}">
+        <form class="card col-md-3 mx-4 my-3 p-1" method="POST" action="{{ url_for('rental.book_rental') }}">
             <div class="card-body">
+                {% if book.id == 1 %}
                 <div class="book-image text-center">
-                    <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
+                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 190px; height: 190px;" />
                 </div>
+                {% else %}
+                <div class="book-image text-center">
+                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 160px; height: 190px;" />
+                </div>
+                {% endif %}
                 <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
                 <div class="star-rating">
-                    <div class="text-dark pb-2">평점 </div>
+                    <div class="text-dark pb-2">< 평점 ></div>
                     <div class="star-icon">
                         {% for i in range(1, book.rating + 1) %}
                         <input type="radio" name="rating" id="rating{{i}}" value="5">
@@ -52,7 +58,7 @@
                     </div>
                 </div>
                 {% if g.user %}
-                <div class="text-center my-1">남은 권수: {{ book.stock_num }}권</div>
+                <div class="text-center my-1">남은 권수 :&nbsp;&nbsp;{{ book.stock_num }}권</div>
                     {% if book.stock_num %}
                     <button type="button" class="btn btn-info w-75 my-2" onclick="createRental(`{{ book.id }}`);">대여하기</button>
                     {% else %}

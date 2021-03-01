@@ -9,13 +9,13 @@
         rating = rating_id.charAt(rating_id.length-1);
         
         $.ajax({
-            method     : "POST",
-            url        : "{{ url_for('comment.comment_detail') }}",
+            method     "POST",
+            url        "{{ url_for('comment.comment_detail') }}",
             contentType: "application/json",
-            data       : JSON.stringify({
-                book_id : bookId,
-                content : $('#content').val(),
-                rating  : Number(rating),
+            data       JSON.stringify({
+                book_id bookId,
+                content $('#content').val(),
+                rating  Number(rating),
             })
         }).done(function(res) {
             window.location.reload();
@@ -28,7 +28,7 @@
 {% endblock %}
 {% block content %}
 <p>
-<h1 class="ml-2 mb-3 row">책 정보</h1>
+<h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
 </p>
 <div id="book-detail" class="row">
     <div class="row justify-content-center mb-4 p-4">
@@ -41,39 +41,39 @@
                     <h4><strong>{{ book.book_name }}</strong></h4>
                 </div>
                 <ul class="card-text card-text-custome mt-4 mb-2">
-                    <li class="float-left row mt-1 mb-1" style="width: 600px;" >
-                        <strong class="col-md-2">저자:</strong>
-                        <span class="col-md-4" >{{ book.author }}</span>
+                    <li class="float-left row mt-1 mb-1" style="width: 610px;" >
+                        <strong class="col-md-2">저자</strong>
+                        <span class="col-md-4" >:&nbsp;&nbsp;{{ book.author }}</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4 mb-2">
-                    <li class="float-left row mb-1" style="width: 600px;">
-                        <strong class="col-md-2">출판사:</strong>
-                        <span class="col-md-4">{{ book.publisher }}</span>
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">출판사</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.publisher }}</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4 mb-2">
-                    <li class="float-left row mb-1" style="width: 600px;">
-                        <strong class="col-md-2">출간일:</strong>
-                        <span class="col-md-4">{{ book.published_at.strftime('%Y년 %m월 %d일') }}</span>
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">출간일</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.published_at.strftime('%Y년 %m월 %d일') }}</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4 mb-2">
-                    <li class="float-left row mb-1" style="width: 600px;">
-                        <strong class="col-md-2">페이지 수:</strong>
-                        <span class="col-md-4">{{ book.pages }} 쪽</span>
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">페이지 수</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.pages }} 쪽</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4 mb-2">
-                    <li class="float-left row mb-1" style="width: 600px;">
-                        <strong class="col-md-2">ISBN 코드:</strong>
-                        <span class="col-md-4">{{ book.isbn }}</span>
+                    <li class="float-left row mb-1" style="width: 610px;">
+                        <strong class="col-md-2">ISBN 코드</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.isbn }}</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4">
-                    <li class="float-left row" style="width: 600px;">
-                        <strong class="col-md-2">독자 평점:</strong>
-                        <span class="col-md-4">{{ book.rating }}점</span>
+                    <li class="float-left row" style="width: 610px;">
+                        <strong class="col-md-2">독자 평점</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.rating }}점</span>
                     </li>
                 </ul>
             </div>
@@ -89,7 +89,7 @@
 <a class="d-block" style="height: 80px;" name="comments"></a>
 <div class="comment-list ml-4">
     <p>
-    <h1 class="mb-3 row ml-2 pb-2"><strong>댓글 {{ book.comments|length }}개<strong></strong></h1>
+    <h1 class="mb-3 row ml-2 pb-2"><strong>댓글 {{ book.comments|length }}개</strong></h1>
     </p>
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}

@@ -3,7 +3,7 @@
 {% block content %}
 <p>
 <div class="row">
-    <h1 class="mb-3">대여 기록</h1>
+    <h1 class="ml-2 mb-3"><i class="fas fa-window-restore"></i>&nbsp;&nbsp;대여 기록</h1>
 </div>
 </p>
 <div class="jumbotron row justify-content-center">
@@ -18,11 +18,11 @@
                     href="{{ url_for('books.book_detail', book_id=rental.book.id) }}">{{ rental.book.book_name }}</a></h2>
         </div>
         <div class="text-center">
-            <div class="text-center my-1"><b>대출일자:</b> {{ rental.rented_at.strftime('%Y년 %m월 %d일') }}</div>
+            <div class="text-center my-1"><b>대출일자 :</b>&nbsp;&nbsp;{{ rental.rented_at.strftime('%Y년 %m월 %d일') }}</div>
             {% if rental.returned_at %}
-            <div class="text-center my-1"><b>반납일자:</b>: {{ rental.returned_at.strftime('%Y년 %m월 %d일') }}</div>
+            <div class="text-center my-1"><b>반납일자 :</b>&nbsp;&nbsp;{{ rental.returned_at.strftime('%Y년 %m월 %d일') }}</div>
             {% else %}
-            <div class="text-center my-1 text-white"><b>반납일자:</b>: {{ rental.returned_at }}</div>
+            <div class="text-center my-1 text-white"><b>반납일자:</b> {{ rental.returned_at }}</div>
             {% endif %}
         </div>
     </div>
