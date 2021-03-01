@@ -119,6 +119,7 @@ textarea::placeholder {
 .auth-form {
     max-width: 500px;
     margin: 0 auto;
+    margin-bottom: 100px;
     padding: 20px 70px;
     border: 1px solid #e6e6e6;
     border-radius: 15px;
@@ -182,4 +183,26 @@ textarea::placeholder {
 .star-rating label:active {
     transform: scale(0.8);
     transition: 0.3s ease;
+}
+
+
+.footer {
+    margin-top: 150px;
+    padding-top: 30px;
+    padding-bottom: 0px;
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
+    border-radius: 0;
+}
+
+.footer a {
+    padding-right: 10px;
+    font-size: 25px;
+}
+
+.footer p {
+    margin-top: 8px;
+    margin-bottom: 0;
+    padding-bottom: 40px;
+    color: #8a8a8a;
+    font-size: 14px;
 }
