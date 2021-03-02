@@ -97,9 +97,15 @@
         <input type="hidden" name="book" value="{{ book.id }}">
         <div>
             <div class="card col-md-11 p-3 border-0">
-                <div class="ml-4 p-1 font-weight-bolder" style="white-space: pre-line;">{{ comment.user.username
-                    }}&nbsp;&nbsp;<small>{{ comment.posted_at.strftime('%Y.%m.%d %H:%m') }}</small></div>
-                <div class="ml-4 p-1" style="white-space: pre-line;">{{ comment.content }}</div>
+                <div class="ml-3 p-2">
+                    <div class="row">
+                        <img src="//i1.daumcdn.net/thumb/C100x100/?fname=https://t1.daumcdn.net/tistory_admin/blog/admin/profile_default_00.png" class="rounded-circle mr-3" alt="프로필 기본 이미지" style="width: 43px; height: 43px;">
+                        <span>
+                            <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{ comment.posted_at.strftime('%Y.%m.%d %H:%m') }}</small></span>
+                            <div class="mt-1 w-100" style="white-space: pre-line;">{{ comment.content }}</div>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="comment-border"></div>
