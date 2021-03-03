@@ -2,9 +2,9 @@ import logging
 from elice_library.database.config import db
 from marshmallow import ValidationError
 from typing import List
-from elice_library.database.models.book import Book
 from elice_library.database.models.user import User
 from elice_library.database.models.book_rental import BookRental
+from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import BOOK_ALL_RENTED, BOOK_ALREADY_RENTED
 
 
@@ -41,9 +41,9 @@ class BookRentalService():
 
     @staticmethod
     def finish_rental(user_id, book_id) -> BookRental:
-        book = Book.find_by_id(book_id)
+        book = BookService.find_by_id(book_id)
         book.get_returned()
 
-        existed = BookRentalService.find_last_by_ids(user_id, book_id)
-        existed.finish()
-        return existed
+        existed_rental = BookRentalService.find_last_by_ids(user_id, book_id)
+        existed_rental.finish()
+        return existed_rental
