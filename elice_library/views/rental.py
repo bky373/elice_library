@@ -3,10 +3,9 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from marshmallow import ValidationError
 from elice_library import db
 from elice_library.database.models.user import User
-from elice_library.database.models.book_rental import BookRental
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import BOOK_ALL_RENTED
-from elice_library.services.book_rental import BookRentalService
+from elice_library.services.book_rental_service import BookRentalService
 
 rental_bp = Blueprint('rental', __name__)
 
