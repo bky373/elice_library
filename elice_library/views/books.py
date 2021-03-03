@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from elice_library.database.models.book import Book, BookSchema
+from elice_library.database.models.book import Book
 from elice_library import db
 
 books_bp = Blueprint('books', __name__, url_prefix='/books')
