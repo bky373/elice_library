@@ -1,17 +1,18 @@
 import logging
 from datetime import datetime
+from flask import Blueprint, request, render_template, redirect, url_for, session
+from marshmallow import ValidationError
 from elice_library import db
 from elice_library.database.models.user import User
 from elice_library.database.models.comment import Comment
 from elice_library.database.models.comment import CommentSchema
 from elice_library.services.book_service import BookService
-from flask import Blueprint, request, render_template, redirect, url_for, session
 from elice_library.utils.error_messages import COMMENT_REQUIRED, GIVE_SCORE_TO_BOOK
-from marshmallow import ValidationError
 
 
 comment_bp = Blueprint('comment', __name__, url_prefix='/comment')
 comment_schema = CommentSchema(many=True)
+book_service = BookService()
 
 @comment_bp.route('/', methods=('POST', ))
 def comment_detail():
@@ -23,7 +24,7 @@ def comment_detail():
 
     user_id = session['user_id']
     user = User.find_by_id(user_id)
-    book = BookService.find_by_id(book_id)
+    book = book_service.find_by_id(book_id)
     
     # comment가 정상적으로 생성되면
     comment = Comment.create(user, book, content, rating)
@@ -34,4 +35,4 @@ def comment_detail():
 
 @comment_bp.route('/comment-best')
 def comment_best():
-    return render_template('comment/comment_best.html', books=BookService.sort_by_comments_num())
+    return render_template('comment/comment_best.html', books=book_service.sort_by_comments_num())

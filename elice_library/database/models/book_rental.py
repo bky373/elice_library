@@ -1,7 +1,6 @@
-import logging
-from elice_library.database.config import db
 from datetime import datetime
 from pytz import timezone
+from elice_library.database.config import db
 
 
 class BookRental(db.Model):
@@ -32,5 +31,4 @@ class BookRental(db.Model):
 
     @staticmethod
     def create(user, book):
-        rental = BookRental(user=user, book=book)
-        return rental
+        return BookRental(user=user, book=book)

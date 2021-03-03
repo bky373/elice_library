@@ -1,4 +1,3 @@
-import logging
 from elice_library.database.config import db, ma
 
 
@@ -22,17 +21,14 @@ class Book(db.Model):
 
     def rent(self):
         self.stock_num -= 1
-        db.session.commit()
-        return self.stock_num
+        return self
 
     def get_returned(self):
         self.stock_num += 1
-        db.session.commit()
-        return self.stock_num
+        return self
 
     def update_rating(self):
         self.rating = round(sum([comment.rating for comment in self.comments])/len(self.comments))
-        db.session.commit()
         return self.rating
 
     def __repr__(self):
