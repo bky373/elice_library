@@ -73,8 +73,3 @@ class Book(db.Model):
         books = Book.get_all()
         sorted_books = sorted(books, key=lambda x:len(x.comments), reverse=True)
         return sorted_books
-
-class BookSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "book_name", "publisher", "author", "published_at",
-                  "pages", "isbn", "description", "link", "image_path", "stock_num", "rating")

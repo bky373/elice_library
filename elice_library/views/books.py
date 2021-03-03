@@ -3,7 +3,6 @@ from elice_library.database.models.book import Book, BookSchema
 from elice_library import db
 
 books_bp = Blueprint('books', __name__, url_prefix='/books')
-book_schema = BookSchema()
 
 ROWS_PER_PAGE = 8
 
