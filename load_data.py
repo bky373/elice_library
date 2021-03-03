@@ -1,4 +1,5 @@
 import csv
+import random
 from datetime import date, datetime
 
 from elice_library import create_app
@@ -31,8 +32,8 @@ with app.app_context():
                 description=row['description'],
                 link=row['link'],
                 image_path=image_path,
-                stock_num=1,
-                rating=3
+                stock_num=random.randrange(1,6),
+                rating=random.randrange(1,6)
             )
             db.session.add(book)
         db.session.commit()

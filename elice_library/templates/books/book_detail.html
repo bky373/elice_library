@@ -2,20 +2,20 @@
 
 {% block script %}
 <script type=text/javascript>
-    function create_comment() {
+    function createBookComment() {
         const bookId = $("input[name='book_id']").val();
         const ratings = ['#rating0', '#rating1', '#rating2', '#rating3', '#rating4', '#rating5'];
         rating_id = ratings.filter(rating => $(rating).is(':checked'))[0];
         rating = rating_id.charAt(rating_id.length-1);
         
         $.ajax({
-            method     "POST",
-            url        "{{ url_for('comment.comment_detail') }}",
+            method    : "POST",
+            url       : "{{ url_for('comment.comment_detail') }}",
             contentType: "application/json",
-            data       JSON.stringify({
-                book_id bookId,
-                content $('#content').val(),
-                rating  Number(rating),
+            data       :JSON.stringify({
+                book_id :bookId,
+                content :$('#content').val(),
+                rating  :Number(rating),
             })
         }).done(function(res) {
             window.location.reload();
@@ -41,9 +41,9 @@
                     <h4><strong>{{ book.book_name }}</strong></h4>
                 </div>
                 <ul class="card-text card-text-custome mt-4 mb-2">
-                    <li class="float-left row mt-1 mb-1" style="width: 610px;" >
+                    <li class="float-left row mt-1 mb-1" style="width: 610px;">
                         <strong class="col-md-2">저자</strong>
-                        <span class="col-md-4" >:&nbsp;&nbsp;{{ book.author }}</span>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.author }}</span>
                     </li>
                 </ul>
                 <ul class="card-text mt-4 mb-2">
@@ -96,10 +96,18 @@
     <div>
         <input type="hidden" name="book" value="{{ book.id }}">
         <div>
-            <div class="card col-md-11 p-3 border-0">
-                <div class="ml-4 p-1 font-weight-bolder" style="white-space: pre-line;">{{ comment.user.username
-                    }}&nbsp;&nbsp;<small>{{ comment.posted_at }}</small></div>
-                <div class="ml-4 p-1" style="white-space: pre-line;">{{ comment.content }}</div>
+            <div class="card col-md-12 p-3 border-0">
+                <div class="ml-3 p-2">
+                    <div class="row">
+                        <img src="//i1.daumcdn.net/thumb/C100x100/?fname=https://t1.daumcdn.net/tistory_admin/blog/admin/profile_default_00.png"
+                            class="rounded-circle mr-3" alt="프로필 기본 이미지" style="width: 43px; height: 43px;">
+                        <span>
+                            <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{
+                                    comment.posted_at.strftime('%Y.%m.%d %H:%m') }}</small></span>
+                            <div class="mt-1 w-100" style="white-space: pre-line;">{{ comment.content }}</div>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="comment-border"></div>
@@ -113,7 +121,7 @@
             <textarea class="form-control mt-2" name="content" id="content" rows="3"
                 placeholder="댓글을 작성해주세요."></textarea>
             {% if g.user %}
-            <button type="button" class="btn btn-info float-right mt-3" onclick="create_comment();">작성하기</button>
+            <button type="button" class="btn btn-info float-right mt-3" onclick="createBookComment();">작성하기</button>
             <div class="star-rating mt-2 mb-1 mr-3 float-right">
                 <div class="star-icon">
                     <input type="radio" name="rating" id="rating0" value="0" checked>
