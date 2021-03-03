@@ -2,16 +2,17 @@ import logging
 from datetime import datetime
 from flask import Blueprint, request, render_template, redirect, url_for, session
 from marshmallow import ValidationError
-from elice_library import db
-from elice_library.database.models.user import User
 from elice_library.database.models.comment import Comment
 from elice_library.database.models.comment import CommentSchema
+from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import COMMENT_REQUIRED, GIVE_SCORE_TO_BOOK
 
 
 comment_bp = Blueprint('comment', __name__, url_prefix='/comment')
+
 comment_schema = CommentSchema(many=True)
+user_service = UserService()
 book_service = BookService()
 
 @comment_bp.route('/', methods=('POST', ))
@@ -23,7 +24,7 @@ def comment_detail():
     if not rating: return {'message': GIVE_SCORE_TO_BOOK}, 400    
 
     user_id = session['user_id']
-    user = User.find_by_id(user_id)
+    user = user_service.find_by_id(user_id)
     book = book_service.find_by_id(book_id)
     
     # comment가 정상적으로 생성되면

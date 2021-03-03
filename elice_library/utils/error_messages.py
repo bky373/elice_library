@@ -4,6 +4,7 @@ INVALID_PASSWORD = '영문, 숫자, 특수문자를 조합하여 최소 8자리 
 PASSWORDS_DO_NOT_MATCH = '비밀번호가 일치하지 않습니다.'
 ALREADY_EXIST_ACCOUNT = '이미 등록된 계정입니다.'
 DOESNT_EXIST_ACCOUNT = '존재하지 않는 계정입니다.' 
+WRONG_PASSWORD_PROVIDED = 'Wrong password provided'
 
 COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
 GIVE_SCORE_TO_BOOK = '책에 대한 별 점수를 매겨주세요 :)'

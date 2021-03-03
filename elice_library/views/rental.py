@@ -1,41 +1,40 @@
 from datetime import datetime
 from flask import Blueprint, request, render_template, redirect, url_for, session
 from marshmallow import ValidationError
-from elice_library import db
-from elice_library.database.models.user import User
+from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import BOOK_ALL_RENTED
 from elice_library.services.book_rental_service import BookRentalService
 
 
 rental_bp = Blueprint('rental', __name__)
+
+user_service = UserService()
 book_service = BookService()
 book_rental_service = BookRentalService()
 
 @rental_bp.route('/books-rental', methods=('GET', 'POST'))
 def book_rental():
     user_id = session['user_id']
-    user = User.find_by_id(user_id)
 
     if request.method == 'POST':
-        json_data = request.get_json()
-        book_id = json_data['book_id']
-
-        book = book_service.find_by_id(book_id)
-
         try:
-            book_rental_service.start_rent(user, book)
+            json_data = request.get_json()
+            book_id = json_data['book_id']
+
+            book_rental_service.start_rent(user_id, book_id)
+        
         except ValidationError as e:
             return {'message' : e.messages}, 400
 
-        return {'message': f'"{book.book_name}"을(를) 빌렸습니다.'}
-    return render_template('rental/books_rental.html', rental_list=user.rental_list)
+        return {'message': f'"{book_service.find_by_id(book_id).book_name}"을(를) 빌렸습니다.'}
+    return render_template('rental/books_rental.html', rental_list=book_rental_service.get_rental_list_by(user_id))
 
 
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
 def book_return():
     user_id = session['user_id']
-
+    
     if request.method == 'POST':
         book_id = request.form.get('book')
 

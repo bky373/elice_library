@@ -3,11 +3,13 @@ from elice_library.database.config import db
 from marshmallow import ValidationError
 from typing import List
 from elice_library.database.models.book_rental import BookRental
+from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import BOOK_ALL_RENTED, BOOK_ALREADY_RENTED
 
 
 class BookRentalService:
+    user_service = UserService()
     book_service = BookService()
 
     def find_all_by_user_id(self, user_id) -> List[BookRental]:
@@ -21,7 +23,10 @@ class BookRentalService:
         filtered = BookRental.query.filter_by(user_id=user_id, book_id=book_id).all()
         return filtered[-1] if filtered else None
 
-    def start_rent(self, user, book) -> BookRental:
+    def start_rent(self, user_id, book_id) -> BookRental:
+        user = self.user_service.find_by_id(user_id)
+        book = self.book_service.find_by_id(book_id)
+
         if not book.can_rent:
             raise ValidationError(BOOK_ALL_RENTED)
         
@@ -43,6 +48,10 @@ class BookRentalService:
         selected.finish_rental()
         self.save_to_db(selected)
         return selected
+
+    def get_rental_list_by(self, user_id) -> List[BookRental]:
+        user = self.user_service.find_by_id(user_id)
+        return user.rental_list
 
     def save_to_db(self, rental) -> None:
         db.session.add(rental)
