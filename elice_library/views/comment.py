@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
 from marshmallow import ValidationError
-from elice_library.schemas.comment_scheme import CommentSchema
+from elice_library.domain.schemas.comment_scheme import CommentSchema
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.services.comment_service import CommentService

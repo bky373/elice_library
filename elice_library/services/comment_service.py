@@ -1,7 +1,7 @@
 from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
-from elice_library.database.models.comment import Comment
+from elice_library.domain.models.comment import Comment
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import COMMENT_REQUIRED, SCORE_REQUIRED

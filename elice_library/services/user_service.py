@@ -1,7 +1,7 @@
 from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
-from elice_library.database.models.user import User
+from elice_library.domain.models.user import User
 from elice_library.utils.error_messages import REQUIRED_INPUT_DATA, PASSWORDS_DO_NOT_MATCH, ALREADY_EXIST_ACCOUNT, DOESNT_EXIST_ACCOUNT, WRONG_PASSWORD_PROVIDED
 
 

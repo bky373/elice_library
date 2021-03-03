@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 from elice_library import create_app
 from elice_library.database.config import db
-from elice_library.database.models.book import Book
+from elice_library.domain.models.book import Book
 
 
 app = create_app()

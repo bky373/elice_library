@@ -2,7 +2,7 @@ import logging
 from elice_library.database.config import db
 from marshmallow import ValidationError
 from typing import List
-from elice_library.database.models.book_rental import BookRental
+from elice_library.domain.models.book_rental import BookRental
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.error_messages import BOOK_ALL_RENTED, BOOK_ALREADY_RENTED

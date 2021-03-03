@@ -1,6 +1,6 @@
 from typing import List
 from elice_library.database.config import db
-from elice_library.database.models.book import Book
+from elice_library.domain.models.book import Book
 
 
 class BookService:
