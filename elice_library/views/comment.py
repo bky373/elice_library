@@ -1,12 +1,9 @@
-import logging
-from datetime import datetime
 from flask import Blueprint, request, render_template, redirect, url_for, session
 from marshmallow import ValidationError
-from elice_library.database.models.comment import Comment
-from elice_library.database.models.comment import CommentSchema
+from elice_library.schemas.comment_scheme import CommentSchema
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
-from elice_library.utils.error_messages import COMMENT_REQUIRED, GIVE_SCORE_TO_BOOK
+from elice_library.services.comment_service import CommentService
 
 
 comment_bp = Blueprint('comment', __name__, url_prefix='/comment')
@@ -14,24 +11,22 @@ comment_bp = Blueprint('comment', __name__, url_prefix='/comment')
 comment_schema = CommentSchema(many=True)
 user_service = UserService()
 book_service = BookService()
+comment_service = CommentService()
+
 
 @comment_bp.route('/', methods=('POST', ))
 def comment_detail():
-    data = request.get_json()
-    content, rating, book_id = data['content'], data['rating'], data['book_id']
+    try:
+        data = request.get_json()
+        content, rating, book_id = data['content'], data['rating'], data['book_id']
 
-    if not content: return {'message': COMMENT_REQUIRED}, 400   
-    if not rating: return {'message': GIVE_SCORE_TO_BOOK}, 400    
+        user_id = session['user_id']
+        
+        comment_service.add_comment(user_id, book_id, content, rating)
 
-    user_id = session['user_id']
-    user = user_service.find_by_id(user_id)
-    book = book_service.find_by_id(book_id)
-    
-    # comment가 정상적으로 생성되면
-    comment = Comment.create(user, book, content, rating)
-    if comment:             
-        book.update_rating()
-    return {'comments' : comment_schema.dump(book.comments)}
+    except ValidationError as e:
+        return {'message' : e.messages}, 400
+    return {'comments' : comment_schema.dump(comment_service.get_comments_by(book_id))}
 
 
 @comment_bp.route('/comment-best')

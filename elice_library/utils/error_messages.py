@@ -7,7 +7,7 @@ DOESNT_EXIST_ACCOUNT = '존재하지 않는 계정입니다.'
 WRONG_PASSWORD_PROVIDED = 'Wrong password provided'
 
 COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
-GIVE_SCORE_TO_BOOK = '책에 대한 별 점수를 매겨주세요 :)'
+SCORE_REQUIRED = '책에 대한 별 점수를 매겨주세요 :)'
 
 BOOK_ALREADY_RENTED = '책을 이미 대여하였습니다.'
 BOOK_ALL_RENTED = '책이 모두 대여 중입니다.'

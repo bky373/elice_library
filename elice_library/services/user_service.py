@@ -9,7 +9,7 @@ class UserService:
     def find_by_id(self, user_id) -> User:
         return User.query.filter_by(id=user_id).first()
     
-    def find_by_email(self, email):
+    def find_by_email(self, email) -> User:
         return User.query.filter_by(email=email).first()
 
     def sign_up(self, username, email, password, re_password) -> User:
@@ -26,7 +26,7 @@ class UserService:
         self.save_to_db(user)
         return user
 
-    def login(self, email, password):
+    def login(self, email, password) -> User:
         existed = self.find_by_email(email)
         if not existed:
             raise ValidationError(DOESNT_EXIST_ACCOUNT)
@@ -39,5 +39,3 @@ class UserService:
     def save_to_db(self, user) -> None:
         db.session.add(user)
         db.session.commit()
-
-        

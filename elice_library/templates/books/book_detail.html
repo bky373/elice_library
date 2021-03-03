@@ -94,7 +94,6 @@
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}
     <div>
-        <input type="hidden" name="book" value="{{ book.id }}">
         <div>
             <div class="card col-md-12 p-3 border-0">
                 <div class="ml-3 p-2">
@@ -103,7 +102,7 @@
                             class="rounded-circle mr-3" alt="프로필 기본 이미지" style="width: 43px; height: 43px;">
                         <span>
                             <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{
-                                    comment.posted_at.strftime('%Y.%m.%d %H:%m') }}</small></span>
+                                    comment.posted_at.strftime('%Y.%m.%d %H:%M') }}</small></span>
                             <div class="mt-1 w-100" style="white-space: pre-line;">{{ comment.content }}</div>
                         </span>
                     </div>

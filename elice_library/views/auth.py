@@ -46,6 +46,7 @@ def login():
 
             session.pop('user_id', None)
             session['user_id'] = user.id
+            
         except ValidationError as e:
             return {'message' : e.messages}, 400
 
