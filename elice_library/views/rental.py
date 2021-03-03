@@ -9,7 +9,6 @@ from elice_library.services.book_rental_service import BookRentalService
 
 rental_bp = Blueprint('rental', __name__)
 
-
 @rental_bp.route('/books-rental', methods=('GET', 'POST'))
 def book_rental():
     user_id = session['user_id']
@@ -32,16 +31,16 @@ def book_rental():
 
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
 def book_return():
+    book_rental_service = BookRentalService()
     user_id = session['user_id']
 
     if request.method == 'POST':
         book_id = request.form.get('book')
        
-        BookRentalService.finish_rental(user_id, book_id)
-        
+        book_rental_service.finish_rental(user_id, book_id)
         return redirect(url_for('rental.book_rental'))
         
-    not_finished = BookRentalService.find_not_finished_by_user_id(user_id)
+    not_finished = book_rental_service.find_not_finished_by_user_id(user_id)
     return render_template('rental/books_return.html', rental_list=not_finished)
 
 
