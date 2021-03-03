@@ -44,10 +44,10 @@ class BookRentalService:
         book = self.book_service.find_by_id(book_id)
         book.get_returned()
 
-        selected = self.find_last_by_ids(user_id, book_id)
-        selected.finish_rental()
-        self.save_to_db(selected)
-        return selected
+        rental = self.find_last_by_ids(user_id, book_id)
+        rental.finish_rent()
+        self.save_to_db(rental)
+        return rental
 
     def get_rental_list_by(self, user_id) -> List[BookRental]:
         user = self.user_service.find_by_id(user_id)

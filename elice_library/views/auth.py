@@ -1,4 +1,3 @@
-import logging
 from flask import Blueprint, request, abort, jsonify, g, session, redirect, render_template, url_for
 from marshmallow import ValidationError
 from elice_library.schemas.user_scheme import UserCreateSchema, UserLoginSchema
@@ -28,7 +27,6 @@ def signup():
             )
 
         except ValidationError as e:
-            logging.warning(e.messages)
             return {'message' : e.messages}, 400
 
         return {'username': user.username}, 201

@@ -2,11 +2,11 @@ from flask import Blueprint, render_template, request
 from elice_library.services.book_service import BookService
 
 
-
 books_bp = Blueprint('books', __name__, url_prefix='/books')
 
 ROWS_PER_PAGE = 8
 book_service = BookService()
+
 
 @books_bp.route('/')
 def book_list():

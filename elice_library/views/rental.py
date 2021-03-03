@@ -3,7 +3,6 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from marshmallow import ValidationError
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
-from elice_library.utils.error_messages import BOOK_ALL_RENTED
 from elice_library.services.book_rental_service import BookRentalService
 
 
@@ -34,9 +33,9 @@ def book_rental():
 @rental_bp.route('/books-return', methods=('GET', 'POST'))
 def book_return():
     user_id = session['user_id']
-    
+
     if request.method == 'POST':
-        book_id = request.form.get('book')
+        book_id = request.form.get('book_id')
 
         book_rental_service.finish_rent(user_id, book_id)
         return redirect(url_for('rental.book_rental'))

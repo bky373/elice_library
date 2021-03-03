@@ -21,7 +21,7 @@ class BookRental(db.Model):
     def is_finished(self):
         return self.returned_at is not None
 
-    def finish_rental(self):
+    def finish_rent(self):
         self.returned_at = datetime.now(timezone('Asia/Seoul'))
         return self.returned_at
 
