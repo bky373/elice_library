@@ -22,7 +22,7 @@ class BookRental(db.Model):
     def is_finished(self):
         return self.returned_at is not None
 
-    def save_return_date(self):
+    def finish(self):
         self.returned_at = datetime.now(timezone('Asia/Seoul'))
         db.session.commit()
         return self.returned_at
