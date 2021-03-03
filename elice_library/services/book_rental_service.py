@@ -25,11 +25,12 @@ class BookRentalService:
         book.get_returned()
 
         selected = self.find_last_by_ids(user_id, book_id)
-        selected.finish()
+        selected.finish_rental()
+        self.save_to_db(selected)
         return selected
 
-    def save_to_db(self) -> None:
-        db.session.add(self)
+    def save_to_db(self, rental) -> None:
+        db.session.add(rental)
         db.session.commit()
 
     @classmethod
