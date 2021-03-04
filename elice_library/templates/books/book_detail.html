@@ -19,6 +19,7 @@
             })
         }).done(function(res) {
             window.location.reload();
+            alert('댓글이 등록되었습니다 :)')
             location.href = `/books/${bookId}#comments`;
         }).fail(function (res) {
             alert(res.responseJSON.message)

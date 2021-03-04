@@ -6,6 +6,9 @@ PASSWORDS_DO_NOT_MATCH = '비밀번호가 일치하지 않습니다.'
 ACCOUNT_ALREADY_EXIST = '이미 등록된 계정입니다.'
 ACCOUNT_DOESNT_EXIST = '존재하지 않는 계정입니다.'
 
+COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
+SCORE_REQUIRED = '책에 대한 별 점수를 매겨주세요 :)'
+
 
 class Error(Exception):
     pass

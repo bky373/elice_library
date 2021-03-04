@@ -1,6 +1,7 @@
 from elice_library.database.config import ma
 from marshmallow import fields, INCLUDE
 
+
 class CommentSchema(ma.Schema):
     class Meta:
         unknown = INCLUDE
