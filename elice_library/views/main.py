@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for
-from elice_library.database.models.book import Book
+from elice_library.domain.models.book import Book
 
 main_bp = Blueprint('main', __name__, url_prefix='/')
 

@@ -1,7 +1,6 @@
-import logging
-from elice_library.database.config import db
 from datetime import datetime
 from pytz import timezone
+from elice_library.database.config import db
 
 
 class BookRental(db.Model):
@@ -22,11 +21,14 @@ class BookRental(db.Model):
     def is_finished(self):
         return self.returned_at is not None
 
-    def finish(self):
+    def finish_rent(self):
         self.returned_at = datetime.now(timezone('Asia/Seoul'))
-        db.session.commit()
         return self.returned_at
 
     def __repr__(self):
         return "<BookRental(id='%s', user_id='%s', book_id='%s', rented_at='%s', returned_at='%s')>" % (
             self.id, self.user_id, self.book_id, self.rented_at, self.returned_at)
+
+    @staticmethod
+    def create(user, book):
+        return BookRental(user=user, book=book)

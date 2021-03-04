@@ -25,7 +25,7 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    from .database.models import user, book, book_rental, comment
+    from .domain.models import user, book, book_rental, comment
 
     register_blueprints(app)
 

@@ -185,6 +185,26 @@ textarea::placeholder {
     transition: 0.3s ease;
 }
 
+.stars-rated {
+    margin-top: -1px;
+    margin-left: 8px;
+}
+
+.stars-rated i,
+.stars-rated i.star-selected {
+    margin-left: -4px;
+    color: #d8d4d4;
+    font-size: 10px;
+}
+
+.stars-rated i.star-selected {
+    color: #10b9b0;
+}
+
+.comment-edit-btns a {
+    font-size: 13px;
+}
+
 
 .footer {
     margin-top: 150px;
