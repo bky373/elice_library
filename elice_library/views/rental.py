@@ -4,6 +4,7 @@ from marshmallow import ValidationError
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.services.book_rental_service import BookRentalService
+from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
 
 rental_bp = Blueprint('rental', __name__)
@@ -23,8 +24,10 @@ def book_rental():
 
             book_rental_service.start_rent(user_id, book_id)
         
-        except ValidationError as e:
-            return {'message' : e.messages}, 400
+        except BookAlreadyRentedError as e:
+            return {'message' : e.message}, 400
+        except BooksAllRentedError as e:
+            return {'message' : e.message}, 400
 
         return {'message': f'"{book_service.find_by_id(book_id).book_name}"을(를) 빌렸습니다.'}
     return render_template('rental/books_rental.html', rental_list=book_rental_service.get_rental_list_by(user_id))

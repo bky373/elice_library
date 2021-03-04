@@ -5,7 +5,7 @@ from typing import List
 from elice_library.domain.models.book_rental import BookRental
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
-from elice_library.utils.error_messages import BOOK_ALL_RENTED, BOOK_ALREADY_RENTED
+from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
 
 class BookRentalService:
@@ -28,11 +28,11 @@ class BookRentalService:
         book = self.book_service.find_by_id(book_id)
 
         if not book.can_rent:
-            raise ValidationError(BOOK_ALL_RENTED)
+            raise BooksAllRentedError()
         
         rental = self.find_last_by_ids(user.id, book.id)
         if rental is not None and not rental.is_finished:
-            raise ValidationError(BOOK_ALREADY_RENTED)
+            raise BookAlreadyRentedError()
 
         rental = BookRental.create(user=user, book=book)
         book.rent()
