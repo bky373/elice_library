@@ -2,6 +2,7 @@ from flask import Blueprint, request, abort, jsonify, g, session, redirect, rend
 from marshmallow import ValidationError
 from elice_library.domain.schemas.user_schema import UserCreateSchema, UserLoginSchema
 from elice_library.services.user_service import UserService
+from elice_library.utils.errors import AccountAlreadyExistError, RePasswordRequiredError, PasswordsNotMatchError, AccountNotExistError
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -25,9 +26,15 @@ def signup():
                 password=password, 
                 re_password=re_password
             )
-
+            
         except ValidationError as e:
-            return {'message' : e.messages}, 400
+            return e.messages, 400
+        except AccountAlreadyExistError as e:
+            return {'email' : e.message}, 400
+        except RePasswordRequiredError as e:
+            return {'repassword': e.message}, 400
+        except PasswordsNotMatchError as e:
+            return {'repassword': e.message}, 400
 
         return {'username': user.username}, 201
     return render_template('auth/signup.html')
@@ -48,7 +55,11 @@ def login():
             session['user_id'] = user.id
             
         except ValidationError as e:
-            return {'message' : e.messages}, 400
+            return e.messages, 400
+        except AccountNotExistError as e:
+            return {'email' : e.message}, 400
+        except PasswordsNotMatchError as e:
+            return {'password': e.message}, 400
 
         return {'username': user.username}, 201
     return render_template('auth/login.html')
