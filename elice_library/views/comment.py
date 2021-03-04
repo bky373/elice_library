@@ -4,7 +4,7 @@ from elice_library.domain.schemas.comment_schema import CommentSchema
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.services.comment_service import CommentService
-
+from elice_library.utils.errors import CommentAlreadyPostedError
 
 comment_bp = Blueprint('comment', __name__, url_prefix='/comment')
 
@@ -24,6 +24,8 @@ def comment_detail():
         
         comment_service.add_comment(user_id, book_id, content, rating)
 
+    except CommentAlreadyPostedError as e:
+        return {'message' : e.message}, 400
     except ValidationError as e:
         return {'message' : e.messages}, 400
     return {'comments' : comment_schema.dump(comment_service.get_comments_by(book_id))}

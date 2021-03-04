@@ -6,11 +6,12 @@ PASSWORDS_DO_NOT_MATCH = '비밀번호가 일치하지 않습니다.'
 ACCOUNT_ALREADY_EXIST = '이미 등록된 계정입니다.'
 ACCOUNT_DOESNT_EXIST = '존재하지 않는 계정입니다.'
 
-COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
-SCORE_REQUIRED = '책에 대한 별 점수를 매겨주세요 :)'
-
 BOOKS_ALL_RENTED = '책이 모두 대여 중입니다.'
 BOOK_ALREADY_RENTED = '책을 이미 대여하였습니다.'
+
+COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
+SCORE_REQUIRED = '책에 대한 별 점수를 매겨주세요 :)'
+COMMENT_ALREADY_POSTED = '댓글을 이미 작성하였습니다 :)'
 
 
 class Error(Exception):
@@ -67,5 +68,11 @@ class BookAlreadyRentedError(Error):
 
 class BooksAllRentedError(Error):
     def __init__(self, message=BOOKS_ALL_RENTED):
+        self.message = message
+        super().__init__(message)
+
+
+class CommentAlreadyPostedError(Error):
+    def __init__(self, message=COMMENT_ALREADY_POSTED):
         self.message = message
         super().__init__(message)
