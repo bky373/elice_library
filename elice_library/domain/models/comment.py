@@ -20,6 +20,10 @@ class Comment(db.Model):
         self.rating = rating
         self.posted_at = datetime.now(timezone('Asia/Seoul'))
 
+    def update(self, content):
+        self.content = content
+        return self
+
     def __repr__(self):
         return "<Comment(id='%s', user_id='%s', book_id='%s', content='%s', posted_at='%s')>" % (
             self.id, self.user_id, self.book_id, self.content, self.posted_at)

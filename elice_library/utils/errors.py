@@ -12,6 +12,9 @@ BOOK_ALREADY_RENTED = '책을 이미 대여하였습니다.'
 COMMENT_REQUIRED = '댓글 칸을 채워주세요 :)'
 SCORE_REQUIRED = '책에 대한 별 점수를 매겨주세요 :)'
 COMMENT_ALREADY_POSTED = '댓글을 이미 작성하였습니다 :)'
+COMMENT_NOT_EXIST = '해당하는 댓글이 없습니다'
+COMMENT_DELETE_FAIL = '댓글 삭제에 실패했습니다.'
+COMMENT_UPDATE_FAIL = '댓글 수정에 실패했습니다'
 
 
 class Error(Exception):
@@ -74,5 +77,11 @@ class BooksAllRentedError(Error):
 
 class CommentAlreadyPostedError(Error):
     def __init__(self, message=COMMENT_ALREADY_POSTED):
+        self.message = message
+        super().__init__(message)
+
+
+class CommentNotExistError(Error):
+    def __init__(self, message=COMMENT_NOT_EXIST):
         self.message = message
         super().__init__(message)

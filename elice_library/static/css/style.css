@@ -187,21 +187,23 @@ textarea::placeholder {
 
 .stars-rated {
     margin-top: -1px;
-    margin-left: 5px;
+    margin-left: 8px;
 }
 
-.stars-rated i {
+.stars-rated i,
+.stars-rated i.star-selected {
     margin-left: -4px;
     color: #d8d4d4;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .stars-rated i.star-selected {
-    margin-left: -4px;
     color: #10b9b0;
-    font-size: 11px;
 }
 
+.comment-edit-btns a {
+    font-size: 13px;
+}
 
 
 .footer {

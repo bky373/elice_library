@@ -11,13 +11,16 @@ class CommentService:
     user_service = UserService()
     book_service = BookService()
 
+    def find_by_id(self, comment_id) -> Comment:
+        return Comment.query.filter_by(id=comment_id).first()
+
     def find_by_ids(self, user_id, book_id) -> Comment:
         return Comment.query.filter_by(user_id=user_id, book_id=book_id).first()
 
-    def add_comment(self, user_id, book_id, content, rating) -> Comment:
+    def create_comment(self, user_id, book_id, content, rating) -> Comment:
         user = self.user_service.find_by_id(user_id)
         book = self.book_service.find_by_id(book_id)
-        
+
         existed = self.find_by_ids(user_id, book_id)
         if existed:
             raise CommentAlreadyPostedError()
@@ -26,7 +29,7 @@ class CommentService:
             raise ValidationError(COMMENT_REQUIRED)
         if not rating:
             raise ValidationError(SCORE_REQUIRED)
-        
+
         comment = Comment.create(user, book, content, rating)
         book.update_rating()
 
@@ -37,8 +40,20 @@ class CommentService:
         book = self.book_service.find_by_id(book_id)
         return book.comments
 
+    def update_comment(self, comment_id, content) -> Comment:
+        if not content:
+            raise ValidationError(COMMENT_REQUIRED)
+
+        comment = self.find_by_id(comment_id)
+        comment.update(content)
+        self.save_to_db(comment)
+        return comment
+
+    def delete_comment(self, comment_id) -> None:
+        comment = self.find_by_id(comment_id)
+        db.session.delete(comment)
+        db.session.commit()
+
     def save_to_db(self, user) -> None:
         db.session.add(user)
         db.session.commit()
-
-        
