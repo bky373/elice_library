@@ -94,24 +94,31 @@
     </p>
     {% with comments=book.comments|reverse %}
     {% for comment in comments %}
-    <div>
-        <div>
-            <div class="card col-md-12 p-3 border-0">
-                <div class="ml-3 p-2">
-                    <div class="row">
-                        <img src="//i1.daumcdn.net/thumb/C100x100/?fname=https://t1.daumcdn.net/tistory_admin/blog/admin/profile_default_00.png"
-                            class="rounded-circle mr-3" alt="프로필 기본 이미지" style="width: 43px; height: 43px;">
-                        <span>
-                            <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{
-                                    comment.posted_at.strftime('%Y.%m.%d %H:%M') }}</small></span>
-                            <div class="mt-1 w-100" style="white-space: pre-line;">{{ comment.content }}</div>
-                        </span>
+    <div class="card col-md-12 p-3 border-0">
+        <div class="ml-3 p-2">
+            <div class="row">
+                <img src="//i1.daumcdn.net/thumb/C100x100/?fname=https://t1.daumcdn.net/tistory_admin/blog/admin/profile_default_00.png"
+                    class="rounded-circle mr-3" alt="프로필 기본 이미지" style="width: 43px; height: 43px;">
+                <span>
+                    <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{
+                            comment.posted_at.strftime('%Y.%m.%d %H:%M') }}</small></span>
+                    <div class="stars-rated">
+                        {% with rating=comment.rating %}
+                        {% for i in range(1, 6) %}
+                            {% if i <= rating %}
+                            <i class="fa fa-star star-selected"></i>
+                            {% else %}
+                            <i class="fa fa-star"></i>
+                            {% endif %}
+                            {% endfor %}
                     </div>
-                </div>
+                    {% endwith %}
+                    <div class="mt-2 w-100" style="white-space: pre-line;">{{ comment.content }}</div>
+                </span>
             </div>
         </div>
-        <div class="comment-border"></div>
     </div>
+    <div class="comment-border"></div>
     {% endfor %}
     {% endwith %}
     <form class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
