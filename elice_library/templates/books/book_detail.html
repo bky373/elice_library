@@ -140,8 +140,9 @@
             </div>
             <div class="my-3" style="height: 40px;"></div>
             {% else %}
-            <button type="button" class="btn btn-secondary float-right my-3 disabled shadow-none" style="cursor:default"
-                aria-disabled="true" onclick="return false;">로그인 후 작성하기</button>
+            <a href="{{ url_for('auth.login') }}">
+                <button type="button" class="btn btn-secondary float-right my-3 shadow-none">로그인 후 작성하기</button>
+            </a>
             {% endif %}
         </div>
     </form>
