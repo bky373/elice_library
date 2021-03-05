@@ -28,8 +28,11 @@ class Book(db.Model):
         return self
 
     def update_rating(self):
-        self.rating = round(sum([comment.rating for comment in self.comments])/len(self.comments))
+        self.rating = self.calculate_average_rating()
         return self.rating
+        
+    def calculate_average_rating(self):
+        return round(sum([comment.rating for comment in self.comments])/len(self.comments))
 
     def __repr__(self):
         return "<Book(id='%s', name='%s', publisher='%s', author='%s', published_at='%s')>" % (
