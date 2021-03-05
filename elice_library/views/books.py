@@ -23,3 +23,7 @@ def book_detail(book_id):
 @books_bp.route('/new-arrivals')
 def new_arrivals():
     return render_template('books/new_arrivals.html', books=book_service.sort_by_published_date())
+
+@books_bp.route('/rating-best')
+def rating_best():
+    return render_template('books/rating_best.html', books=book_service.sort_by_rating())
