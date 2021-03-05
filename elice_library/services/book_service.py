@@ -17,6 +17,10 @@ class BookService:
         books = self.find_all()
         return sorted(books, key=lambda x:len(x.rental_list), reverse=True)
 
+    def sort_by_rating(self) -> List[Book]:
+        books = self.find_all()
+        return sorted(books, key=lambda x:x.rating, reverse=True)
+
     def sort_by_published_date(self) -> List[Book]:
         books = self.find_all()
         return sorted(books, key=lambda x:x.published_at, reverse=True)

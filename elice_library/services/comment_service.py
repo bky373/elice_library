@@ -14,14 +14,14 @@ class CommentService:
     def find_by_id(self, comment_id) -> Comment:
         return Comment.query.filter_by(id=comment_id).first()
 
-    def find_by_ids(self, user_id, book_id) -> Comment:
+    def find_last_by_userid_and_bookid(self, user_id, book_id) -> Comment:
         return Comment.query.filter_by(user_id=user_id, book_id=book_id).first()
 
     def create_comment(self, user_id, book_id, content, rating) -> Comment:
         user = self.user_service.find_by_id(user_id)
         book = self.book_service.find_by_id(book_id)
 
-        existed = self.find_by_ids(user_id, book_id)
+        existed = self.find_last_by_userid_and_bookid(user_id, book_id)
         if existed:
             raise CommentAlreadyPostedError()
 

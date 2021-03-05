@@ -25,8 +25,8 @@ class Comment(db.Model):
         return self
 
     def __repr__(self):
-        return "<Comment(id='%s', user_id='%s', book_id='%s', content='%s', posted_at='%s')>" % (
-            self.id, self.user_id, self.book_id, self.content, self.posted_at)
+        return "<Comment(id='%s', user_id='%s', book_id='%s', content='%s', posted_at='%s', rating='%s')>" % (
+            self.id, self.user_id, self.book_id, self.content, self.posted_at, self.rating)
 
     @staticmethod
     def create(user, book, content, rating):

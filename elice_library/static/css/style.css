@@ -38,12 +38,13 @@ textarea::placeholder {
 }
 
 .navbar {
-    height: 65px;
+    height: 63px;
+    box-shadow: .04rem .05rem #dfdfdf;
     font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
 }
 
 .navbar-brand {
-    font-size: 18px;
+    font-size: 21px;
 }
 
 .navbar-brand,
@@ -60,9 +61,23 @@ textarea::placeholder {
     color: #474747;
 }
 
+.navbar-toggler i {
+    font-size: 23px;
+}
+
 .nav-item.active .nav-link,
-.nav-item:hover .nav-link {
+.nav-item:hover .nav-link,
+.dropdown a:hover {
     color: #afa998;
+}
+
+.dropdown-menu {
+    border : 1px solid #c4d8d8;
+}
+
+.dropdown-menu li a.nav-link {
+    margin-left: 10px;
+    font-size: 13px;
 }
 
 .container {
@@ -148,6 +163,15 @@ textarea::placeholder {
 .book-detail .card-text ul li {
     line-height: 1.6;
     font-size: 20px;
+}
+
+#bar-chart {
+    margin: 0 auto;
+    padding : 10px;
+}
+
+#bar-chart text {
+    font-family: 'NEXON Lv1 Gothic OTF', 'Noto Sans KR', sans-serif;
 }
 
 .comment-border {

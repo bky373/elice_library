@@ -1,0 +1,73 @@
+{% block script %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    const rating_list = [0, 0, 0, 0, 0, 0];
+
+    $(document).ready(()=>{
+        const strComments = `{{ book.comments }}`;
+        const arrayComments = strComments.split(',');
+        
+        arrayComments.forEach(comment => {
+            if (comment.startsWith(' rating')) {
+                rating_list[comment[13]]++; // comment[13] = 별 점수
+            }
+        });
+    })
+
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+        const data = google.visualization.arrayToDataTable([
+            ['', '', { role: 'style' }],
+            ['5점', rating_list[5], '#FFEB5A'],
+            ['4점', rating_list[4], '#FFEB5A'],
+            ['3점', rating_list[3], '#FFEB5A'],
+            ['2점', rating_list[2], '#FFEB5A'],
+            ['1점', rating_list[1], '#FFEB5A']
+        ]);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1, { 
+                            calc: "stringify",
+                            sourceColumn: 1,
+                            type: "string",
+                            role: "annotation" 
+                        }, 2]);
+
+        const options = {
+            title: '평점 차트',
+            titleTextStyle: {
+                fontSize: 17,
+            },
+            chartArea: {width: '47%'},
+            hAxis: {
+                title: '( 평균 평점: {{ book.rating }}점 )',
+                titleTextStyle : {
+                    fontSize: 14,
+                    bold: false,
+                    italic: false
+                }
+            },
+            vAxis: {
+                textStyle : {
+                    fontSize: 14
+                }
+            },
+            bar: {groupWidth: "40%"},
+            legend: { position: "none" },
+            annotations: {
+                textStyle: {
+                fontSize: 12,
+                bold: true,
+                },
+           },
+        };
+
+        const chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+        chart.draw(view, options);
+    }
+</script>
+{% endblock %}
+<div id="bar-chart" class="col border-top border-bottom " style="width: 700px; height: 400px"></div>
+    
