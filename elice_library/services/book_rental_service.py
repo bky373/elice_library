@@ -7,7 +7,6 @@ from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
-
 class BookRentalService:
     user_service = UserService()
     book_service = BookService()
@@ -19,7 +18,7 @@ class BookRentalService:
         user_all_rentals = self.find_all_by_user_id(user_id)
         return [rental for rental in user_all_rentals if not rental.is_finished]
 
-    def find_last_by_ids(self, user_id, book_id) -> BookRental:
+    def find_last_by_userid_and_bookid(self, user_id, book_id) -> BookRental:
         filtered = BookRental.query.filter_by(user_id=user_id, book_id=book_id).all()
         return filtered[-1] if filtered else None
 
@@ -30,7 +29,7 @@ class BookRentalService:
         if not book.can_rent:
             raise BooksAllRentedError()
         
-        rental = self.find_last_by_ids(user.id, book.id)
+        rental = self.find_last_by_userid_and_bookid(user.id, book.id)
         if rental is not None and not rental.is_finished:
             raise BookAlreadyRentedError()
 
@@ -44,7 +43,7 @@ class BookRentalService:
         book = self.book_service.find_by_id(book_id)
         book.get_returned()
 
-        rental = self.find_last_by_ids(user_id, book_id)
+        rental = self.find_last_by_userid_and_bookid(user_id, book_id)
         rental.finish_rent()
         self.save_to_db(rental)
         return rental
