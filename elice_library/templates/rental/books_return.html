@@ -18,13 +18,13 @@
     {% if rental_list %}
         {% for rental in rental_list %}
         {% with book = rental.book %}
-        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('rental.book_return') }}">
+        <form class="card col-md-3 mx-3 my-3 p-3" method="POST" action="{{ url_for('api.rental_book_return') }}">
             <input type="hidden" class="d-none" name="book_id" value="{{ book.id }}">
             <div class="card-body">
                 <div class="book-image text-center">
                     <img src="{{ book.image_path }}" class="img" alt="책 이미지" />
                 </div>
-                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.book_name }}</a></h2>
+                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('api.books_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
                 <div class="text-center my-1"><strong>대출일자 :</strong> {{ rental.rented_at.strftime('%Y년 %m월 %d일') }}</div>
