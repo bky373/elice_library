@@ -16,7 +16,7 @@ api = Namespace("books", description="book related operations")
 
 @api.route("/")
 class BookList(Resource):
-    @api.doc("show paginated entire book list")
+    @api.doc("show paginated book list")
     def get(self):
         page = request.args.get("page", type=int, default=1)
         return make_response(

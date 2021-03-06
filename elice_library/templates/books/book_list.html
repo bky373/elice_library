@@ -1,25 +1,5 @@
 {% extends 'base.html' %}
 
-{% block script %}
-<script type="text/javascript">
-    function createRental(bookId) {
-        $.ajax({
-            method     : "POST",
-            url        : "{{ url_for('api.rental_book_rental') }}",
-            contentType: "application/json",
-            data       : JSON.stringify({
-                book_id : Number(bookId)
-            })
-        }).done(function(res) {
-            alert(res.message)
-            window.location.reload();
-        }).fail(function (res) {
-            alert(res.responseJSON.message)
-        });
-    }
-
-</script>
-{% endblock %}
 {% block content %}
 <div>
     <div class="row">
