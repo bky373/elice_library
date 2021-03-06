@@ -6,14 +6,17 @@ from elice_library.services.book_service import (
     get_book_by_id,
     sort_books_by_rentals_num,
 )
-from elice_library.services.book_rental_service import BookRentalService
+from elice_library.services.book_rental_service import (
+    start_rent,
+    finish_rent,
+    get_unfinished_rentals_by_user_id,
+    get_rentals_by_user_id,
+)
 from elice_library.controllers.auth_controller import Resource
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
 
 api = Namespace("rental", decription="rental related opertations")
-
-book_rental_service = BookRentalService()
 
 
 @api.route("/books-rental")
@@ -22,7 +25,7 @@ class BookRental(Resource):
         return make_response(
             render_template(
                 "rental/books_rental.html",
-                rental_list=book_rental_service.get_rental_list_by(g.user.id),
+                rental_list=get_rentals_by_user_id(g.user.id),
             )
         )
 
@@ -31,7 +34,7 @@ class BookRental(Resource):
             json_data = request.get_json()
             book_id = json_data["book_id"]
 
-            book_rental_service.start_rent(g.user.id, book_id)
+            start_rent(g.user.id, book_id)
 
         except BookAlreadyRentedError as e:
             return {"message": e.message}, 400
@@ -44,14 +47,14 @@ class BookRental(Resource):
 @api.route("/books-return")
 class BookReturn(Resource):
     def get(self):
-        not_finished = book_rental_service.find_not_finished_by_user_id(g.user.id)
+        unfinished = get_unfinished_rentals_by_user_id(g.user.id)
         return make_response(
-            render_template("rental/books_return.html", rental_list=not_finished)
+            render_template("rental/books_return.html", rental_list=unfinished)
         )
 
     def post(self):
         book_id = request.form.get("book_id")
-        book_rental_service.finish_rent(g.user.id, book_id)
+        finish_rent(g.user.id, book_id)
         return redirect(url_for("api.rental_book_rental"))
 
 
