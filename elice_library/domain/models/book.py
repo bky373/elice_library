@@ -1,5 +1,5 @@
 from elice_library.database.config import db, ma
-from elice_library.domain.models import book_voter
+from elice_library.domain.models import book_voter, book_marker
 
 
 class Book(db.Model):
@@ -17,6 +17,9 @@ class Book(db.Model):
     rating = db.Column(db.Integer, nullable=False, default=0)
     voters = db.relationship(
         "User", secondary="book_voter", backref=db.backref("voted_books", lazy=True)
+    )
+    markers = db.relationship(
+        "User", secondary="book_marker", backref=db.backref("marked_books", lazy=True)
     )
 
     @property

@@ -2,6 +2,7 @@ from flask import g, render_template, request, make_response
 from flask_restx import Namespace
 from elice_library.services.book_service import (
     paginate_books,
+    mark_book_by_user,
     recommend_book_by_user,
     get_book_by_id,
     sort_books_by_published_date,
@@ -37,14 +38,20 @@ class Book(Resource):
         )
 
 
-@api.route("/")
-class Recommend(Resource):
+@api.route("/bookmark")
+class BookMark(Resource):
+    @api.doc("add or cancel a bookmark")
+    def post(self):
+        data = request.get_json()
+        return mark_book_by_user(g.user, data["book_id"])
+
+
+@api.route("/recommend")
+class BookRecommend(Resource):
     @api.doc("add or cancel a recommendation")
     def post(self):
         data = request.get_json()
-        book_id = data["book_id"]
-
-        return {"message": recommend_book_by_user(g.user, book_id)}
+        return recommend_book_by_user(g.user, data["book_id"])
 
 
 @api.route("/new-arrivals")

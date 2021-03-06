@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
 {% block script %}
-<script type=text/javascript>
-    function createBookComment() {
-        const bookId = $("input[name='book_id']").val();
-        const ratings = ['#rating0', '#rating1', '#rating2', '#rating3', '#rating4', '#rating5'];
-        rating_id = ratings.filter(rating => $(rating).is(':checked'))[0];
+<script type=text/javascript> function createBookComment() { const bookId=$("input[name='book_id' ]").val(); const
+    ratings=['#rating0', '#rating1' , '#rating2' , '#rating3' , '#rating4' , '#rating5' ];
+    rating_id=ratings.filter(rating=> $(rating).is(':checked'))[0];
         rating = rating_id.charAt(rating_id.length-1);
         
         $.ajax({
@@ -75,11 +73,27 @@
             alert(res.responseJSON.message);
         })
     }
-
+    
+    function handleBookMarkButtonClick(book_id) {
+        $.ajax({
+            method:"POST",
+            url:"{{ url_for('api.books_book_mark') }}",
+            contentType: "application/json",
+            data: JSON.stringify({
+                book_id: book_id
+            })
+        }).done(res => {
+            alert(res.message);
+            window.location.reload();
+        }).fail(res => {
+            alert(res.responseJSON.message);
+        })
+    }
+    
     function handleRecommendButtonClick(book_id) {
         $.ajax({
             method:"POST",
-            url:"{{ url_for('api.books_recommend') }}",
+            url:"{{ url_for('api.books_book_recommend') }}",
             contentType: "application/json",
             data: JSON.stringify({
                 book_id: book_id
@@ -95,7 +109,7 @@
 {% endblock %}
 {% block content %}
 <p>
-<h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
+    <h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
 </p>
 <div id="book-detail" class="row">
     <div class="row justify-content-center p-4">
@@ -103,7 +117,8 @@
             <img src="{{ book.image_path }}" class="img-fluid p-4" style="width:310px; height:350px" alt="책 이미지" />
             <div class="mt-2 mb-2">
                 <button type="button" class="btn btn-outline-warning mr-4 px-3 py-2" style="font-size: 15px;"
-                    onclick=""><strong><i class="fas fa-bookmark"></i>&nbsp;&nbsp;찜하기</strong></button>
+                    onclick="handleBookMarkButtonClick(`{{book.id}}`)"><strong><i
+                            class="fas fa-star"></i>&nbsp;&nbsp;찜하기</strong></button>
                 <button type="button" class="btn btn-outline-success px-3 py-2" style="font-size: 15px;"
                     onclick="createRental(`{{ book.id }}`);"><strong><i
                             class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
@@ -111,8 +126,30 @@
         </span>
         <span class="card col-md-5 mt-2 ml-1 mr-4" style="width: 800px;">
             <div class="card-body mt-4">
+                <div class="mb-2">
+                    {% if book in g.user.marked_books %}
+                    <i class="fas fa-star mr-2" style="font-size: 16px; color: #FFDC37"></i>
+                    {% else %}
+                    <i class="fas fa-star mr-2" style="font-size: 16px; color: #dcdcdc"></i>
+                    {% endif %} 
+                    {% set books = [] %}
+                    {% for rental in g.user.rental_list if not rental.returned_at %}
+                    <!-- 아래 코드의 실행 결과가 페이지에 나타나지 않게 주석 처리함 -->
+                        <!-- {{ books.append(rental.book) }} -->
+                    {% endfor %} 
+                    {% if book in books %}
+                    <i class="fas fa-book mr-2" style="font-size: 16px; color: #5cb85c"></i>
+                    {% else %}
+                    <i class="fas fa-book mr-2" style="font-size: 16px; color: #dcdcdc"></i>
+                    {% endif %} 
+                    {% if book in g.user.voted_books %}
+                    <i class="fas fa-heart text-right" style="font-size: 16px; color: #FF0000;"></i>
+                    {% else %}
+                    <i class="fas fa-heart" style="font-size: 16px; color: #dcdcdc;"></i>
+                    {% endif %}
+                </div>
                 <div class="text-center border-bottom mb-4 pb-4">
-                    <h4><strong>{{ book.book_name }}</strong></h4>
+                    <h4><strong>{{ book.book_name }}</strong></i></h4>
                 </div>
                 <ul class="card-text card-text-custome mt-4 pt-3">
                     <li class="float-left row mt-1 mb-1" style="width: 610px;">
@@ -146,7 +183,7 @@
                 </ul>
                 <button type="button" class="btn btn-outline-danger float-right mr-4 px-3 py-2"
                     style="font-size: 14px; line-height: 1.9;" onclick="handleRecommendButtonClick(`{{book.id}}`)"><i
-                    class="fas fa-heart">&nbsp;&nbsp;<strong>{{book.voters|length}}</strong></i><br><strong>추천하기</strong></button>
+                        class="fas fa-heart">&nbsp;&nbsp;<strong>{{book.voters|length}}</strong></i><br><strong>추천하기</strong></button>
             </div>
         </span>
     </div>
@@ -189,11 +226,11 @@
                         {% with rating=comment.rating %}
                         {% for i in range(1, 6) %}
                         {% if i <= rating %} <i class="fa fa-star star-selected"></i>
-                            {% else %}
-                            <i class="fa fa-star"></i>
-                            {% endif %}
-                            {% endfor %}
-                            {% endwith %}
+                        {% else %}
+                        <i class="fa fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                        {% endwith %}
                     </div>
                     <div id="comment-content-box{{comment.id}}" class="ml-1" style="white-space: pre-line;">{{
                         comment.content }}</div>
