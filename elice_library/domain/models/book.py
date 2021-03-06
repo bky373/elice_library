@@ -1,4 +1,5 @@
 from elice_library.database.config import db, ma
+from elice_library.domain.models import book_voter
 
 
 class Book(db.Model):
@@ -14,6 +15,9 @@ class Book(db.Model):
     image_path = db.Column(db.Text)
     stock_num = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False, default=0)
+    voters = db.relationship(
+        "User", secondary="book_voter", backref=db.backref("voted_books", lazy=True)
+    )
 
     @property
     def can_rent(self):
@@ -27,14 +31,14 @@ class Book(db.Model):
         self.stock_num += 1
         return self
 
-    def update_rating(self):
-        self.rating = self.calculate_average_rating()
-        return self.rating
-
     def calculate_average_rating(self):
         return round(
             sum([comment.rating for comment in self.comments]) / len(self.comments)
         )
+
+    def update_rating(self):
+        self.rating = self.calculate_average_rating()
+        return self.rating
 
     def __repr__(self):
         return (

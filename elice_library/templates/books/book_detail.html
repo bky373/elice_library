@@ -1,4 +1,4 @@
-w{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block script %}
 <script type=text/javascript>
@@ -75,6 +75,22 @@ w{% extends 'base.html' %}
             alert(res.responseJSON.message);
         })
     }
+
+    function handleRecommendButtonClick(book_id) {
+        $.ajax({
+            method:"POST",
+            url:"{{ url_for('api.books_recommend') }}",
+            contentType: "application/json",
+            data: JSON.stringify({
+                book_id: book_id
+            })
+        }).done(res => {
+            alert(res.message);
+            window.location.reload();
+        }).fail(res => {
+            alert(res.responseJSON.message);
+        })
+    }
 </script>
 {% endblock %}
 {% block content %}
@@ -82,15 +98,18 @@ w{% extends 'base.html' %}
 <h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
 </p>
 <div id="book-detail" class="row">
-    <div class="row justify-content-center mb- p-4">
-        <span class="col-md-5 mb-1 mr-4 text-center">
+    <div class="row justify-content-center p-4">
+        <span class="col-md-5 mb-2 mr-4 text-center">
             <img src="{{ book.image_path }}" class="img-fluid p-4" style="width:310px; height:350px" alt="책 이미지" />
-            <div class="mt-2">
-                <button type="button" class="btn btn-danger mr-4" onclick=""><i class="far fa-heart"><strong></i>&nbsp;&nbsp;추천하기</strong></button>
-                <button type="button" class="btn btn-success " onclick="createRental(`{{ book.id }}`);"><strong><i class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
+            <div class="mt-2 mb-2">
+                <button type="button" class="btn btn-outline-warning mr-4 px-3 py-2" style="font-size: 15px;"
+                    onclick=""><strong><i class="fas fa-bookmark"></i>&nbsp;&nbsp;찜하기</strong></button>
+                <button type="button" class="btn btn-outline-success px-3 py-2" style="font-size: 15px;"
+                    onclick="createRental(`{{ book.id }}`);"><strong><i
+                            class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
             </div>
         </span>
-        <span class="card col-md-5 ml-1 mr-4" style="width: 800px;">
+        <span class="card col-md-5 mt-2 ml-1 mr-4" style="width: 800px;">
             <div class="card-body mt-4">
                 <div class="text-center border-bottom mb-4 pb-4">
                     <h4><strong>{{ book.book_name }}</strong></h4>
@@ -100,47 +119,38 @@ w{% extends 'base.html' %}
                         <strong class="col-md-2">저자</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.author }}</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row mb-1" style="width: 610px;">
                         <strong class="col-md-2">출판사</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.publisher }}</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row mb-1" style="width: 610px;">
                         <strong class="col-md-2">출간일</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.published_at.strftime('%Y년 %m월 %d일') }}</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row mb-1" style="width: 610px;">
                         <strong class="col-md-2">페이지 수</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.pages }} 쪽</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row mb-1" style="width: 610px;">
                         <strong class="col-md-2">ISBN 코드</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.isbn }}</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row" style="width: 610px;">
                         <strong class="col-md-2">독자 평점</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.rating }}점</span>
                     </li>
-                </ul>
-                <ul class="card-text mt-4">
                     <li class="float-left row mt-1" style="width: 610px;">
                         <strong class="col-md-2">남은 권수</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.stock_num }}권</span>
                     </li>
                 </ul>
+                <button type="button" class="btn btn-outline-danger float-right mr-4 px-3 py-2"
+                    style="font-size: 14px; line-height: 1.9;" onclick="handleRecommendButtonClick(`{{book.id}}`)"><i
+                    class="fas fa-heart">&nbsp;&nbsp;<strong>{{book.voters|length}}</strong></i><br><strong>추천하기</strong></button>
             </div>
         </span>
     </div>
-    <div class="jumbotron ml-2 w-100 mt-3">
+    <div class="jumbotron ml-2 w-100 mt-4">
         <div class="col-md-10 mx-auto">
             <h4 class="card-title title mb-4 font-weight-bolder border-bottom border-secondary p-2">책 소개</h4>
             <p class="card-text description my-3 p-3">{{ book.description }}</p>
@@ -160,62 +170,63 @@ w{% extends 'base.html' %}
             <div class="row">
                 <span>
                     <img src="//i1.daumcdn.net/thumb/C100x100/?fname=https://t1.daumcdn.net/tistory_admin/blog/admin/profile_default_00.png"
-                    class="rounded-circle mr-2" alt="프로필 기본 이미지" style="width: 48px; height: 48px;">
+                        class="rounded-circle mr-2" alt="프로필 기본 이미지" style="width: 48px; height: 48px;">
                 </span>
                 <div class="col-md-11">
                     <span class="row ml-1">
                         <span class="font-weight-bolder">{{ comment.user.username }}&nbsp;&nbsp;<small>{{
-                            comment.posted_at.strftime('%Y.%m.%d %H:%M') }}</small></span>
-                            {% if g.user == comment.user %}
-                            <div class="comment-edit-btns ml-auto">
-                                <button type="button" class="btn btn-outline-info btn-sm mr-1"
+                                comment.posted_at.strftime('%Y.%m.%d %H:%M') }}</small></span>
+                        {% if g.user == comment.user %}
+                        <div class="comment-edit-btns ml-auto">
+                            <button type="button" class="btn btn-outline-info btn-sm mr-1"
                                 onclick="toggleCommentEditBox(`{{comment.id}}`);"><small>수정</small></button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" style="margin-left: -2px;"
+                            <button type="button" class="btn btn-outline-danger btn-sm" style="margin-left: -2px;"
                                 onclick="deleteBookComment(`{{comment.id}}`);"><small>삭제</small></button>
-                            </div>
-                            {% endif %}
-                        </span>
-                        <div class="stars-rated mb-3">
-                            {% with rating=comment.rating %}
-                            {% for i in range(1, 6) %}
-                            {% if i <= rating %} <i class="fa fa-star star-selected"></i>
+                        </div>
+                        {% endif %}
+                    </span>
+                    <div class="stars-rated mb-3">
+                        {% with rating=comment.rating %}
+                        {% for i in range(1, 6) %}
+                        {% if i <= rating %} <i class="fa fa-star star-selected"></i>
                             {% else %}
                             <i class="fa fa-star"></i>
                             {% endif %}
                             {% endfor %}
                             {% endwith %}
-                        </div>
-                        <div id="comment-content-box{{comment.id}}" class="ml-1" style="white-space: pre-line;">{{
-                            comment.content }}</div>
-                            <div id="content-edit-box{{comment.id}}" class="form-group d-none">
-                                <textarea class="form-control" style="white-space: pre-line;">{{ comment.content }}</textarea>
-                                <div class="text-right mt-3 mr-2">
-                                    <button type="button" class="btn btn-secondary btn-sm mr-1"
-                                    onclick="modifyBookComment(`{{comment.id}}`);"><small>수정하기</small></button>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="toggleCommentEditBox(`{{comment.id}}`);"><small>취소하기</small></button>
-                                </div>
-                            </div>
+                    </div>
+                    <div id="comment-content-box{{comment.id}}" class="ml-1" style="white-space: pre-line;">{{
+                        comment.content }}</div>
+                    <div id="content-edit-box{{comment.id}}" class="form-group d-none">
+                        <textarea class="form-control" style="white-space: pre-line;">{{ comment.content }}</textarea>
+                        <div class="text-right mt-3 mr-2">
+                            <button type="button" class="btn btn-secondary btn-sm mr-1"
+                                onclick="modifyBookComment(`{{comment.id}}`);"><small>수정하기</small></button>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                onclick="toggleCommentEditBox(`{{comment.id}}`);"><small>취소하기</small></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="comment-border"></div>
-            {% endfor %}
-            {% endwith %}
-            <form id="comment-post-box" class="row justify-content-center" method="POST">
-                <input type="hidden" name="book_id" value="{{ book.id }}">
-                <div class="col-md-11">
-                    <a name="comment-post-btn" class="d-block" style="height:20px;"></a>
-                    <textarea class="form-control mt-2" name="content" id="content" rows="3"
-                    placeholder='"{{ book.book_name }}" 에 대한 댓글을 자유롭게 남겨주세요.'></textarea>
-                    {% if g.user %}
-                    <button type="button" class="btn btn-info float-right mt-3" onclick="createBookComment();">작성하기</button>
-                    {% include "comment/rating.html" %}
-                    <div class="my-3" style="height: 40px;"></div>        
-                    {% else %}
-                    <a href="{{ url_for('auth.login') }}">
-                        <button type="button" class="btn btn-secondary float-right my-3 shadow-none">로그인 후 작성하기</button>
-                    </a>
+        </div>
+    </div>
+    <div class="comment-border"></div>
+    {% endfor %}
+    {% endwith %}
+    <form id="comment-post-box" class="row justify-content-center" method="POST">
+        <input type="hidden" name="book_id" value="{{ book.id }}">
+        <div class="col-md-11">
+            <a name="comment-post-btn" class="d-block" style="height:20px;"></a>
+            <textarea class="form-control mt-2" name="content" id="content" rows="3"
+                placeholder='"{{ book.book_name }}" 에 대한 댓글을 자유롭게 남겨주세요.'></textarea>
+            {% if g.user %}
+            <button type="button" class="btn btn-info float-right mt-3" onclick="createBookComment();">작성하기</button>
+            {% include "comment/rating.html" %}
+            <div class="my-3" style="height: 40px;"></div>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}">
+                <button type="button" class="btn btn-secondary float-right my-3 shadow-none">로그인 후 작성하기</button>
+            </a>
             {% endif %}
         </div>
     </form>
