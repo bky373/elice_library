@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 from elice_library.database.config import db
 from elice_library.domain.models.comment import Comment
 from elice_library.services.user_service import find_by_id
-from elice_library.services.book_service import BookService
+from elice_library.services.book_service import get_book_by_id
 from elice_library.utils.errors import (
     COMMENT_REQUIRED,
     SCORE_REQUIRED,
@@ -12,8 +12,6 @@ from elice_library.utils.errors import (
 
 
 class CommentService:
-    book_service = BookService()
-
     def find_by_id(self, comment_id) -> Comment:
         return Comment.query.filter_by(id=comment_id).first()
 
@@ -22,7 +20,7 @@ class CommentService:
 
     def create_comment(self, user_id, book_id, content, rating) -> Comment:
         user = find_by_id(user_id)
-        book = self.book_service.find_by_id(book_id)
+        book = get_book_by_id(book_id)
 
         existed = self.find_last_by_userid_and_bookid(user_id, book_id)
         if existed:
@@ -40,7 +38,7 @@ class CommentService:
         return comment
 
     def get_comments_by(self, book_id) -> List[Comment]:
-        book = self.book_service.find_by_id(book_id)
+        book = get_book_by_id(book_id)
         return book.comments
 
     def update_comment(self, comment_id, content) -> Comment:

@@ -4,13 +4,11 @@ from marshmallow import ValidationError
 from typing import List
 from elice_library.domain.models.book_rental import BookRental
 from elice_library.services.user_service import find_by_id
-from elice_library.services.book_service import BookService
+from elice_library.services.book_service import get_book_by_id
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
 
 class BookRentalService:
-    book_service = BookService()
-
     def find_all_by_user_id(self, user_id) -> List[BookRental]:
         return BookRental.query.filter_by(user_id=user_id).all()
 
@@ -24,7 +22,7 @@ class BookRentalService:
 
     def start_rent(self, user_id, book_id) -> BookRental:
         user = find_by_id(user_id)
-        book = self.book_service.find_by_id(book_id)
+        book = get_book_by_id(book_id)
 
         if not book.can_rent:
             raise BooksAllRentedError()
@@ -40,7 +38,7 @@ class BookRentalService:
         return rental
 
     def finish_rent(self, user_id, book_id) -> BookRental:
-        book = self.book_service.find_by_id(book_id)
+        book = get_book_by_id(book_id)
         book.get_returned()
 
         rental = self.find_last_by_userid_and_bookid(user_id, book_id)

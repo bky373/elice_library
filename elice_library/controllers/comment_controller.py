@@ -2,7 +2,7 @@ from flask import request, g, render_template, redirect, url_for, session, make_
 from flask_restx import Namespace
 from marshmallow import ValidationError
 from elice_library.domain.schemas.comment_schema import CommentSchema
-from elice_library.services.book_service import BookService
+from elice_library.services.book_service import sort_books_by_comments_num
 from elice_library.services.comment_service import CommentService
 from elice_library.controllers.auth_controller import Resource
 from elice_library.utils.errors import (
@@ -16,7 +16,6 @@ from elice_library.utils.errors import (
 api = Namespace("comment", description="comment related operations")
 
 comment_schema = CommentSchema(many=True)
-book_service = BookService()
 comment_service = CommentService()
 
 COMMENT_UPDATE_SUCCESS = "댓글을 수정하였습니다."
@@ -75,6 +74,6 @@ class CommentBest(Resource):
     def get(self):
         return make_response(
             render_template(
-                "comment/comment_best.html", books=book_service.sort_by_comments_num()
+                "comment/comment_best.html", books=sort_books_by_comments_num()
             )
         )

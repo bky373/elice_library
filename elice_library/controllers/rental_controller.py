@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import g, request, render_template, redirect, url_for, session, make_response
 from flask_restx import Namespace
 from marshmallow import ValidationError
-from elice_library.services.book_service import BookService
+from elice_library.services.book_service import get_book_by_id, sort_books_by_rentals_num
 from elice_library.services.book_rental_service import BookRentalService
 from elice_library.controllers.auth_controller import Resource
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
@@ -10,7 +10,6 @@ from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedErr
 
 api = Namespace("rental", decription="rental related opertations")
 
-book_service = BookService()
 book_rental_service = BookRentalService()
 
 
@@ -36,7 +35,7 @@ class BookRental(Resource):
         except BooksAllRentedError as e:
             return {"message": e.message}, 400
 
-        return {"message": f'"{book_service.find_by_id(book_id).book_name}"을(를) 빌렸습니다.'}
+        return {"message": f'"{get_book_by_id(book_id).book_name}"을(를) 빌렸습니다.'}
 
 
 @api.route("/books-return")
@@ -58,6 +57,6 @@ class RentalBest(Resource):
     def get(self):
         return make_response(
             render_template(
-                "rental/rental_best.html", books=book_service.sort_by_rentals_num()
+                "rental/rental_best.html", books=sort_books_by_rentals_num()
             )
         )
