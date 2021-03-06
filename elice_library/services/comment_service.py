@@ -2,7 +2,7 @@ from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
 from elice_library.domain.models.comment import Comment
-from elice_library.services.user_service import UserService
+from elice_library.services.user_service import find_by_id
 from elice_library.services.book_service import BookService
 from elice_library.utils.errors import (
     COMMENT_REQUIRED,
@@ -12,7 +12,6 @@ from elice_library.utils.errors import (
 
 
 class CommentService:
-    user_service = UserService()
     book_service = BookService()
 
     def find_by_id(self, comment_id) -> Comment:
@@ -22,7 +21,7 @@ class CommentService:
         return Comment.query.filter_by(user_id=user_id, book_id=book_id).first()
 
     def create_comment(self, user_id, book_id, content, rating) -> Comment:
-        user = self.user_service.find_by_id(user_id)
+        user = find_by_id(user_id)
         book = self.book_service.find_by_id(book_id)
 
         existed = self.find_last_by_userid_and_bookid(user_id, book_id)

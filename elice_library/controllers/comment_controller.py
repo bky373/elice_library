@@ -2,7 +2,6 @@ from flask import request, g, render_template, redirect, url_for, session, make_
 from flask_restx import Namespace
 from marshmallow import ValidationError
 from elice_library.domain.schemas.comment_schema import CommentSchema
-from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.services.comment_service import CommentService
 from elice_library.controllers.auth_controller import Resource
@@ -17,7 +16,6 @@ from elice_library.utils.errors import (
 api = Namespace("comment", description="comment related operations")
 
 comment_schema = CommentSchema(many=True)
-user_service = UserService()
 book_service = BookService()
 comment_service = CommentService()
 

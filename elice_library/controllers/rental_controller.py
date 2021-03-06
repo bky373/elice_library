@@ -2,7 +2,6 @@ from datetime import datetime
 from flask import g, request, render_template, redirect, url_for, session, make_response
 from flask_restx import Namespace
 from marshmallow import ValidationError
-from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
 from elice_library.services.book_rental_service import BookRentalService
 from elice_library.controllers.auth_controller import Resource
@@ -11,7 +10,6 @@ from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedErr
 
 api = Namespace("rental", decription="rental related opertations")
 
-user_service = UserService()
 book_service = BookService()
 book_rental_service = BookRentalService()
 

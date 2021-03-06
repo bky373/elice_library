@@ -4,7 +4,7 @@ from functools import wraps
 from flask_restx import Namespace
 from marshmallow import ValidationError
 from elice_library.domain.schemas.user_schema import UserCreateSchema, UserLoginSchema
-from elice_library.services.user_service import UserService
+from elice_library.services.user_service import find_by_id, register_user, login_user
 from elice_library.utils.errors import (
     AccountAlreadyExistError,
     RePasswordRequiredError,
@@ -17,14 +17,13 @@ api = Namespace("auth", description="auth related operations")
 
 user_create_schema = UserCreateSchema()
 user_login_schema = UserLoginSchema()
-user_service = UserService()
 
 
 def load_logged_in_user(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         user_id = session.get("user_id")
-        g.user = user_service.find_by_id(user_id) if user_id else None
+        g.user = find_by_id(user_id) if user_id else None
         return func(*args, **kwargs)
 
     return wrapper
@@ -51,7 +50,7 @@ class AuthSignUp(Resource):
                 data["repassword"],
             )
 
-            user = user_service.register_user(
+            user = register_user(
                 username=username,
                 email=email,
                 password=password,
@@ -82,7 +81,7 @@ class AuthLogin(Resource):
 
             email, password = data["email"], data["password"]
 
-            user = user_service.login(email, password)
+            user = login_user(email, password)
 
             session.pop("user_id", None)
             session["user_id"] = user.id
