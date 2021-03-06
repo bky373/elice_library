@@ -4,7 +4,11 @@ from elice_library.database.config import db
 from elice_library.domain.models.comment import Comment
 from elice_library.services.user_service import UserService
 from elice_library.services.book_service import BookService
-from elice_library.utils.errors import COMMENT_REQUIRED, SCORE_REQUIRED, CommentAlreadyPostedError
+from elice_library.utils.errors import (
+    COMMENT_REQUIRED,
+    SCORE_REQUIRED,
+    CommentAlreadyPostedError,
+)
 
 
 class CommentService:

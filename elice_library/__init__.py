@@ -5,15 +5,17 @@ from elice_library.routes import add_namespaces
 from elice_library.database.config import db, migrate, ma
 
 
-blueprint = Blueprint('api', __name__)
+blueprint = Blueprint("api", __name__)
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
 
-    api = Api(blueprint, 
-        title = 'ELICE LIBRARY WEB APPLICATION',
-        description = 'library web service with flask restx apis'
+    api = Api(
+        blueprint,
+        title="ELICE LIBRARY WEB APPLICATION",
+        description="library web service with flask restx apis",
     )
 
     add_namespaces(api)

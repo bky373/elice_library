@@ -2,7 +2,12 @@ from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
 from elice_library.domain.models.user import User
-from elice_library.utils.errors import AccountAlreadyExistError, RePasswordRequiredError, PasswordsNotMatchError, AccountNotExistError
+from elice_library.utils.errors import (
+    AccountAlreadyExistError,
+    RePasswordRequiredError,
+    PasswordsNotMatchError,
+    AccountNotExistError,
+)
 
 
 class UserService:
