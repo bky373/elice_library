@@ -21,6 +21,7 @@ api = Namespace("rental", decription="rental related opertations")
 
 @api.route("/books-rental")
 class BookRental(Resource):
+    @api.doc("show rental information of user")
     def get(self):
         return make_response(
             render_template(
@@ -29,6 +30,7 @@ class BookRental(Resource):
             )
         )
 
+    @api.doc("create a new rental")
     def post(self):
         try:
             json_data = request.get_json()
@@ -46,12 +48,14 @@ class BookRental(Resource):
 
 @api.route("/books-return")
 class BookReturn(Resource):
+    @api.doc("show return information of user")
     def get(self):
         unfinished = get_unfinished_rentals_by_user_id(g.user.id)
         return make_response(
             render_template("rental/books_return.html", rental_list=unfinished)
         )
 
+    @api.doc("return a book")
     def post(self):
         book_id = request.form.get("book_id")
         finish_rent(g.user.id, book_id)
@@ -60,6 +64,7 @@ class BookReturn(Resource):
 
 @api.route("/rental-best")
 class RentalBest(Resource):
+    @api.doc("show books sorted by number of rentals in descending order")
     def get(self):
         return make_response(
             render_template(

@@ -10,5 +10,6 @@ api = Namespace("main", description="main related operations")
 @api.route("/")
 @api.route("/index")
 class Index(Resource):
+    @api.doc("show main page")
     def get(self):
         return redirect(url_for("api.books_book_list"))

@@ -14,8 +14,10 @@ from elice_library.utils.errors import (
 def get_comment_by_id(comment_id) -> Comment:
     return Comment.query.filter_by(id=comment_id).first()
 
+
 def get_comment_by_userid_and_bookid(user_id, book_id) -> Comment:
     return Comment.query.filter_by(user_id=user_id, book_id=book_id).first()
+
 
 def create_comment(user_id, book_id, content, rating) -> Comment:
     user = get_user_by_id(user_id)
@@ -36,9 +38,11 @@ def create_comment(user_id, book_id, content, rating) -> Comment:
     save_to_db(comment)
     return comment
 
+
 def get_comments_by_book_id(book_id) -> List[Comment]:
     book = get_book_by_id(book_id)
     return book.comments
+
 
 def update_comment(comment_id, content) -> Comment:
     if not content:
@@ -49,10 +53,12 @@ def update_comment(comment_id, content) -> Comment:
     save_to_db(comment)
     return comment
 
+
 def delete_comment(comment_id) -> None:
     comment = get_comment_by_id(comment_id)
     db.session.delete(comment)
     db.session.commit()
+
 
 def save_to_db(user) -> None:
     db.session.add(user)

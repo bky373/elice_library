@@ -39,9 +39,11 @@ class Resource(flask_restx.Resource):
 
 @api.route("/signup")
 class AuthSignUp(Resource):
+    @api.doc("show signup form")
     def get(self):
         return make_response(render_template("auth/signup.html"))
 
+    @api.doc("register a new user")
     def post(self):
         try:
             json_data = request.get_json()
@@ -75,9 +77,11 @@ class AuthSignUp(Resource):
 
 @api.route("/login")
 class AuthLogin(Resource):
+    @api.doc("show login form")
     def get(self):
         return make_response(render_template("auth/login.html"))
 
+    @api.doc("user login")
     def post(self):
         try:
             json_data = request.get_json()
@@ -102,6 +106,7 @@ class AuthLogin(Resource):
 
 @api.route("/logout")
 class AuthLogout(Resource):
+    @api.doc("user logout")
     def get(self):
         session.pop("user_id", None)
         return redirect(url_for("api.main_index"))
