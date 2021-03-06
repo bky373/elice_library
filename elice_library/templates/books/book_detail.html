@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+w{% extends 'base.html' %}
 
 {% block script %}
 <script type=text/javascript>
@@ -10,7 +10,7 @@
         
         $.ajax({
             method    : "POST",
-            url       : "{{ url_for('comment.comment_detail') }}",
+            url       : "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
             data       :JSON.stringify({
                 book_id :bookId,
@@ -31,7 +31,7 @@
 
         $.ajax({
             method: "PUT",
-            url: "{{ url_for('comment.comment_detail') }}",
+            url: "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
             data : JSON.stringify({
                 comment_id: id,
@@ -63,7 +63,7 @@
     function deleteBookComment(id) {
         $.ajax({
             method: "DELETE",
-            url: "{{ url_for('comment.comment_detail') }}",
+            url: "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
             data : JSON.stringify({
                 comment_id: id
@@ -82,17 +82,20 @@
 <h1 class="ml-2 mb-3 row"><i class="fas fa-book-open"></i>&nbsp;&nbsp;책 정보</h1>
 </p>
 <div id="book-detail" class="row">
-    <div class="row justify-content-center mb-4 p-4">
+    <div class="row justify-content-center mb- p-4">
         <span class="col-md-5 mb-1 mr-4 text-center">
             <img src="{{ book.image_path }}" class="img-fluid p-4" style="width:310px; height:350px" alt="책 이미지" />
-            <button type="button" class="btn btn-info w-75 my-2" onclick="createRental(`{{ book.id }}`);">대여하기</button>
+            <div class="mt-2">
+                <button type="button" class="btn btn-danger mr-4" onclick=""><i class="far fa-heart"><strong></i>&nbsp;&nbsp;추천하기</strong></button>
+                <button type="button" class="btn btn-success " onclick="createRental(`{{ book.id }}`);"><strong><i class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
+            </div>
         </span>
-        <span class="card col-md-5 mt-3 ml-1 mr-4 p-3" style="width: 800px;">
-            <div class="card-body mt-2">
-                <div class="text-center border-bottom mb-2 pb-4">
+        <span class="card col-md-5 ml-1 mr-4" style="width: 800px;">
+            <div class="card-body mt-4">
+                <div class="text-center border-bottom mb-4 pb-4">
                     <h4><strong>{{ book.book_name }}</strong></h4>
                 </div>
-                <ul class="card-text card-text-custome mt-4 mb-2">
+                <ul class="card-text card-text-custome mt-4 pt-3">
                     <li class="float-left row mt-1 mb-1" style="width: 610px;">
                         <strong class="col-md-2">저자</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.author }}</span>
@@ -122,10 +125,16 @@
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.isbn }}</span>
                     </li>
                 </ul>
-                <ul class="card-text mt-4">
+                <ul class="card-text mt-4 mb-2">
                     <li class="float-left row" style="width: 610px;">
                         <strong class="col-md-2">독자 평점</strong>
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.rating }}점</span>
+                    </li>
+                </ul>
+                <ul class="card-text mt-4">
+                    <li class="float-left row mt-1" style="width: 610px;">
+                        <strong class="col-md-2">남은 권수</strong>
+                        <span class="col-md-4">:&nbsp;&nbsp;{{ book.stock_num }}권</span>
                     </li>
                 </ul>
             </div>
@@ -193,7 +202,7 @@
             <div class="comment-border"></div>
             {% endfor %}
             {% endwith %}
-            <form id="comment-post-box" class="row justify-content-center" action="{{ url_for('comment.comment_detail') }}" method="POST">
+            <form id="comment-post-box" class="row justify-content-center" method="POST">
                 <input type="hidden" name="book_id" value="{{ book.id }}">
                 <div class="col-md-11">
                     <a name="comment-post-btn" class="d-block" style="height:20px;"></a>

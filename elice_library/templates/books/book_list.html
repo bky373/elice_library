@@ -1,25 +1,5 @@
 {% extends 'base.html' %}
 
-{% block script %}
-<script type="text/javascript">
-    function createRental(bookId) {
-        $.ajax({
-            method     : "POST",
-            url        : "{{ url_for('rental.book_rental') }}",
-            contentType: "application/json",
-            data       : JSON.stringify({
-                book_id : Number(bookId)
-            })
-        }).done(function(res) {
-            alert(res.message)
-            window.location.reload();
-        }).fail(function (res) {
-            alert(res.responseJSON.message)
-        });
-    }
-
-</script>
-{% endblock %}
 {% block content %}
 <div>
     <div class="row">
@@ -29,7 +9,7 @@
 <div id="book-list" class="row justify-content-center">
     {% if books %}
         {% for book in books.items %}
-        <form class="card col-md-3 mx-4 my-3 p-1" method="POST" action="{{ url_for('rental.book_rental') }}">
+        <form class="card col-md-3 mx-4 my-3 p-1" method="POST" action="{{ url_for('api.rental_book_rental') }}">
             <div class="card-body">
                 {% if book.id == 1 %}
                 <div class="book-image text-center">
@@ -40,7 +20,7 @@
                     <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 160px; height: 190px;" />
                 </div>
                 {% endif %}
-                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('books.book_detail', book_id=book.id) }}">{{ book.book_name }}</a></h2>
+                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('api.books_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
                 <div class="star-rating">
@@ -78,7 +58,7 @@
 <ul class="pagination justify-content-center my-3 p-3">
     {% if books.has_prev %} 
     <li class="page-item">
-        <a class="page-link" href="{{ url_for('books.book_list', page=books.prev_num) }}">이전</a>
+        <a class="page-link" href="{{ url_for('api.books_book_list', page=books.prev_num) }}">이전</a>
     </li>
     {% else %}
     <li class="page-item disabled">
@@ -93,7 +73,7 @@
             </li>  
             {% else %}
             <li class="page-item">
-                <a class="page-link" href="{{ url_for('books.book_list', page=page_num) }}">{{ page_num }}</a>
+                <a class="page-link" href="{{ url_for('api.books_book_list', page=page_num) }}">{{ page_num }}</a>
             </li>
             {% endif %}
         {% else %}
@@ -104,7 +84,7 @@
     {% endfor %}
     {% if books.has_next %} 
     <li class="page-item">
-        <a class="page-link" href="{{ url_for('books.book_list', page=books.next_num) }}">다음</a>
+        <a class="page-link" href="{{ url_for('api.books_book_list', page=books.next_num) }}">다음</a>
     </li>
     {% else %}
     <li class="page-item disabled">
