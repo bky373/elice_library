@@ -4,7 +4,11 @@ from functools import wraps
 from flask_restx import Namespace
 from marshmallow import ValidationError
 from elice_library.domain.schemas.user_schema import UserCreateSchema, UserLoginSchema
-from elice_library.services.user_service import find_by_id, register_user, login_user
+from elice_library.services.user_service import (
+    get_user_by_id,
+    register_user,
+    login_user,
+)
 from elice_library.utils.errors import (
     AccountAlreadyExistError,
     RePasswordRequiredError,
@@ -23,7 +27,7 @@ def load_logged_in_user(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         user_id = session.get("user_id")
-        g.user = find_by_id(user_id) if user_id else None
+        g.user = get_user_by_id(user_id) if user_id else None
         return func(*args, **kwargs)
 
     return wrapper

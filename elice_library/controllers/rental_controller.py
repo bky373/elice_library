@@ -2,7 +2,10 @@ from datetime import datetime
 from flask import g, request, render_template, redirect, url_for, session, make_response
 from flask_restx import Namespace
 from marshmallow import ValidationError
-from elice_library.services.book_service import get_book_by_id, sort_books_by_rentals_num
+from elice_library.services.book_service import (
+    get_book_by_id,
+    sort_books_by_rentals_num,
+)
 from elice_library.services.book_rental_service import BookRentalService
 from elice_library.controllers.auth_controller import Resource
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError

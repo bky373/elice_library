@@ -1,6 +1,11 @@
 from flask import render_template, request, make_response
 from flask_restx import Namespace
-from elice_library.services.book_service import paginate_books, get_book_by_id, sort_books_by_published_date, sort_books_by_rating
+from elice_library.services.book_service import (
+    paginate_books,
+    get_book_by_id,
+    sort_books_by_published_date,
+    sort_books_by_rating,
+)
 from elice_library.controllers.auth_controller import Resource
 
 
@@ -13,16 +18,19 @@ api = Namespace("books", description="book related operations")
 class BookList(Resource):
     def get(self):
         page = request.args.get("page", type=int, default=1)
-        return make_response(render_template("books/book_list.html", books=paginate_books(page, per_page=ROWS_PER_PAGE)))
+        return make_response(
+            render_template(
+                "books/book_list.html",
+                books=paginate_books(page, per_page=ROWS_PER_PAGE),
+            )
+        )
 
 
 @api.route("/<int:book_id>")
 class Book(Resource):
     def get(self, book_id):
         return make_response(
-            render_template(
-                "books/book_detail.html", book=get_book_by_id(book_id)
-            )
+            render_template("books/book_detail.html", book=get_book_by_id(book_id))
         )
 
 
@@ -40,7 +48,5 @@ class NewArrivals(Resource):
 class RatingBest(Resource):
     def get(self):
         return make_response(
-            render_template(
-                "books/rating_best.html", books=sort_books_by_rating()
-            )
+            render_template("books/rating_best.html", books=sort_books_by_rating())
         )

@@ -10,16 +10,16 @@ from elice_library.utils.errors import (
 )
 
 
-def find_by_id(user_id) -> User:
+def get_user_by_id(user_id) -> User:
     return User.query.filter_by(id=user_id).first()
 
 
-def find_by_email(email) -> User:
+def get_user_by_email(email) -> User:
     return User.query.filter_by(email=email).first()
 
 
 def register_user(username, email, password, re_password) -> User:
-    existed = find_by_email(email)
+    existed = get_user_by_email(email)
     if existed:
         raise AccountAlreadyExistError()
 
@@ -35,7 +35,7 @@ def register_user(username, email, password, re_password) -> User:
 
 
 def login_user(email, password) -> User:
-    existed = find_by_email(email)
+    existed = get_user_by_email(email)
     if not existed:
         raise AccountNotExistError()
 

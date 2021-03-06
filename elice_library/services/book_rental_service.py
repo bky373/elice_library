@@ -3,7 +3,7 @@ from elice_library.database.config import db
 from marshmallow import ValidationError
 from typing import List
 from elice_library.domain.models.book_rental import BookRental
-from elice_library.services.user_service import find_by_id
+from elice_library.services.user_service import get_user_by_id
 from elice_library.services.book_service import get_book_by_id
 from elice_library.utils.errors import BooksAllRentedError, BookAlreadyRentedError
 
@@ -21,7 +21,7 @@ class BookRentalService:
         return filtered[-1] if filtered else None
 
     def start_rent(self, user_id, book_id) -> BookRental:
-        user = find_by_id(user_id)
+        user = get_user_by_id(user_id)
         book = get_book_by_id(book_id)
 
         if not book.can_rent:
@@ -47,7 +47,7 @@ class BookRentalService:
         return rental
 
     def get_rental_list_by(self, user_id) -> List[BookRental]:
-        user = find_by_id(user_id)
+        user = get_user_by_id(user_id)
         return user.rental_list
 
     def save_to_db(self, rental) -> None:
