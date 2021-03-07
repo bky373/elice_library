@@ -1,7 +1,10 @@
-from flask import render_template, request, make_response
+from flask import g, render_template, request, make_response, redirect, url_for
 from flask_restx import Namespace
 from elice_library.services.book_service import (
     paginate_books,
+    get_books_by_keyword,
+    mark_book_by_user,
+    recommend_book_by_user,
     get_book_by_id,
     sort_books_by_published_date,
     sort_books_by_rating,
@@ -9,9 +12,9 @@ from elice_library.services.book_service import (
 from elice_library.controllers.auth_controller import Resource
 
 
-ITEMS_PER_PAGE = 8
-
 api = Namespace("books", description="book related operations")
+
+ITEMS_PER_PAGE = 8
 
 
 @api.route("/")
@@ -34,6 +37,33 @@ class Book(Resource):
         return make_response(
             render_template("books/book_detail.html", book=get_book_by_id(book_id))
         )
+
+
+@api.route("/search")
+class BookSearch(Resource):
+    def get(self):
+        keyword = request.args.get("keyword", type=str, default="")
+        return make_response(
+            render_template(
+                "books/books_search.html", books=get_books_by_keyword(keyword)
+            )
+        )
+
+
+@api.route("/bookmark")
+class BookMark(Resource):
+    @api.doc("add or cancel a bookmark")
+    def post(self):
+        data = request.get_json()
+        return mark_book_by_user(g.user, data["book_id"])
+
+
+@api.route("/recommend")
+class BookRecommend(Resource):
+    @api.doc("add or cancel a recommendation")
+    def post(self):
+        data = request.get_json()
+        return recommend_book_by_user(g.user, data["book_id"])
 
 
 @api.route("/new-arrivals")

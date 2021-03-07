@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from pytz import timezone
 from sqlalchemy.exc import IntegrityError
