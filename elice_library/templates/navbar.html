@@ -59,6 +59,9 @@
                                 aria-expanded="false">내 정보 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_bookmarks') }}">찜한 도서</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ url_for('api.user_user_vote_books') }}">추천한 도서</a>
                                 </li>
                                 <li class="nav-item">

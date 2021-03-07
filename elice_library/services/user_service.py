@@ -59,6 +59,10 @@ def get_books_voted_by_user(user) -> List[Book]:
     return user.voted_books
 
 
+def get_books_marked_by_user(user) -> List[Book]:
+    return user.marked_books
+
+
 def save_to_db(user) -> None:
     db.session.add(user)
     db.session.commit()

@@ -6,7 +6,11 @@ from elice_library.domain.schemas.user_schema import (
     UserLoginSchema,
     UserWithdrawalSchema,
 )
-from elice_library.services.user_service import deactivate_user, get_books_voted_by_user
+from elice_library.services.user_service import (
+    deactivate_user,
+    get_books_voted_by_user,
+    get_books_marked_by_user,
+)
 from elice_library.controllers.auth_controller import Resource
 from elice_library.utils.errors import AccountNotExistError, PasswordsNotMatchError
 
@@ -44,10 +48,21 @@ class UserWithdrawal(Resource):
 
 @api.route("/voted-books")
 class UserVoteBooks(Resource):
-    @api.doc("show books voted by current user")
+    @api.doc("show books voted by user logged in")
     def get(self):
         return make_response(
             render_template(
                 "user/voted_books.html", books=get_books_voted_by_user(g.user)
+            )
+        )
+
+
+@api.route("/marked-books")
+class UserBookmarks(Resource):
+    @api.doc("show books marked by user logged in")
+    def get(self):
+        return make_response(
+            render_template(
+                "user/marked_books.html", books=get_books_marked_by_user(g.user)
             )
         )
