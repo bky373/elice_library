@@ -8,7 +8,7 @@ def add_namespaces(api):
 
     api.add_namespace(main_ns, path="/")
     api.add_namespace(auth_ns)
-    api.add_namespace(user_ns, path="/")
+    api.add_namespace(user_ns)
     api.add_namespace(books_ns)
     api.add_namespace(comments_ns)
     api.add_namespace(rental_ns)

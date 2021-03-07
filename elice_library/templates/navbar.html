@@ -52,9 +52,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('api.rental_book_return') }}">반납하기</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('api.user_user_withdrawal') }}">내 정보</a>
-                </li>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav ml-3 mr-3">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                aria-expanded="false">내 정보 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_vote_books') }}">추천한 도서</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_withdrawal') }}">회원 탈퇴</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 <li class="nav-item mr-1">
                     <a class="nav-link" href="{{ url_for('api.auth_auth_logout') }}">{{ g.user.username }}님 로그아웃</a>
                 </li>

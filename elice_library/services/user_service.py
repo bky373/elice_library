@@ -2,6 +2,7 @@ from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
 from elice_library.domain.models.user import User
+from elice_library.domain.models.book import Book
 from elice_library.utils.errors import (
     AccountAlreadyExistError,
     RePasswordRequiredError,
@@ -52,6 +53,10 @@ def deactivate_user(user, password) -> User:
     user.deactivate()
     save_to_db(user)
     return user
+
+
+def get_books_voted_by_user(user) -> List[Book]:
+    return user.voted_books
 
 
 def save_to_db(user) -> None:
