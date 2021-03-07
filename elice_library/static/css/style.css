@@ -80,6 +80,10 @@ textarea::placeholder {
     font-size: 13px;
 }
 
+.divider {
+    border-top: 1px solid #d4d4d4; 
+}
+
 .container {
     margin-top: 100px;
     color: #2f2f2f;

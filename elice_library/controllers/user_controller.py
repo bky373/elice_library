@@ -11,14 +11,19 @@ from elice_library.services.user_service import (
     update_user_password,
     deactivate_user,
 )
+from elice_library.services.comment_service import get_books_commented_by_user
 from elice_library.controllers.auth_controller import Resource
-from elice_library.utils.errors import AccountNotExistError, InvalidNewPasswordError, PasswordsNotMatchError, RePasswordRequiredError
+from elice_library.utils.errors import (
+    AccountNotExistError,
+    InvalidNewPasswordError,
+    PasswordsNotMatchError,
+    RePasswordRequiredError,
+)
 
 
 api = Namespace("user", description="user related operations")
 user_create_schema = UserCreateSchema()
 user_withdrawal_schema = UserWithdrawalSchema()
-
 
 
 @api.route("/marked-books")
@@ -41,6 +46,18 @@ class UserVoteBooks(Resource):
                 "user/voted_books.html", books=get_books_voted_by_user(g.user)
             )
         )
+
+
+@api.route("/commented-books")
+class UserCommentBooks(Resource):
+    @api.doc("show books commented by user logged in")
+    def get(self):
+        return make_response(
+            render_template(
+                "user/commented_books.html", books=get_books_commented_by_user(g.user)
+            )
+        )
+
 
 @api.route("/new-password")
 class NewPassword(Resource):
@@ -100,4 +117,3 @@ class UserWithdrawal(Resource):
             return {"password": e.message}, 400
 
         return make_response(render_template("user/withdrawal.html"))
-

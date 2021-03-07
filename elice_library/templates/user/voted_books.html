@@ -3,7 +3,7 @@
 {% block content %}
 <p>
 <div class="row">
-    <h1 class="ml-2 mb-3"><i class="fas fa-window-restore"></i>&nbsp;&nbsp;{{g.user.username}}님의 추천 도서 목록</h1>
+    <h1 class="ml-2 mb-3"><i class="fas fa-window-restore"></i>&nbsp;&nbsp;{{g.user.username}}님이 추천한 도서</h1>
 </div>
 </p>
 <div class="jumbotron row justify-content-center">
@@ -18,7 +18,7 @@
                     href="{{ url_for('api.books_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
         </div>
         <div class="text-center">
-            <div class="text-center my-1"><b>출간일 :</b>&nbsp;&nbsp;{{ book.published_at.strftime('%Y.%m.%d') }}</div>
+            <div class="text-center my-1"><b>추천 개수 :</b>&nbsp;&nbsp;{{ book.voters|length }}개</div>
             <div class="text-center my-1"><b>독자 평점 :</b>&nbsp;&nbsp;{{ book.rating }}점</div>
             <a href="{{ url_for('api.books_book', book_id=book.id) }}">
                 <button type="submit" class="btn btn-info w-75 my-2">책 보러 가기</button>
@@ -29,7 +29,7 @@
     {% else %}
     <article class="card col-md-3 mx-3 my-3 p-3">
         <div class="card-body">
-            <h2 class="card-title p-2 text-center font-weight-bolder">도서 목록을 가져올 수 없습니다.</h2>
+            <h2 class="card-title p-2 text-center font-weight-bolder">추천하는 도서가 없습니다.</h2>
         </div>
     </article>
     {% endif %}
