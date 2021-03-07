@@ -8,6 +8,7 @@ from elice_library.utils.errors import (
     RePasswordRequiredError,
     PasswordsNotMatchError,
     AccountNotExistError,
+    InvalidNewPasswordError,
 )
 
 
@@ -44,6 +45,21 @@ def login_user(email, password) -> User:
         raise PasswordsNotMatchError()
 
     return existed
+
+
+def update_user_password(user, password, re_password):
+    if user.check_password(password):
+        raise InvalidNewPasswordError()
+
+    if not re_password:
+        raise RePasswordRequiredError()
+
+    if password != re_password:
+        raise PasswordsNotMatchError()
+
+    user = user.update_password(password)
+    save_to_db(user)
+    return user
 
 
 def deactivate_user(user, password) -> User:

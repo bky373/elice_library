@@ -3,21 +3,77 @@ from flask_restx import Namespace
 from marshmallow import ValidationError
 from elice_library.domain.schemas.user_schema import (
     UserCreateSchema,
-    UserLoginSchema,
     UserWithdrawalSchema,
 )
 from elice_library.services.user_service import (
-    deactivate_user,
-    get_books_voted_by_user,
     get_books_marked_by_user,
+    get_books_voted_by_user,
+    update_user_password,
+    deactivate_user,
 )
 from elice_library.controllers.auth_controller import Resource
-from elice_library.utils.errors import AccountNotExistError, PasswordsNotMatchError
+from elice_library.utils.errors import AccountNotExistError, InvalidNewPasswordError, PasswordsNotMatchError, RePasswordRequiredError
 
 
 api = Namespace("user", description="user related operations")
-
+user_create_schema = UserCreateSchema()
 user_withdrawal_schema = UserWithdrawalSchema()
+
+
+
+@api.route("/marked-books")
+class UserBookmarks(Resource):
+    @api.doc("show books marked by user logged in")
+    def get(self):
+        return make_response(
+            render_template(
+                "user/marked_books.html", books=get_books_marked_by_user(g.user)
+            )
+        )
+
+
+@api.route("/voted-books")
+class UserVoteBooks(Resource):
+    @api.doc("show books voted by user logged in")
+    def get(self):
+        return make_response(
+            render_template(
+                "user/voted_books.html", books=get_books_voted_by_user(g.user)
+            )
+        )
+
+@api.route("/new-password")
+class NewPassword(Resource):
+    @api.doc("show a page where user can update a password")
+    def get(self):
+        return make_response(render_template("user/new_password.html"))
+
+    @api.doc("update a password")
+    def post(self):
+        try:
+            json_data = request.get_json()
+            data = user_create_schema.load(json_data, partial=True)
+
+            password, re_password = (
+                data["password"],
+                data["repassword"],
+            )
+
+            user = update_user_password(g.user, password, re_password)
+            session.pop("user_id", None)
+
+        except ValidationError as e:
+            return e.messages, 400
+        except InvalidNewPasswordError as e:
+            return {"password": e.message}, 400
+        except AccountNotExistError as e:
+            return {"email": e.message}, 400
+        except RePasswordRequiredError as e:
+            return {"repassword": e.message}, 400
+        except PasswordsNotMatchError as e:
+            return {"repassword": e.message}, 400
+
+        return {"username": user.username}, 201
 
 
 @api.route("/withdrawal")
@@ -45,24 +101,3 @@ class UserWithdrawal(Resource):
 
         return make_response(render_template("user/withdrawal.html"))
 
-
-@api.route("/voted-books")
-class UserVoteBooks(Resource):
-    @api.doc("show books voted by user logged in")
-    def get(self):
-        return make_response(
-            render_template(
-                "user/voted_books.html", books=get_books_voted_by_user(g.user)
-            )
-        )
-
-
-@api.route("/marked-books")
-class UserBookmarks(Resource):
-    @api.doc("show books marked by user logged in")
-    def get(self):
-        return make_response(
-            render_template(
-                "user/marked_books.html", books=get_books_marked_by_user(g.user)
-            )
-        )
