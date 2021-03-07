@@ -54,3 +54,7 @@ class UserLoginSchema(ma.Schema):
         error_messages={"invalid": INVALID_EMAIL},
     )
     password = fields.Str(required=True, validate=not_allow_blank, load_only=True)
+
+
+class UserWithdrawalSchema(ma.Schema):
+    password = fields.Str(required=True, validate=not_allow_blank, load_only=True)

@@ -36,13 +36,22 @@ def register_user(username, email, password, re_password) -> User:
 
 def login_user(email, password) -> User:
     existed = get_user_by_email(email)
-    if not existed:
+    if not existed or not existed.is_active:
         raise AccountNotExistError()
 
     if not existed.check_password(password):
         raise PasswordsNotMatchError()
 
     return existed
+
+
+def deactivate_user(user, password) -> User:
+    if not user.check_password(password):
+        raise PasswordsNotMatchError()
+
+    user.deactivate()
+    save_to_db(user)
+    return user
 
 
 def save_to_db(user) -> None:

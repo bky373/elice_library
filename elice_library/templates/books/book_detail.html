@@ -261,7 +261,7 @@
             {% include "comment/rating.html" %}
             <div class="my-3" style="height: 40px;"></div>
             {% else %}
-            <a href="{{ url_for('auth.login') }}">
+            <a href="{{ url_for('api.auth_auth_login') }}">
                 <button type="button" class="btn btn-secondary float-right my-3 shadow-none">로그인 후 작성하기</button>
             </a>
             {% endif %}

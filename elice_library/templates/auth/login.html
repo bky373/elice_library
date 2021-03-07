@@ -9,7 +9,7 @@
             contentType: "application/json",
             data       : JSON.stringify({
                 email     : $('#email').val(),
-                password  : $('#password').val(),
+                password  : $('#password').val()
             })
         }).done(function (res) {
             alert(`${res.username}님이 로그인하였습니다 :)`)
