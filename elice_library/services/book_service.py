@@ -22,6 +22,11 @@ def paginate_books(page, per_page):
     return Book.query.paginate(page, per_page)
 
 
+def get_books_by_keyword(keyword) -> List[Book]:
+    search = "%{}%".format(keyword)
+    return Book.query.filter(Book.book_name.like(search)).all()
+
+
 def mark_book_by_user(user, book_id):
     book = get_book_by_id(book_id)
     if user in book.markers:

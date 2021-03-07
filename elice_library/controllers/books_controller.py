@@ -1,7 +1,8 @@
-from flask import g, render_template, request, make_response
+from flask import g, render_template, request, make_response, redirect, url_for
 from flask_restx import Namespace
 from elice_library.services.book_service import (
     paginate_books,
+    get_books_by_keyword,
     mark_book_by_user,
     recommend_book_by_user,
     get_book_by_id,
@@ -35,6 +36,17 @@ class Book(Resource):
     def get(self, book_id):
         return make_response(
             render_template("books/book_detail.html", book=get_book_by_id(book_id))
+        )
+
+
+@api.route("/search")
+class BookSearch(Resource):
+    def get(self):
+        keyword = request.args.get("keyword", type=str, default="")
+        return make_response(
+            render_template(
+                "books/books_search.html", books=get_books_by_keyword(keyword)
+            )
         )
 
 
