@@ -11,6 +11,7 @@ class User(db.Model):
     email = db.Column(db.String(128), primary_key=True, unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     joined_at = db.Column(db.DateTime(timezone=True), nullable=False)
+    role = db.Column(db.Integer, nullable=False, default=1)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -18,8 +19,20 @@ class User(db.Model):
         self.password = generate_password_hash(password)
         self.joined_at = datetime.now(timezone("Asia/Seoul"))
 
+    @property
+    def is_active(self):
+        return self.role > 0
+
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def update_password(self, password):
+        self.password = generate_password_hash(password)
+        return self
+
+    def deactivate(self):
+        self.role = 0
+        return self
 
     def __repr__(self):
         return (

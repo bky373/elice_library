@@ -1,6 +1,7 @@
 from typing import List
 from marshmallow import ValidationError
 from elice_library.database.config import db
+from elice_library.domain.models.book import Book
 from elice_library.domain.models.comment import Comment
 from elice_library.services.user_service import get_user_by_id
 from elice_library.services.book_service import get_book_by_id
@@ -13,6 +14,15 @@ from elice_library.utils.errors import (
 
 def get_comment_by_id(comment_id) -> Comment:
     return Comment.query.filter_by(id=comment_id).first()
+
+
+def get_comments_by_user(user) -> List[Comment]:
+    return Comment.query.filter_by(user=user).all()
+
+
+def get_books_commented_by_user(user) -> List[Book]:
+    comments = get_comments_by_user(user)
+    return [comment.book for comment in comments]
 
 
 def get_comment_by_userid_and_bookid(user_id, book_id) -> Comment:

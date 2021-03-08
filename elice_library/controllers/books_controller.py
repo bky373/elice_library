@@ -41,6 +41,7 @@ class Book(Resource):
 
 @api.route("/search")
 class BookSearch(Resource):
+    @api.doc("show searched book list")
     def get(self):
         keyword = request.args.get("keyword", type=str, default="")
         return make_response(

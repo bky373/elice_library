@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block script %}
+<script type="text/javascript">
+    function deactivate() {
+        $.ajax({
+            method     : "POST",
+            url        : "{{ url_for('api.user_user_withdrawal') }}",
+            contentType: "application/json",
+            data       : JSON.stringify({
+                password  : $('#password').val()
+            })
+        }).done(function (res) {
+            alert(`탈퇴 처리되었습니다 :)`)
+            location.href = "{{ url_for('api.main_index') }}"
+        }).fail(function (res) {
+            if (res.responseJSON !== undefined) {
+                const json_data = res.responseJSON;
+                if (json_data.hasOwnProperty('password')) {
+                    $('#validate-password').empty();
+                    $('#validate-password').append(`<div id="password-caption" class="figure-caption m-1 text-danger">${json_data.password}</div>`);
+                } else {
+                    $('#password-caption').addClass('d-none');
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="auth-form login-form justify-content-center">
+    <div class="my-1">
+        <h1 class="col-md-12 mb-4 text-center">회원 탈퇴</h1>
+    </div>
+    <form class="form" method="POST">
+        <div class="form-group mb-3" style="margin-top: 40px;">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호를 한 번 더 입력해주세요." name="password">
+            <div id="validate-password"></div>
+        </div>
+        <div class="form-group text-center" style="margin-top: 50px;">
+            <div class="figure-caption m-1 text-muted">*비밀번호 입력 후 버튼 클릭시 바로 탈퇴 처리됩니다.</div>
+            <button type="button" class="btn btn-danger w-25 mt-2" onclick="deactivate();">회원 탈퇴</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

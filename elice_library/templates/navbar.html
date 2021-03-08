@@ -52,6 +52,32 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('api.rental_book_return') }}">반납하기</a>
                 </li>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav ml-3 mr-3">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                aria-expanded="false">내 정보 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_bookmarks') }}"><strong>찜</strong>한 책</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_vote_books') }}"><strong>추천</strong>한 책</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_comment_books') }}"><strong>댓글</strong> 남긴 책</a>
+                                </li>
+                                <li class="divider my-2"></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_new_password') }}"><strong>비밀번호</strong> 변경</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('api.user_user_withdrawal') }}">회원 탈퇴</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 <li class="nav-item mr-1">
                     <a class="nav-link" href="{{ url_for('api.auth_auth_logout') }}">{{ g.user.username }}님 로그아웃</a>
                 </li>

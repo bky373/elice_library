@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 
 {% block script %}
-<script type=text/javascript> function createBookComment() { const bookId=$("input[name='book_id' ]").val(); const
-    ratings=['#rating0', '#rating1' , '#rating2' , '#rating3' , '#rating4' , '#rating5' ];
-    rating_id=ratings.filter(rating=> $(rating).is(':checked'))[0];
-        rating = rating_id.charAt(rating_id.length-1);
-        
+<script type="text/javascript">
+    function createBookComment() {
+        const bookId = $("input[name='book_id' ]").val();
+        const ratings = ['#rating0', '#rating1', '#rating2', '#rating3', '#rating4', '#rating5'];
+        rating_id = ratings.filter(rating => $(rating).is(':checked'))[0];
+        rating = rating_id.charAt(rating_id.length - 1);
+
         $.ajax({
-            method    : "POST",
-            url       : "{{ url_for('api.comment_comment') }}",
+            method: "POST",
+            url: "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
-            data       :JSON.stringify({
-                book_id :bookId,
-                content :$('#content').val(),
-                rating  :Number(rating),
+            data: JSON.stringify({
+                book_id: bookId,
+                content: $('#content').val(),
+                rating: Number(rating),
             })
         }).done(res => {
             window.location.reload();
@@ -25,13 +27,13 @@
     }
 
     function modifyBookComment(id) {
-        const content = $(`#content-edit-box` + id +` textarea`).val();
+        const content = $(`#content-edit-box` + id + ` textarea`).val();
 
         $.ajax({
             method: "PUT",
             url: "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
-            data : JSON.stringify({
+            data: JSON.stringify({
                 comment_id: id,
                 content: content
             })
@@ -45,14 +47,14 @@
     }
 
     function toggleCommentEditBox(id) {
-        if($(`#comment-content-box`+id).css('display') == 'block') {
-            $(`#comment-content-box`+id).hide();
-            $(`#content-edit-box`+id).removeClass('d-none');
+        if ($(`#comment-content-box` + id).css('display') == 'block') {
+            $(`#comment-content-box` + id).hide();
+            $(`#content-edit-box` + id).removeClass('d-none');
             $(`.comment-edit-btns`).addClass('d-none');
             $(`#comment-post-box`).addClass('d-none');
         } else {
-            $(`#comment-content-box`+id).show();
-            $(`#content-edit-box`+id).addClass('d-none');
+            $(`#comment-content-box` + id).show();
+            $(`#content-edit-box` + id).addClass('d-none');
             $(`.comment-edit-btns`).removeClass('d-none');
             $(`#comment-post-box`).removeClass('d-none');
         }
@@ -63,7 +65,7 @@
             method: "DELETE",
             url: "{{ url_for('api.comment_comment') }}",
             contentType: "application/json",
-            data : JSON.stringify({
+            data: JSON.stringify({
                 comment_id: id
             })
         }).done(res => {
@@ -73,11 +75,11 @@
             alert(res.responseJSON.message);
         })
     }
-    
+
     function handleBookMarkButtonClick(book_id) {
         $.ajax({
-            method:"POST",
-            url:"{{ url_for('api.books_book_mark') }}",
+            method: "POST",
+            url: "{{ url_for('api.books_book_mark') }}",
             contentType: "application/json",
             data: JSON.stringify({
                 book_id: book_id
@@ -89,11 +91,11 @@
             alert(res.responseJSON.message);
         })
     }
-    
+
     function handleRecommendButtonClick(book_id) {
         $.ajax({
-            method:"POST",
-            url:"{{ url_for('api.books_book_recommend') }}",
+            method: "POST",
+            url: "{{ url_for('api.books_book_recommend') }}",
             contentType: "application/json",
             data: JSON.stringify({
                 book_id: book_id
@@ -119,9 +121,16 @@
                 <button type="button" class="btn btn-outline-warning mr-4 px-3 py-2" style="font-size: 15px;"
                     onclick="handleBookMarkButtonClick(`{{book.id}}`)"><strong><i
                             class="fas fa-star"></i>&nbsp;&nbsp;찜하기</strong></button>
-                <button type="button" class="btn btn-outline-success px-3 py-2" style="font-size: 15px;"
+                {% if book.stock_num %}
+                <button type="button" class="btn btn-outline-success px-3 py-2" style="font-size: 14px;"
                     onclick="createRental(`{{ book.id }}`);"><strong><i
                             class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
+                {% else %}
+                <button type="button" class="btn btn-outline-secondary disabled shadow-none px-3 py-2"
+                    style="font-size: 14px; cursor:default;" aria-disabled="true" onclick="return false;"
+                    onclick="createRental(`{{ book.id }}`);"><strong><i
+                            class="fas fa-book"></i>&nbsp;&nbsp;대여불가</strong></button>
+                {% endif %}
             </div>
         </span>
         <span class="card col-md-5 mt-2 ml-1 mr-4" style="width: 800px;">
@@ -131,17 +140,17 @@
                     <i class="fas fa-star mr-2" style="font-size: 16px; color: #FFDC37"></i>
                     {% else %}
                     <i class="fas fa-star mr-2" style="font-size: 16px; color: #dcdcdc"></i>
-                    {% endif %} 
+                    {% endif %}
                     {% set books = [] %}
                     {% for rental in g.user.rental_list if not rental.returned_at %}
                     <!-- 아래 코드의 실행 결과가 페이지에 나타나지 않게 주석 처리함 -->
-                        <!-- {{ books.append(rental.book) }} -->
-                    {% endfor %} 
+                    <!-- {{ books.append(rental.book) }} -->
+                    {% endfor %}
                     {% if book in books %}
                     <i class="fas fa-book mr-2" style="font-size: 16px; color: #5cb85c"></i>
                     {% else %}
                     <i class="fas fa-book mr-2" style="font-size: 16px; color: #dcdcdc"></i>
-                    {% endif %} 
+                    {% endif %}
                     {% if book in g.user.voted_books %}
                     <i class="fas fa-heart text-right" style="font-size: 16px; color: #FF0000;"></i>
                     {% else %}
@@ -181,9 +190,6 @@
                         <span class="col-md-4">:&nbsp;&nbsp;{{ book.stock_num }}권</span>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-outline-danger float-right mr-4 px-3 py-2"
-                    style="font-size: 14px; line-height: 1.9;" onclick="handleRecommendButtonClick(`{{book.id}}`)"><i
-                        class="fas fa-heart">&nbsp;&nbsp;<strong>{{book.voters|length}}</strong></i><br><strong>추천하기</strong></button>
             </div>
         </span>
     </div>
@@ -194,8 +200,13 @@
         </div>
     </div>
 </div>
-<div class="mt-4">
+<div class="my-4">
     {% include "comment/rating_bar_chart.html" %}
+</div>
+<div class="row">
+    <button type="button" class="btn btn-outline-danger mt-4 mx-auto px-3 py-2"
+        style="font-size: 14px; line-height: 1.9;" onclick="handleRecommendButtonClick(`{{book.id}}`)"><i
+            class="fas fa-heart">&nbsp;&nbsp;<strong>{{book.voters|length}}</strong></i><br><strong>추천하기</strong></button>
 </div>
 <a class="d-block" style="height: 80px;" name="comments"></a>
 <div id="commnets" class="comment-list ml-4">
@@ -257,11 +268,11 @@
             <textarea class="form-control mt-2" name="content" id="content" rows="3"
                 placeholder='"{{ book.book_name }}" 에 대한 댓글을 자유롭게 남겨주세요.'></textarea>
             {% if g.user %}
-            <button type="button" class="btn btn-info float-right mt-3" onclick="createBookComment();">작성하기</button>
+            <button type="button" class="btn btn-info float-right mt-3"" onclick=" createBookComment();">작성하기</button>
             {% include "comment/rating.html" %}
             <div class="my-3" style="height: 40px;"></div>
             {% else %}
-            <a href="{{ url_for('auth.login') }}">
+            <a href="{{ url_for('api.auth_auth_login') }}">
                 <button type="button" class="btn btn-secondary float-right my-3 shadow-none">로그인 후 작성하기</button>
             </a>
             {% endif %}
