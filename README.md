@@ -1,27 +1,78 @@
-# 📚 엘리스 도서관 책 대여 서비스
+# 📚 도서관 책 대여 서비스
 
 ## 프로젝트 소개
 
-### Intro
+도서관의 핵심적인 기능들( 회원가입, 도서 대여, 반납, 검색, 조회 등 )을 제공하는 서비스입니다.
 
-- 엘리스 도서관은 누구에게나 열려 있습니다.
-  이제, 이곳 [도서관 웹페이지]((http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/) )를 방문해 집에서도 쉽게 책을 빌려보세요! 
+집에서도 [도서관을 이용해보세요](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/) !
 
-### Stack
+## 주요 사용 기술
 
-#### 백엔드
-
-- **Flask 웹 프레임워크**
-
+- **Flask**
 - SQLAlchemy + Migrate
 - PyMySQL + MySQL
 - Marshmallow
 - Flask-RESTX
-
-#### 프론트엔드
-
 - HTML + Flask Jinja2 + Bootstrap
 - JQuery 
+
+## 프로젝트 실행
+
+### 프로젝트 설치
+
+```bash
+git clone https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library.git
+```
+
+ ### 환경 구축
+
+```bash
+python -m venv venv // 가상 환경 폴더 생성
+
+source venv/[Scripts|bin]/activate // 가상 환경 접속
+
+pip install -r requirements.txt // 필요한 패키지 설치
+```
+
+### 데이버베이스 설정
+
+```python
+# elice_library/utils/config.py
+# 아래와 같이 설정
+# 혹은 .env 파일 이용
+
+SECRET_KEY = [사용자 고유 비밀키 지정]
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?	
+                            charset=utf8'.format(
+                                user = [사용자 MySQL 계정],
+                                pw = [사용자 MySQL 비밀번호],
+                                host = [사용자 host],
+                                port = [사용자 port],
+                                db = [사용자 db 이름] 
+                            )
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+```
+
+### 데이터 베이스 초기화
+
+```bash
+flask db init
+flask db migrate
+flask db update
+```
+
+### 초기 데이터 세팅
+
+```python
+python load_data.py
+```
+
+### 서버 실행
+
+```python
+python run.py
+```
 
 ## 기능 구현
 
