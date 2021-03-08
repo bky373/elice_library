@@ -33,7 +33,7 @@ with app.app_context():
                 link=row['link'],
                 image_path=image_path,
                 stock_num=random.randrange(1,6),
-                rating=random.randrange(1,6)
+                rating=0
             )
             db.session.add(book)
         db.session.commit()
