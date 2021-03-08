@@ -1,10 +1,9 @@
 # 📚 도서관 책 대여 서비스
 
-## 프로젝트 소개
+### 프로젝트 소개
 
-도서관의 핵심적인 기능들( 회원가입, 도서 대여, 반납, 검색, 조회 등 )을 제공하는 서비스입니다.
-
-집에서도 [도서관을 이용해보세요](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/) !
+도서관의 핵심적인 기능들을 제공하는 서비스입니다.  (`회원가입, 도서 대여, 반납, 검색, 조회 기능` 등 제공)
+우측 페이지에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
 
 ## 주요 사용 기술
 
@@ -15,6 +14,7 @@
 - Flask-RESTX
 - HTML + Flask Jinja2 + Bootstrap
 - JQuery 
+- Azure VM (OS: Ubuntu LTS 18.04)
 
 ## 프로젝트 실행
 
@@ -37,9 +37,9 @@ pip install -r requirements.txt // 필요한 패키지 설치
 ### 데이버베이스 설정
 
 ```python
-# elice_library/utils/config.py
-# 아래와 같이 설정
-# 혹은 .env 파일 이용
+// elice_library/utils/config.py
+// 아래와 같이 설정
+// 혹은 .env 파일 이용
 
 SECRET_KEY = [사용자 고유 비밀키 지정]
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?	
@@ -57,9 +57,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 ### 데이터 베이스 초기화
 
 ```bash
-flask db init
-flask db migrate
-flask db update
+flask db init  // migrations 디렉토리 생성
+flask db migrate  // 데이터베이스 모델 테이블 생성 및 변경
+flask db update  //  데이터베이스 갱신
 ```
 
 ### 초기 데이터 세팅
@@ -74,7 +74,20 @@ python load_data.py
 python run.py
 ```
 
-## 기능 구현
+## 전체 프로젝트 진행 일정
+
+### 1주차 (2/23 ~ 2/27)
+
+- 필수 및 선택 기능 구현
+- 간단한 UI/UX 작업
+
+### 2주차 (3/2 ~ 3/8)
+
+- 모듈화 / 관심사 분리 리팩토링
+- 부가 기능 구현 (뒷 페이지 참고)
+- UI/UX 수정 및 보완
+
+## 기능 소개
 
 ### 회원가입
 
@@ -102,7 +115,6 @@ python run.py
 - 책 이름을 클릭 시 책 소개 페이지로 이동합니다.
 - 책의 평점은 현재 DB 상에 담겨있는 모든 평점의 평균으로 표시합니다.
   (숫자 한자리수로 반올림하여 표기합니다.)
-
 - 페이지네이션 기능을 추가합니다. (한 페이지 당 8권의 책만을 표기합니다.)
 
 ### 책 소개
@@ -130,23 +142,3 @@ python run.py
 ### 대여 기록
 
 - 로그인한 유저가 대여 후 반납했던 책에 대한 모든 사항을 출력합니다.
-
-​    
-
-## 전체 프로젝트 진행 일정
-
-### 1주차 (2/23 ~ 2/27)
-
-- 필수 및 선택 기능 구현 (앞 페이지의 주요 서비스들 중 ”노란색”으로 표시된 기능)
-- 간단한 UI/UX 작업
-
-
-
-### 2주차 (3/2 ~ 3/8)
-
-- 모듈화 / 관심사 분리 리팩토링
-
-- 부가 기능 구현 (뒷 페이지 참고)
-
-- UI/UX 수정 및 보완
-
