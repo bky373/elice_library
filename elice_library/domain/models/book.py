@@ -35,6 +35,7 @@ class Book(db.Model):
         return self
 
     def calculate_average_rating(self):
+        if not self.comments: return 0
         return round(
             sum([comment.rating for comment in self.comments]) / len(self.comments)
         )
