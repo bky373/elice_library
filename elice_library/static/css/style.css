@@ -13,7 +13,7 @@ a {
 }
 
 a:hover {
-    color: #10b9b0;
+    color: #bbb5a6;
 }
 
 li {
@@ -33,8 +33,15 @@ textarea::placeholder {
     font-size: 13px;
 }
 
+
 .btn-info {
-    background-color: #10b9b0;
+    background-color: #bbb5a6;
+    border-color: #bbb5a6;
+}
+
+.btn-info:hover {
+    background-color: #99927f;
+    border-color: #99927f;
 }
 
 .navbar {
@@ -44,7 +51,7 @@ textarea::placeholder {
 }
 
 .navbar-brand {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .navbar-brand,
@@ -53,22 +60,22 @@ textarea::placeholder {
 }
 
 .navbar-brand:hover {
-    color: #10b9b0;
+    color: #bbb5a6;
 }
 
 .navbar-nav .nav-link {
-    font-size: 15px;
+    font-size: 14px;
     color: #474747;
 }
 
 .navbar-toggler i {
-    font-size: 23px;
+    font-size: 22px;
 }
 
 .nav-item.active .nav-link,
 .nav-item:hover .nav-link,
 .dropdown a:hover {
-    color: #afa998;
+    color: #bbb5a6;
 }
 
 .dropdown-menu {
@@ -127,12 +134,12 @@ textarea::placeholder {
 }
 
 .page-item.active .page-link {
-    background-color: #10b9b0;
-    border-color: #10b9b0;
+    background-color: #bbb5a6;
+    border-color: #bbb5a6;
 }
 
 .page-item.active a {
-    color: #10b9b0;
+    color: #bbb5a6;
 }
 
 .auth-form {
@@ -183,12 +190,8 @@ textarea::placeholder {
     border-radius: 10px;
 }
 
-.star-rating {
-    padding: 10px;
-}
-
 .star-rating div {
-    color: #10b9b0;
+    color: #fad764;
     font-size: 13px;
     font-weight: 500;
     text-transform: uppercase;
@@ -226,7 +229,7 @@ textarea::placeholder {
 }
 
 .stars-rated i.star-selected {
-    color: #10b9b0;
+    color: #fad764;
 }
 
 .comment-edit-btns a {

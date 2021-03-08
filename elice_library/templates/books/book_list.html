@@ -1,59 +1,100 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script type="text/javascript">
+    function handleBookMarkButtonClick(book_id) {
+        $.ajax({
+            method:"POST",
+            url:"{{ url_for('api.books_book_mark') }}",
+            contentType: "application/json",
+            data: JSON.stringify({
+                book_id: book_id
+            })
+        }).done(res => {
+            alert(res.message);
+            window.location.reload();
+        }).fail(res => {
+            alert(res.responseJSON.message);
+        })
+    }
+    
+    function handleRecommendButtonClick(book_id) {
+        $.ajax({
+            method:"POST",
+            url:"{{ url_for('api.books_book_recommend') }}",
+            contentType: "application/json",
+            data: JSON.stringify({
+                book_id: book_id
+            })
+        }).done(res => {
+            alert(res.message);
+            window.location.reload();
+        }).fail(res => {
+            alert(res.responseJSON.message);
+        })
+    }
+</script>
+{% endblock %}
+
 {% block content %}
 <div>
     <div class="row">
-        <h1 class="ml-2 mb-3"><i class="fas fa-book"></i>&nbsp;&nbsp;전체 도서 목록</h1>
+        <h1 class="ml-4 mb-2"><i class="fas fa-book"></i>&nbsp;&nbsp;전체 도서 목록</h1>
     </div>
 </div>
-<div id="book-list" class="row justify-content-center">
+<div id="book-list" class="row justify-content-center" style="padding: 40px;">
     {% if books %}
         {% for book in books.items %}
-        <form class="card col-md-3 mx-4 my-3 p-1" method="POST" action="{{ url_for('api.rental_book_rental') }}">
+        <form class="card shadow-none col-md-3 mx-4 my-3 p-1" style="border-radius: 5px;" method="POST" action="{{ url_for('api.rental_book_rental') }}">
             <div class="card-body">
                 {% if book.id == 1 %}
                 <div class="book-image text-center">
-                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 190px; height: 190px;" />
+                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 120px; height: 130px;" />
                 </div>
                 {% else %}
                 <div class="book-image text-center">
-                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 160px; height: 190px;" />
+                    <img src="{{ book.image_path }}" class="img-fluid" alt="책 이미지" style="width: 110px; height: 130px;" />
                 </div>
                 {% endif %}
-                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder"><a href="{{ url_for('api.books_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
+                <h2 class="card-title mt-2 mb-1 pt-2 text-center font-weight-bolder"><a href="{{ url_for('api.books_book', book_id=book.id) }}">{{ book.book_name }}</a></h2>
             </div>
             <div class="text-center">
-                <div class="star-rating">
-                    <div class="text-dark pb-2">< 평점 ></div>
-                    <div class="star-icon">
+                <div class="star-rating mt-1 mb-2">
+                    <span class="star-icon">
                         {% for i in range(1, book.rating + 1) %}
                         <input type="radio" name="rating" id="rating{{i}}" value="5">
-                        <label for="rating{{i}}" class="fa fa-star active disabled" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                        <label for="rating{{i}}" class="fa fa-star active disabled" style="text-shadow: none; color: #fad764; cursor:default; font-size: 13px;" aria-disabled="true" onclick="return false;"></label>
                         {% endfor %}
                         {% for i in range(book.rating + 1, 6) %}
                         <input type="radio" name="rating" id="rating{{i}}" value="5">
-                        <label for="rating{{i}}" class="fa fa-star disabled" style="color: #d8d4d4;" style="cursor:default" aria-disabled="true" onclick="return false;"></label>
+                        <label for="rating{{i}}" class="fa fa-star disabled" style="text-shadow: none; color:#d8d4d4; cursor:default; font-size: 13px;" aria-disabled="true" onclick="return false;"></label>
                         {% endfor %}
-                    </div>
+                    </span>
                 </div>
                 {% if g.user %}
-                <div class="text-center my-1">남은 권수 :&nbsp;&nbsp;{{ book.stock_num }}권</div>
-                    {% if book.stock_num %}
-                    <button type="button" class="btn btn-info w-75 my-2" onclick="createRental(`{{ book.id }}`);">대여하기</button>
-                    {% else %}
-                    <button class="btn btn-secondary w-75 my-2 disabled shadow-none" style="cursor:default" aria-disabled="true" onclick="return false;" >대여불가</button>
-                    {% endif %}
+                {% if book.stock_num %}
+                <button type="button" class="btn btn-warning mr-3 text-white" style="font-size: 11px; border: none" onclick="handleBookMarkButtonClick(`{{book.id}}`)"><strong><i
+                    class="fas fa-star"></i>&nbsp;&nbsp;찜하기</strong></button>
+                <button type="button" class="btn btn-success " style="font-size: 11px; border: none" onclick="createRental(`{{ book.id }}`);"><strong><i
+                    class="fas fa-book"></i>&nbsp;&nbsp;대여하기</strong></button>
+                {% else %}
+                <button type="button" class="btn btn-warning text-white mr-3" style="font-size: 11px; border: none" onclick="handleBookMarkButtonClick(`{{book.id}}`)"><strong><i
+                    class="fas fa-star"></i>&nbsp;&nbsp;찜하기</strong></button>
+                <button type="button" class="btn btn-outline-secondary disabled shadow-none" style="font-size: 11px; cursor:default;" aria-disabled="true" onclick="return false;"><strong><i
+                    class="fas fa-book"></i>&nbsp;&nbsp;대여불가</strong></button>
                 {% endif %}
+                {% endif %}
+                <div class="text-center my-3" style="font-size: 12px;">남은 권수 :&nbsp;&nbsp;{{ book.stock_num }}권</div>
             </div>
         </form>
         {% endfor %}
-    {% else %}
-    <article class="card col-md-3 mx-3 my-3 p-3">
-        <div class="card-body">
-            <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder">등록된 도서가 없습니다.</h2>
-        </div>
-    </article>
-    {% endif %}
+        {% else %}
+        <article class="card col-md-3 mx-3 my-3 p-3">
+            <div class="card-body">
+                <h2 class="card-title mt-3 mb-1 p-2 text-center font-weight-bolder">등록된 도서가 없습니다.</h2>
+            </div>
+        </article>
+        {% endif %}
 </div>
 <ul class="pagination justify-content-center my-3 p-3">
     {% if books.has_prev %} 
