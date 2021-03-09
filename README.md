@@ -2,8 +2,10 @@
 
 ### 프로젝트 소개
 
-도서관의 핵심적인 기능들을 제공하는 서비스입니다.  (`회원가입, 도서 대여, 반납, 검색, 조회 기능` 등 제공) <br>
-우측 페이지에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
+도서관의 핵심적인 기능들을 제공하는 서비스입니다.  
+
+>  `회원가입, 도서 대여, 반납, 검색, 조회 기능` 등 제공 <br>
+>  우측 링크에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
 
 ## 주요 사용 기술
 
@@ -17,9 +19,11 @@
 - Azure VM (OS: Ubuntu LTS 18.04)
 - Black
 
-## 프로젝트 구조
+<a name="directory-structure"></a>
 
-기능 대신 계층 위주로 구조를 나누었습니다.
+## 프로젝트 디렉토리 구조
+
+기능 대신 **계층 위주**로 구조를 나누었습니다.
 
 ![image](https://user-images.githubusercontent.com/49539592/110431708-80203480-80f1-11eb-8594-4412df905eee.png)
 
@@ -29,31 +33,31 @@
 // 각 패키지별 __init__.py는 생략
 
 elice_library
- ├─ static : css, js 파일들
- ├─ templates : html 파일들
+ ├─ static: css, js, images 파일 관리
+ ├─ templates: html 파일 관리
  ├─ database  
- │    └─ config.py : db 인스턴스	
+ │    └─ config.py: db 인스턴스
  ├─ domain
  │    ├─ models
- │    │    ├─ user.py : User 모델 정의
- │	  │    ├─ book.py : Book 모델 정의	  
- │    │    └─ ... : [그 외 model].py
- │    └─ schemas : 모델과 관련된 스키마들
- │         ├─ user_schema.py : User 스키마 정의	  
- │         └─ ... : [그 외 schema].py
+ │    │    ├─ user.py: User 모델 정의
+ │    │    ├─ book.py: Book 모델 정의
+ │    │    └─ [...].py: 그 외 모델 정의
+ │    └─ schemas
+ │         ├─ user_schema.py: User 스키마 정의	  
+ │         └─ [...].py: 그 외 스키마 정의
  ├─ services
- │	  ├─ user_service.py : User 모델과 관련된 로직 수행
- │	  ├─ book_service.py : Book 모델과 관련된 로직 수행
- │	  └─ ... : [그 외 service].py
+ │	  ├─ user_service.py: User 모델과 관련된 로직 수행
+ │	  ├─ book_service.py: Book 모델과 관련된 로직 수행
+ │	  └─ [...].py: 그 외 service
  ├─ controllers
  │	  ├─ user_controller.py : User과 관련된 HTTP request 핸들링
  │	  ├─ book_controller.py : Book과 관련된 HTTP request 핸들링
- │	  └─ ... : [그 외 controller].py
+ │	  └─ [...].py: 그 외 controller
  ├─ utils
- │	  ├─ config : Flask 앱 config
- │	  └─ errors.py : Book 모델과 관련된 로직 수행
+ │	  ├─ config : 앱 config
+ │	  └─ errors.py : error 클래스 정의
  ├─ __init__.py : create_app 함수 정의
- └─ routes.py : 각 namespace의 api routes 연결
+ └─ routes.py : Namespace별 api routes 연결
 ```
 
 ## 프로젝트 실행
@@ -94,7 +98,7 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{pw}@{host}:{port}/{db}?
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ```
 
-### 데이터 베이스 초기화
+### 데이터베이스 초기화
 
 ```bash
 flask db init  // migrations 디렉토리 생성
@@ -118,19 +122,40 @@ python run.py
 
 ### 1주차 (2/23 ~ 2/27)
 
-- 핵심 기능 구현 
+- **핵심 기능 구현** (아래 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#features">기능 소개</a> 참고)
 
-  > 회원가입, 로그인/로그아웃, 메인, 책 소개, 대여하기, 반환하기, 대여 기록 (아래 '기능 소개' 참고)
+  > 회원가입 <br>
+  > 로그인 / 로그아웃 <br>
+  > 대여하기 <br>
+  > 반납하기 <br>
+  > 대여 기록 <br>
+  > 반납 기록 <br>
+  > 책 목록 페이지 <br>
+  > 책 소개 페이지 <br>
+  > 댓글 작성
 
 - 간단한 UI/UX 작업 
 
 ### 2주차 (3/2 ~ 3/8)
 
-- 모듈화 / **관심사 분리** 리팩토링
-- 부가 기능 구현 
+- **모듈화** / **관심사 분리 리팩토링** (위의 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#directory-structure">프로젝트 디렉토리 구조</a> 참고)
+
+- **부가 기능 구현** 
+
+  > 댓글 수정 및 삭제 <br>
+  > 도서 검색 <br>
+  > 도서 평점 차트 <br>
+  > 출간일, 평점, 대여횟수, 댓글 개수 순으로 정렬된 책 목록 확인 <br>
+  > 책 추천하기 및 찜하기 <br>
+  > 개인 맞춤 정보 확인 (내가 찜한 도서, 추천한 도서, 댓글 남긴 도서 목록 확인) <br>
+  > 비밀번호 변경 <br>
+  > 회원 탈퇴 <br>
+
 - UI/UX 수정 및 보완
 
-## 기능 소개
+<a name="features"></a>
+
+## 기능 상세 소개
 
 ### 회원가입
 
@@ -160,28 +185,40 @@ python run.py
   (숫자 한자리수로 반올림하여 표기합니다.)
 - `페이지네이션` 기능을 넣어 한 페이지 당 8권의 책만을 표기합니다.
 
-### 책 소개
+### 책 소개 / 댓글 남기기
 
 - 메인 페이지의 `책 이름`을 클릭하여 접근합니다.
-- 책에 대한 소개를 출력합니다.
-- 가장 최신의 댓글이 보이도록 sorting하여 보여줍니다.
-- 댓글을 작성함으로써 책에 대한 평가 점수를 기입합니다.
-- 댓글 내용과 평가 점수는 모두 “필수 입력” 사항입니다.
+- `책에 대한 소개`를 출력합니다.
+- 가장 `최신의 댓글`이 보이도록 `sorting`하여 보여줍니다.
+- 댓글을 작성함으로써 책에 대한 `평가 점수`를 기입합니다.
+- `댓글 내용`과 `평가 점수`는 모두 “필수 입력” 사항입니다.
+- 동일한 사용자는 동일 책에 한 번만 평점을 매길 수 있습니다.  
+- 책 소개 페이지에서도 `대여하기, 찜하기, 추천하기` 기능을 사용할 수 있습니다.
 
 ### 대여하기
 
-- 메인 페이지의 대여하기 버튼을 클릭하여 실행합니다.
-- 현재 DB 상에 책이 존재하지 않는 경우, 대여되지 않습니다.
-- 현재 DB 상에 책에 존재하는 경우, 책을 대여하고 책의 권수를 -1 합니다.
-- 현재 DB 상에 책이 존재하지 않는 경우, 사용자에게 대여가 불가능하다는 메세지를 반환합니다.
-- 유저가 이미 이 책을 대여했을 경우, 이에 대한 안내 메세지를 반환합니다.
+- 메인 페이지의 `대여하기 버튼`을 클릭하여 실행합니다.
+- 현재 DB 상에 책이 존재하지 않는 경우, `대여되지 않습니다`.
+- 현재 DB 상에 책에 존재하는 경우, 책을 대여하고 `책의 권수를 -1 합니다`.
+- 현재 DB 상에 책이 존재하지 않는 경우, 사용자에게 대여가 `불가능하다는 메세지를 반환`합니다.
+- 유저가 이미 이 책을 대여했을 경우, 이에 대한 `안내 메세지를 반환`합니다.
 
-### 반환하기
+### 반납하기
 
-- 로그인한 유저가 대여한 책을 모두 보여줍니다.
-- 반납하기 버튼을 통해 책을 반납합니다.
-- 이때, 책을 반납한 후 DB 상에 책의 권수를 +1 합니다.
+- `반납하기 버튼`을 통해 책을 반납합니다.
+- 책을 반납한 후 DB 상에 `책의 권수를 +1 합니다.`
 
-### 대여 기록
+### 대여 / 반납 기록
 
-- 로그인한 유저가 대여 후 반납했던 책에 대한 모든 사항을 출력합니다.
+- 로그인한 유저가 `대여한 책을 모두` 보여줍니다.
+- 로그인한 유저가 대여 후 `반납했던 책에 대한 모든 기록`을 보여줍니다.
+
+### 회원정보
+
+- 비밀번호를 변경합니다. 현재 비밀번호와 다른 새로운 비밀번호를 입력해야 합니다.
+- 유효성 검사는 회원가입시의 검사와 동일합니다.
+- 비밀번호를 입력 후 회원탈퇴를 합니다. (책이 모두 반납되어 있어야 합니다.)
+
+### 도서 검색
+
+- 검색어를 입력했을 때 검색어에 해당하는 이름을 가진 책 목록을 불러옵니다.
