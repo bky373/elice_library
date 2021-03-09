@@ -15,6 +15,46 @@
 - HTML + Flask Jinja2 + Bootstrap
 - JQuery 
 - Azure VM (OS: Ubuntu LTS 18.04)
+- Black
+
+## 프로젝트 구조
+
+기능 대신 계층 위주로 구조를 나누었습니다.
+
+![image](https://user-images.githubusercontent.com/49539592/110431708-80203480-80f1-11eb-8594-4412df905eee.png)
+
+### 세부 구조
+
+```
+// 각 패키지별 __init__.py는 생략
+
+elice_library
+ ├─ static : css, js 파일들
+ ├─ templates : html 파일들
+ ├─ database  
+ │    └─ config.py : db 인스턴스	
+ ├─ domain
+ │    ├─ models
+ │    │    ├─ user.py : User 모델 정의
+ │	  │    ├─ book.py : Book 모델 정의	  
+ │    │    └─ ... : [그 외 model].py
+ │    └─ schemas : 모델과 관련된 스키마들
+ │         ├─ user_schema.py : User 스키마 정의	  
+ │         └─ ... : [그 외 schema].py
+ ├─ services
+ │	  ├─ user_service.py : User 모델과 관련된 로직 수행
+ │	  ├─ book_service.py : Book 모델과 관련된 로직 수행
+ │	  └─ ... : [그 외 service].py
+ ├─ controllers
+ │	  ├─ user_controller.py : User과 관련된 HTTP request 핸들링
+ │	  ├─ book_controller.py : Book과 관련된 HTTP request 핸들링
+ │	  └─ ... : [그 외 controller].py
+ ├─ utils
+ │	  ├─ config : Flask 앱 config
+ │	  └─ errors.py : Book 모델과 관련된 로직 수행
+ ├─ __init__.py : create_app 함수 정의
+ └─ routes.py : 각 namespace의 api routes 연결
+```
 
 ## 프로젝트 실행
 
@@ -78,13 +118,16 @@ python run.py
 
 ### 1주차 (2/23 ~ 2/27)
 
-- 필수 및 선택 기능 구현
-- 간단한 UI/UX 작업
+- 핵심 기능 구현 
+
+  > 회원가입, 로그인/로그아웃, 메인, 책 소개, 대여하기, 반환하기, 대여 기록 (아래 '기능 소개' 참고)
+
+- 간단한 UI/UX 작업 
 
 ### 2주차 (3/2 ~ 3/8)
 
-- 모듈화 / 관심사 분리 리팩토링
-- 부가 기능 구현 (뒷 페이지 참고)
+- 모듈화 / **관심사 분리** 리팩토링
+- 부가 기능 구현 
 - UI/UX 수정 및 보완
 
 ## 기능 소개
@@ -101,7 +144,7 @@ python run.py
 
 - `아이디(이메일)와 비밀번호`는 필수 입력 사항입니다.
 - 아이디는 `이메일 형식`이어야 합니다.
-- 로그인한 유저는 session으로 관리합니다.
+- 로그인한 유저는 `session`으로 관리합니다.
 
 ### 로그아웃
 
@@ -110,16 +153,16 @@ python run.py
 
 ### 메인
 
-- 현재 DB 상에 존재하는 모든 책 정보를 가져옵니다.
-- 현재 DB 상에 존재하는 남은 책의 수를 표기합니다.
-- 책 이름을 클릭 시 책 소개 페이지로 이동합니다.
-- 책의 평점은 현재 DB 상에 담겨있는 모든 평점의 평균으로 표시합니다.
+- 현재 DB 상에 존재하는 `모든 책 정보`를 가져옵니다.
+- 현재 DB 상에 존재하는 `남은 책의 수`를 표기합니다.
+- 책 이름을 클릭 시 `책 소개 페이지`로 이동합니다.
+- `책의 평점`은 현재 DB 상에 담겨있는 모든 평점의 평균으로 표시합니다.
   (숫자 한자리수로 반올림하여 표기합니다.)
-- 페이지네이션 기능을 추가합니다. (한 페이지 당 8권의 책만을 표기합니다.)
+- `페이지네이션` 기능을 넣어 한 페이지 당 8권의 책만을 표기합니다.
 
 ### 책 소개
 
-- 메인 페이지의 책 이름을 클릭하여 접근합니다.
+- 메인 페이지의 `책 이름`을 클릭하여 접근합니다.
 - 책에 대한 소개를 출력합니다.
 - 가장 최신의 댓글이 보이도록 sorting하여 보여줍니다.
 - 댓글을 작성함으로써 책에 대한 평가 점수를 기입합니다.

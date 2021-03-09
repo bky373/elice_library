@@ -66,7 +66,12 @@ def update_comment(comment_id, content) -> Comment:
 
 def delete_comment(comment_id) -> None:
     comment = get_comment_by_id(comment_id)
+
+    # delete를 먼저 해주어야 book의 comment 개수가 1 줄어들어 
+    # 올바른 평점 계산이 된다.
     db.session.delete(comment)
+    comment.book.update_rating()
+
     db.session.commit()
 
 
