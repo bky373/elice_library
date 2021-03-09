@@ -4,8 +4,8 @@
 
 도서관의 핵심적인 기능들을 제공하는 서비스입니다.  
 
->  `회원가입, 도서 대여, 반납, 검색, 조회 기능` 등 제공) <br>
-> 우측 페이지에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
+>  `회원가입, 도서 대여, 반납, 검색, 조회 기능` 등 제공 <br>
+>  우측 링크에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
 
 ## 주요 사용 기술
 
@@ -33,31 +33,31 @@
 // 각 패키지별 __init__.py는 생략
 
 elice_library
- ├─ static : css, js 파일들
- ├─ templates : html 파일들
+ ├─ static: css, js, images 파일 관리
+ ├─ templates: html 파일 관리
  ├─ database  
- │    └─ config.py : db 인스턴스	
+ │    └─ config.py: db 인스턴스
  ├─ domain
  │    ├─ models
- │    │    ├─ user.py : User 모델 정의
- │	  │    ├─ book.py : Book 모델 정의	  
- │    │    └─ ... : [그 외 model].py
- │    └─ schemas : 모델과 관련된 스키마들
- │         ├─ user_schema.py : User 스키마 정의	  
- │         └─ ... : [그 외 schema].py
+ │    │    ├─ user.py: User 모델 정의
+ │    │    ├─ book.py: Book 모델 정의
+ │    │    └─ [...].py: 그 외 모델 정의
+ │    └─ schemas
+ │         ├─ user_schema.py: User 스키마 정의	  
+ │         └─ [...].py: 그 외 스키마 정의
  ├─ services
- │	  ├─ user_service.py : User 모델과 관련된 로직 수행
- │	  ├─ book_service.py : Book 모델과 관련된 로직 수행
- │	  └─ ... : [그 외 service].py
+ │	  ├─ user_service.py: User 모델과 관련된 로직 수행
+ │	  ├─ book_service.py: Book 모델과 관련된 로직 수행
+ │	  └─ [...].py: 그 외 service
  ├─ controllers
  │	  ├─ user_controller.py : User과 관련된 HTTP request 핸들링
  │	  ├─ book_controller.py : Book과 관련된 HTTP request 핸들링
- │	  └─ ... : [그 외 controller].py
+ │	  └─ [...].py: 그 외 controller
  ├─ utils
- │	  ├─ config : Flask 앱 config
- │	  └─ errors.py : Book 모델과 관련된 로직 수행
+ │	  ├─ config : 앱 config
+ │	  └─ errors.py : error 클래스 정의
  ├─ __init__.py : create_app 함수 정의
- └─ routes.py : 각 namespace의 api routes 연결
+ └─ routes.py : Namespace별 api routes 연결
 ```
 
 ## 프로젝트 실행
@@ -122,55 +122,40 @@ python run.py
 
 ### 1주차 (2/23 ~ 2/27)
 
-- 핵심 기능 구현 (아래 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#features">기능 소개</a> 참고)
+- **핵심 기능 구현** (아래 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#features">기능 소개</a> 참고)
 
   > 회원가입
-  >
   > 로그인 / 로그아웃
-  >
   > 대여하기
-  >
   > 반납하기
-  >
   > 대여 기록 
-  >
   > 반납 기록
-  >
   > 책 목록 페이지
-  >
   > 책 소개 페이지
-  >
   > 댓글 작성
 
 - 간단한 UI/UX 작업 
 
 ### 2주차 (3/2 ~ 3/8)
 
-- **모듈화** / **관심사 분리** 리팩토링 (위의 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#directory-structure">프로젝트 디렉토리 구조</a> 참고)
+- **모듈화** / **관심사 분리 리팩토링** (위의 <a href="https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library#directory-structure">프로젝트 디렉토리 구조</a> 참고)
 
-- 부가 기능 구현 
+- **부가 기능 구현** 
 
   > 댓글 수정 및 삭제
-  >
   > 도서 검색
-  >
   > 도서 평점 차트
-  >
   > 출간일, 평점, 대여횟수, 댓글 개수 순으로 정렬된 책 목록 확인    
-  >
   > 책 추천하기 및 찜하기
-  >
   > 개인 맞춤 정보 확인 (내가 찜한 도서, 추천한 도서, 댓글 남긴 도서 목록 확인)
-  >
   > 비밀번호 변경
-  >
   > 회원 탈퇴
 
 - UI/UX 수정 및 보완
 
 <a name="features"></a>
 
-## 기능 소개
+## 기능 상세 소개
 
 ### 회원가입
 
@@ -237,4 +222,3 @@ python run.py
 ### 도서 검색
 
 - 검색어를 입력했을 때 검색어에 해당하는 이름을 가진 책 목록을 불러옵니다.
-
