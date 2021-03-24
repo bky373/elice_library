@@ -2,14 +2,14 @@
 
 ### Contents
 
-> 1. [프로젝트 소개](https://github.com/bky373/elice_library#프로젝트-소개)
-> 2. [주요 사용 기술](https://github.com/bky373/elice_library#주요-사용-기술)
-> 3. [프로젝트 디렉토리 구조](https://github.com/bky373/elice_library#프로젝트-디렉토리-구조)
-> 4. [프로젝트 실행](https://github.com/bky373/elice_library#프로젝트-실행)
-> 5. [전체 프로젝트 일정](https://github.com/bky373/elice_library#전체-프로젝트-일정)
-> 6. [기능 상세 소개](https://github.com/bky373/elice_library#기능-상세-소개)
-> 7. [어려웠던 점과 해결 방법](https://github.com/bky373/elice_library#어려웠던-점과-해결-방법)
-> 8. [느낀 점](https://github.com/bky373/elice_library#느낀-점)
+> 1. [프로젝트 소개](#프로젝트-소개)
+> 2. [주요 사용 기술](#주요-사용-기술)
+> 3. [프로젝트 디렉토리 구조](#프로젝트-디렉토리-구조)
+> 4. [프로젝트 실행](#프로젝트-실행)
+> 5. [전체 프로젝트 일정](#전체-프로젝트-일정)
+> 6. [기능 상세 소개](#기능-상세-소개)
+> 7. [어려웠던 점과 해결 방법](#어려웠던-점과-해결-방법)
+> 8. [느낀 점](#느낀-점)
 
 ## 프로젝트 소개
 
