@@ -326,7 +326,7 @@ python run.py
 
 물론 아직까지는 친구보단 원수에 더 가깝습니다.<br>하지만 메시지조차 던져주지 않는 css에 비하면 <br>무심하게 메시지라도 던져주는 에러에게 그저 감사한 마음이 듭니다.  
 
-친구와 만나고 헤어지듯이, <br>에러와 만나면 아래 [정리해둔 내용](https://kdt-gitlab.elice.io/001_part2_project-library/team1/elice-library/-/issues/8#%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0) 또는 구글링을 통해 헤어졌습니다. 
+친구와 만나고 헤어지듯이, <br>에러와 만나면 아래 [정리해둔 내용](https://github.com/bky373/elice_library/issues) 또는 구글링을 통해 헤어졌습니다. 
 
 <img src="https://user-images.githubusercontent.com/49539592/111060398-e6d19380-84df-11eb-99d0-c71f533cb34d.png" width="700px" height="440px">
 
