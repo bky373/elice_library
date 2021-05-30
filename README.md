@@ -16,7 +16,6 @@
 도서관의 핵심적인 기능과 부가적인 기능을 제공하는 웹 서비스입니다.  
 
 >  `회원가입, 도서 대여, 반납, 검색, 조회, 댓글 작성 기능` 등 제공 <br>
->  우측 링크에 접속하여 [도서관](http://elice-kdt-ai-track-vm-racer-37.koreacentral.cloudapp.azure.com/books/)을 이용할 수 있습니다 😙
 
 ## 주요 사용 기술
 
